@@ -1,0 +1,3 @@
+﻿  Engine.cpp
+D:\Guillaume\Engin\Buki\TheEngine\src\Engine.cpp(88,15): warning C4244: '=' : conversion de 'float' en 'int', perte possible de données
+  TheEngine.vcxproj -> D:\Guillaume\Engin\Buki\x64\Debug\TheEngine.lib
