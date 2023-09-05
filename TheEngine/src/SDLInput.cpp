@@ -9,6 +9,7 @@ namespace buki {
 		while (SDL_PollEvent(&_event)) {
 			switch (_event.type) {
 			case SDL_QUIT:
+
 				break;
 			}
 		}
