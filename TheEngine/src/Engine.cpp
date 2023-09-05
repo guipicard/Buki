@@ -1,6 +1,8 @@
 #include <time.h>
 #include "Engine.h"
 #include <SDL.h>
+#include<windows.h>
+#include "SDLInput.h"
 
 static SDL_Renderer* _renderer = NULL;
 static SDL_Window* _window = NULL;
@@ -12,7 +14,7 @@ bool buki::Engine::Init(const char* name, int w, int h) {
 
 	int _x SDL_WINDOWPOS_CENTERED;
 	int _y = SDL_WINDOWPOS_CENTERED;
-	Uint32 _flag = SDL_WINDOW_TOOLTIP;
+	Uint32 _flag = SDL_WINDOW_RESIZABLE;
 	Uint32 _rendererFlag = SDL_RENDERER_ACCELERATED;
 
 	_window = SDL_CreateWindow(name, _x, _y, w, h, _flag);
@@ -23,6 +25,7 @@ bool buki::Engine::Init(const char* name, int w, int h) {
 	}
 
 	_renderer = SDL_CreateRenderer(_window, -1, _rendererFlag);
+	m_input = new SdlInput();
 	if (!_renderer)
 	{
 		SDL_Log(SDL_GetError());
@@ -70,22 +73,25 @@ void buki::Engine::Start(void) {
 static unsigned const char* _keyStates = NULL;
 void buki::Engine::ProcessInput(void)
 {
-	SDL_Event _event;
-	while (SDL_PollEvent(&_event)) {
-		switch (_event.type) {
-		case SDL_QUIT:
-			m_IsRunning = false;
-			break;
-		}
-	}
-	_keyStates = SDL_GetKeyboardState(nullptr);
+	Input().Update();
 }
 
 static float x = 0.0f;
+static float y = 0.0f;
+static float speed = 50.0f;
 void buki::Engine::Update(float dt)
 {
+	if (_keyStates[SDL_SCANCODE_W]) {
+		y -= speed * dt;
+	}
+	if (_keyStates[SDL_SCANCODE_S]) {
+		y += speed * dt;
+	}
 	if (_keyStates[SDL_SCANCODE_D]) {
-		x += 10 * dt;
+		x += speed * dt;
+	}
+	if (_keyStates[SDL_SCANCODE_A]) {
+		x -= speed * dt;
 	}
 }
 
@@ -97,7 +103,7 @@ void buki::Engine::Render(void)
 	SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 	SDL_Rect get_rect = { 0 };
 	get_rect.x = x;
-	get_rect.y = 100;
+	get_rect.y = y;
 	get_rect.w = 100;
 	get_rect.h = 100;
 	SDL_RenderDrawRect(_renderer, &get_rect);
@@ -107,6 +113,10 @@ void buki::Engine::Render(void)
 
 void buki::Engine::Shutdown(void)
 {
+	if (m_input != nullptr)
+	{
+		delete m_input;
+	}
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyWindow(_window);
 }
