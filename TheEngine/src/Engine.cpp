@@ -39,21 +39,30 @@ void buki::Engine::Start(void) {
 		}
 	}
 
+	const float MS_PER_FRAME = 16.0f; // 16 to get 60 fps
 	m_IsRunning = true;
-
-	clock_t _end = clock();
-
-	while (m_IsRunning)
-	{
-		const clock_t _start = clock();
-		float dt = (_start - _end) * 0.001f;
-		float lag = 0.0f;
-		ProcessInput();
-		Update(dt);
-		Render();
-
+	float _end = clock();
+	float _lag = 0.0f;
+	float _elapsed = 0.0f;
+	while (m_IsRunning) {
+		const double _start = clock();
+		_elapsed = (_start - _end);
+		float _dt = _elapsed * 0.001f;
 		_end = _start;
-		lag += dt;
+		_lag += _elapsed;
+		ProcessInput();
+
+		while (_lag >= MS_PER_FRAME)
+		{
+			Update(_dt);
+			_lag -= MS_PER_FRAME;
+		}
+		float sleepTime = _start + MS_PER_FRAME - clock();
+		if (sleepTime >= 0)
+		{
+			Sleep(sleepTime);
+		}
+		Render();
 	}
 	Shutdown();
 }
