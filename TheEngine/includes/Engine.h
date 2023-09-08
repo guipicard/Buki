@@ -1,13 +1,15 @@
 #pragma once
 #include <string>
 #include "IInput.h"
+#include "IShape.h"
+#include "ILogger.h"
 
 namespace buki {
 	class Engine final {
 	public:
 		bool Init(const char* name, int w, int h);
 		void Start(void);
-		IInput& Input() { return *m_input; }
+		IInput& Input() { return *m_Input; }
 	private:
 		void ProcessInput(void);
 		void Update(float dt);
@@ -15,8 +17,10 @@ namespace buki {
 		void Shutdown(void);
 
 	private:
-		IInput* m_input;
-		bool m_IsRunning = false;
+		IInput* m_Input = nullptr;
+		IShape* m_Square = nullptr;
+		ILogger* m_Console = nullptr;
+		//bool m_IsRunning = false;
 		bool m_IsInit = false;
 	};
 }

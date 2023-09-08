@@ -3,15 +3,27 @@
 #include <SDL.h>
 #include<windows.h>
 #include "SDLInput.h"
+#include "Square.h"
+#include "LogConsole.h"
+#include "LogFile.h"
+
+using namespace buki;
 
 static SDL_Renderer* _renderer = NULL;
 static SDL_Window* _window = NULL;
-bool buki::Engine::Init(const char* name, int w, int h) {
+
+bool buki::Engine::Init(const char* name, int w, int h)
+{
+#if _DEBUG
+	m_Console = new LogConsole();
+#elif
+	m_Console = new LogFile();
+#endif
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		SDL_Log(SDL_GetError());
+		m_Console->LogError(SDL_GetError());
 		return false;
 	}
-
+	m_Console->LogSuccess("SDL initialised");
 	int _x SDL_WINDOWPOS_CENTERED;
 	int _y = SDL_WINDOWPOS_CENTERED;
 	Uint32 _flag = SDL_WINDOW_RESIZABLE;
@@ -20,17 +32,21 @@ bool buki::Engine::Init(const char* name, int w, int h) {
 	_window = SDL_CreateWindow(name, _x, _y, w, h, _flag);
 	if (!_window)
 	{
-		SDL_Log(SDL_GetError());
+		m_Console->LogError(SDL_GetError());
 		return false;
 	}
-
+	m_Console->LogSuccess("Window initialised");
 	_renderer = SDL_CreateRenderer(_window, -1, _rendererFlag);
-	m_input = new SdlInput();
+
 	if (!_renderer)
 	{
-		SDL_Log(SDL_GetError());
+		m_Console->LogError(SDL_GetError());
 		return false;
 	}
+	m_Console->LogSuccess("Renderer initialised");
+	m_Square = new Square(20, 20, 100, 100, _renderer);
+	m_Input = new SdlInput();
+
 	m_IsInit = true;
 	return true;
 }
@@ -41,27 +57,20 @@ void buki::Engine::Start(void) {
 			return;
 		}
 	}
-
+	m_Console->LogSuccess("Buki initialised");
 	const float MS_PER_FRAME = 16.0f; // 16 to get 60 fps
-	m_IsRunning = true;
-	float _end = clock();
-	float _lag = 0.0f;
+	m_Input->m_IsRunning = true;
+	float _last = clock();
 	float _elapsed = 0.0f;
-	while (m_IsRunning) {
-		const double _start = clock();
-		_elapsed = (_start - _end);
+	while (m_Input->m_IsRunning) {
+		const double _new = clock();
+		_elapsed = (_new - _last);
 		float _dt = _elapsed * 0.001f;
-		_end = _start;
-		_lag += _elapsed;
+		_last = _new;
 		ProcessInput();
-
-		while (_lag >= MS_PER_FRAME)
-		{
-			Update(_dt);
-			_lag -= MS_PER_FRAME;
-		}
-		float sleepTime = _start + MS_PER_FRAME - clock();
-		if (sleepTime >= 0)
+		Update(_dt);
+		float sleepTime = clock() - (_new + MS_PER_FRAME);
+		if (sleepTime > 0)
 		{
 			Sleep(sleepTime);
 		}
@@ -76,22 +85,42 @@ void buki::Engine::ProcessInput(void)
 	Input().Update();
 }
 
-static float x = 0.0f;
-static float y = 0.0f;
 static float speed = 50.0f;
 void buki::Engine::Update(float dt)
 {
-	if (_keyStates[SDL_SCANCODE_W]) {
-		y -= speed * dt;
+#if _DEBUG
+	if (m_Input->IsKeyDown(static_cast<int>(EKey::EKEY_ESCAPE)))
+	{
+		SDL_Event quitEvent;
+		quitEvent.type = SDL_QUIT;
+
+		// Push the SDL_QUIT event onto the event queue
+		SDL_PushEvent(&quitEvent);
 	}
-	if (_keyStates[SDL_SCANCODE_S]) {
-		y += speed * dt;
+#endif
+	if (m_Input->IsKeyDown(static_cast<int>(EKey::EKEY_RIGHT)))
+	{
+		float x = m_Square->GetPosX() + (50.0f * dt);
+		float y = m_Square->GetPosY();
+		m_Square->SetPosition(x, y);
 	}
-	if (_keyStates[SDL_SCANCODE_D]) {
-		x += speed * dt;
+	if (m_Input->IsKeyDown(static_cast<int>(EKey::EKEY_LEFT)))
+	{
+		float x = m_Square->GetPosX() - (50.0f * dt);
+		float y = m_Square->GetPosY();
+		m_Square->SetPosition(x, y);
 	}
-	if (_keyStates[SDL_SCANCODE_A]) {
-		x -= speed * dt;
+	if (m_Input->IsKeyDown(static_cast<int>(EKey::EKEY_UP)))
+	{
+		float x = m_Square->GetPosX();
+		float y = m_Square->GetPosY() - (50.0f * dt);
+		m_Square->SetPosition(x, y);
+	}
+	if (m_Input->IsKeyDown(static_cast<int>(EKey::EKEY_DOWN)))
+	{
+		float x = m_Square->GetPosX();
+		float y = m_Square->GetPosY() + (50.0f * dt);
+		m_Square->SetPosition(x, y);
 	}
 }
 
@@ -99,23 +128,25 @@ void buki::Engine::Render(void)
 {
 	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 	SDL_RenderClear(_renderer);
-
 	SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-	SDL_Rect get_rect = { 0 };
-	get_rect.x = x;
-	get_rect.y = y;
-	get_rect.w = 100;
-	get_rect.h = 100;
-	SDL_RenderDrawRect(_renderer, &get_rect);
+	m_Square->Draw();
 
 	SDL_RenderPresent(_renderer);
 }
 
 void buki::Engine::Shutdown(void)
 {
-	if (m_input != nullptr)
+	if (m_Input != nullptr)
 	{
-		delete m_input;
+		delete m_Input;
+	}
+	if (m_Square != nullptr)
+	{
+		delete m_Square;
+	}
+	if (m_Console != nullptr)
+	{
+		delete m_Console;
 	}
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyWindow(_window);

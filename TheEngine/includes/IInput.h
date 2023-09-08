@@ -1,3 +1,4 @@
+#pragma once
 namespace buki {
 	class IInput
 	{
@@ -9,5 +10,6 @@ namespace buki {
 	protected:
 		friend class Engine;
 		virtual void Update() = 0;
+		bool m_IsRunning = true;
 	};
 }
