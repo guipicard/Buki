@@ -32,6 +32,7 @@ void buki::SDL_Graphics::Present()
 
 void buki::SDL_Graphics::DrawRect(float x, float y, float w, float h, const Color& color)
 {
+
 }
 
 void buki::SDL_Graphics::DrawRect(const RectF& rect, const Color& color)

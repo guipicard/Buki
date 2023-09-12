@@ -19,7 +19,7 @@ bool Engine::Init(const char* name, int w, int h)
 {
 #if _DEBUG
 	m_Console = new LogConsole();
-#elif
+#else
 	m_Console = new LogFile();
 #endif
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -139,10 +139,8 @@ void Engine::Update(float dt)
 void Engine::Render(void)
 {
 	m_Graphics->SetColor(Color::Black);
-	//SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
 	m_Graphics->Clear();
 	m_Graphics->SetColor(Color::Red);
-	//SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
 	RectF myRect{ 0.0f, 0.0f, 50.0f, 50.0f };
 	m_Graphics->DrawRect(myRect, Color::Red);
 
