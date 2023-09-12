@@ -36,3 +36,13 @@ void buki::LogConsole::LogSuccess(std::string _text)
 	SetConsoleTextAttribute(hConsole, static_cast<int>(EColor::ECOLOR_WHITE));
 }
 
+void buki::LogConsole::LogMessage(std::string _text)
+{
+	std::cout << _text << std::endl;
+}
+
+void buki::LogConsole::LogMessage(size_t _text)
+{
+	std::cout << _text << std::endl;
+}
+

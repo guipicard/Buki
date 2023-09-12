@@ -6,13 +6,16 @@
 #include "Square.h"
 #include "LogConsole.h"
 #include "LogFile.h"
+#include <SDL_image.h>
+#include "SDL_Graphics.h"
+#include "Color.cpp"
 
 using namespace buki;
 
 static SDL_Renderer* _renderer = NULL;
 static SDL_Window* _window = NULL;
 
-bool buki::Engine::Init(const char* name, int w, int h)
+bool Engine::Init(const char* name, int w, int h)
 {
 #if _DEBUG
 	m_Console = new LogConsole();
@@ -44,6 +47,15 @@ bool buki::Engine::Init(const char* name, int w, int h)
 		return false;
 	}
 	m_Console->LogSuccess("Renderer initialised");
+
+	m_Graphics = new SDL_Graphics(_renderer);
+	if (!m_Graphics)
+	{
+		m_Console->LogError(SDL_GetError());
+		return false;
+	}
+	m_Console->LogSuccess("Graphics initialised");
+
 	m_Square = new Square(20, 20, 100, 100, _renderer);
 	m_Input = new SdlInput();
 
@@ -51,7 +63,7 @@ bool buki::Engine::Init(const char* name, int w, int h)
 	return true;
 }
 
-void buki::Engine::Start(void) {
+void Engine::Start(void) {
 	if (!m_IsInit) {
 		if (!Init("Unknown title", 800, 600)) {
 			return;
@@ -80,13 +92,13 @@ void buki::Engine::Start(void) {
 }
 
 static unsigned const char* _keyStates = NULL;
-void buki::Engine::ProcessInput(void)
+void Engine::ProcessInput(void)
 {
 	Input().Update();
 }
 
 static float speed = 50.0f;
-void buki::Engine::Update(float dt)
+void Engine::Update(float dt)
 {
 #if _DEBUG
 	if (m_Input->IsKeyDown(static_cast<int>(EKey::EKEY_ESCAPE)))
@@ -124,17 +136,26 @@ void buki::Engine::Update(float dt)
 	}
 }
 
-void buki::Engine::Render(void)
+void Engine::Render(void)
 {
-	SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
-	SDL_RenderClear(_renderer);
-	SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
-	m_Square->Draw();
+	m_Graphics->SetColor(Color::Black);
+	//SDL_SetRenderDrawColor(_renderer, 0, 0, 0, 255);
+	m_Graphics->Clear();
+	m_Graphics->SetColor(Color::Red);
+	//SDL_SetRenderDrawColor(_renderer, 255, 0, 0, 255);
+	RectF myRect{ 0.0f, 0.0f, 50.0f, 50.0f };
+	m_Graphics->DrawRect(myRect, Color::Red);
 
-	SDL_RenderPresent(_renderer);
+	size_t text = m_Graphics->LoadTexture("./assets/pika.jpeg");
+	RectI srcRect{ 0, 0, 0, 0 };
+	m_Graphics->GetTextureSize(text, &srcRect.w, &srcRect.h);
+	RectF dstRect{ 100.0f, 150.0f, srcRect.w, srcRect.h };
+	Flip pikaFlip{false, false};
+	m_Graphics->DrawTexture(text, srcRect, dstRect, 0, pikaFlip, Color::Black);
+	m_Graphics->Present();
 }
 
-void buki::Engine::Shutdown(void)
+void Engine::Shutdown(void)
 {
 	if (m_Input != nullptr)
 	{
@@ -147,6 +168,10 @@ void buki::Engine::Shutdown(void)
 	if (m_Console != nullptr)
 	{
 		delete m_Console;
+	}
+	if (m_Graphics != nullptr)
+	{
+		delete m_Graphics;
 	}
 	SDL_DestroyRenderer(_renderer);
 	SDL_DestroyWindow(_window);
