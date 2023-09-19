@@ -8,14 +8,22 @@ project.addProvider = function(proj, isRoot=false){
     if(sdl2){
         fs.copyFileSync("./sdl/lib/SDL2.dll", "./Deployment/SDL2.dll")
         fs.copyFileSync("./sdl/lib/SDL2_image.dll", "./Deployment/SDL2_image.dll")
+        fs.copyFileSync("./sdl/lib/SDL2_ttf.dll", "./Deployment/SDL2_ttf.dll")
         if(!isRoot){
-            proj.addDefine("USE_SDL");
-            proj.addIncludeDir(path.resolve("./sdl/include"));
-            // proj.addIncludeDir(path.resolve("./TheEngine/sdl2_image/include"));
+            proj.addDefine("USE_SDL")
+            proj.addIncludeDir(path.resolve("./sdl/include"))
+            proj.addIncludeDir(path.resolve("./TheEngine/sdl2_image/include"))
+            proj.addIncludeDir(path.resolve("./TheEngine/SDL2_ttf/include"))
+            // proj.addIncludeDir('$(ProgramFiles)/Visual Leak Detector/include')
+            // proj.addIncludeDir('C:/Program Files/Visual Leak Detector/include');
         }
         proj.addLib("./sdl/lib/SDL2")
         proj.addLib("./sdl/lib/SDL2main")
         proj.addLib("./sdl/lib/SDL2_image")
+        proj.addLib("./sdl/lib/SDL2_ttf")
+        // proj.addLib('$(ProgramFiles)/Visual Leak Detector/lib/Win64/vld')
+        // proj.addLib('C:/Program Files/Visual Leak Detector/lib/Win64/vld')
+        // proj.addLib('C:/Program Files/Visual Leak Detector/lib/Win64/vld_x64')
     }
 };
 project.kore = false;

@@ -10,7 +10,7 @@ namespace buki {
 	class SDL_Graphics : public IGraphics
 	{
 	public:
-		SDL_Graphics(SDL_Renderer* _renderer);
+		SDL_Graphics();
 		virtual bool Initialize(const std::string& title, int w, int h) override;
 		virtual void Shutdown() override;
 		virtual void SetColor(const Color& color) override;
@@ -30,6 +30,7 @@ namespace buki {
 		virtual void DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color) override;
 		virtual void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) override;
 	private:
+		SDL_Window* m_Window;
 		SDL_Renderer* m_Gfx;
 		std::map<size_t, SDL_Texture*> m_TextureCache;
 	};

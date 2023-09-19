@@ -20,10 +20,8 @@ namespace buki {
 
 	private:
 		IInput* m_Input = nullptr;
-		IShape* m_Square = nullptr;
 		ILogger* m_Console = nullptr;
 		IGraphics* m_Graphics = nullptr;
-		//bool m_IsRunning = false;
 		bool m_IsInit = false;
 	};
 }
