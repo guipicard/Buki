@@ -5,7 +5,7 @@ buki::SDL_Graphics::SDL_Graphics()
 	: m_Gfx(nullptr)
 	, m_Window(nullptr)
 {
-	
+
 }
 
 bool buki::SDL_Graphics::Initialize(const std::string& title, int w, int h)
@@ -38,28 +38,28 @@ bool buki::SDL_Graphics::Initialize(const std::string& title, int w, int h)
 
 void buki::SDL_Graphics::Shutdown()
 {
-	if (m_Window != nullptr)
-	{
-		SDL_DestroyWindow(m_Window);
-		//delete m_Window;
-		m_Window = nullptr;
-	}
-	if (m_Gfx != nullptr)
-	{
-		//SDL_DestroyRenderer(m_Gfx);
-		//delete m_Gfx;
-		//m_Gfx = nullptr;
-	}
-
 	for (std::map<size_t, SDL_Texture*>::iterator it = m_TextureCache.begin(); it != m_TextureCache.end(); ++it)
 	{
 		if (it->second != nullptr)
 		{
 			SDL_DestroyTexture(it->second);
-			//delete it->second;
 			it->second = nullptr;
 		}
 	}
+	delete &m_TextureCache;
+
+	if (m_Gfx != nullptr)
+	{
+		SDL_DestroyRenderer(m_Gfx);
+		m_Gfx = nullptr;
+	}
+
+	if (m_Window != nullptr)
+	{
+		SDL_DestroyWindow(m_Window);
+		m_Window = nullptr;
+	}
+
 }
 
 void buki::SDL_Graphics::SetColor(const Color& color)

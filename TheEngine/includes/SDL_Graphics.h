@@ -2,6 +2,7 @@
 #include "IGraphics.h"
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <map>
 
 #pragma once
@@ -32,7 +33,7 @@ namespace buki {
 	private:
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Gfx;
-		std::map<size_t, SDL_Texture*> m_TextureCache;
+		std::map<size_t, SDL_Texture*> &m_TextureCache = *new std::map<size_t, SDL_Texture*>;
 	};
 
 }

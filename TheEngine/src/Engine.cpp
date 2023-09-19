@@ -9,9 +9,12 @@
 #include <SDL_image.h>
 #include "SDL_Graphics.h"
 #include "Color.cpp"
-//#include <vld.h>
+#include "WorldService.h"
+#include <vld.h>
 
 using namespace buki;
+
+//static const Engine& theEngine;
 
 bool Engine::Init(const char* name, int w, int h)
 {
@@ -39,6 +42,15 @@ bool Engine::Init(const char* name, int w, int h)
 	m_Console->LogSuccess("Graphics initialised");
 
 	m_Input = new SdlInput();
+
+	m_World = new WorldService();
+
+	m_Entity1 = new Entity("first", 50, 50, 50, 50, Color::Red);
+
+	m_Entity2 = new Entity("second", 100, 100, 100, 100, Color::Blue);
+
+	m_World->Add(m_Entity1);
+	m_World->Add(m_Entity2);
 
 	m_IsInit = true;
 	return true;
@@ -119,7 +131,8 @@ void Engine::Render(void)
 {
 	m_Graphics->SetColor(Color::Black);
 	m_Graphics->Clear();
-	m_Graphics->SetColor(Color::Red);
+
+	/*m_Graphics->SetColor(Color::Red);
 	RectF myRect{ 0.0f, 0.0f, 50.0f, 50.0f };
 	m_Graphics->DrawRect(myRect, Color::Red);
 
@@ -128,7 +141,10 @@ void Engine::Render(void)
 	m_Graphics->GetTextureSize(texture, &srcRect.w, &srcRect.h);
 	RectF dstRect{ 100.0f, 150.0f, srcRect.w, srcRect.h };
 	Flip pikaFlip{ false, false };
-	m_Graphics->DrawTexture(texture, srcRect, dstRect, 0, pikaFlip, Color::Black);
+	m_Graphics->DrawTexture(texture, srcRect, dstRect, 0, pikaFlip, Color::Black);*/
+
+	m_World->Render();
+
 	m_Graphics->Present();
 }
 
@@ -146,5 +162,11 @@ void Engine::Shutdown(void)
 	{
 		m_Graphics->Shutdown();
 		delete m_Graphics;
+	}
+	if (m_World != nullptr)
+	{
+		m_World->Destroy();
+		delete m_World;
+		m_World = nullptr;
 	}
 }
