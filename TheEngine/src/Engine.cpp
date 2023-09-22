@@ -11,7 +11,8 @@
 #include "Color.cpp"
 #include "WorldService.h"
 #include "Square.h"
-//#include <vld.h>
+#include <vld.h>
+#include "DemoScene.h"
 
 using namespace buki;
 
@@ -45,13 +46,9 @@ bool Engine::Init(const char* name, int w, int h)
 	m_Input = new SdlInput();
 
 	m_World = new WorldService();
-
-	m_Entity1 = new Square("first", 50, 50, 50, 50, Color::Red);
-
-	m_Entity2 = new Square("second", 100, 100, 100, 100, Color::Blue);
-
-	m_World->Add(m_Entity1);
-	m_World->Add(m_Entity2);
+	m_World->Register("Menu", new DemoScene());
+	m_World->Register("NotMenu", new DemoScene());
+	m_World->Load("Menu");
 
 	m_IsInit = true;
 	return true;
@@ -111,31 +108,11 @@ void Engine::Update(float dt)
 	}
 #endif
 	m_World->Update(dt);
-
-	Point2D pos1 = m_Entity1->GetPos();
-	Point2D pos2 = m_Entity2->GetPos();
-	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::RIGHT)))
+	if (Input().IsKeyDown(static_cast<int>(EKey::SPACE)))
 	{
-		pos1.x += 10 * dt;
-		pos2.x -= 10 * dt;
+		World().Load("NotMenu");
 	}
-	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::LEFT)))
-	{
-		pos1.x -= 10 * dt;
-		pos2.x += 10 * dt;
-	}
-	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::UP)))
-	{
-		pos1.y -= 10 * dt;
-		pos2.y += 10 * dt;
-	}
-	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::DOWN)))
-	{
-		pos1.y += 10 * dt;
-		pos2.y -= 10 * dt;
-	}
-	m_Entity1->SetPos(pos1);
-	m_Entity2->SetPos(pos2);
+	
 }
 
 void Engine::Render(void)
@@ -143,20 +120,13 @@ void Engine::Render(void)
 	m_Graphics->SetColor(Color::Black);
 	m_Graphics->Clear();
 
-	/*m_Graphics->SetColor(Color::Red);
-	RectF myRect{ 0.0f, 0.0f, 50.0f, 50.0f };
-	m_Graphics->DrawRect(myRect, Color::Red);
-
-	size_t texture = m_Graphics->LoadTexture("./assets/pika.jpeg");
-	RectI srcRect{ 0, 0, 0, 0 };
-	m_Graphics->GetTextureSize(texture, &srcRect.w, &srcRect.h);
-	RectF dstRect{ 100.0f, 150.0f, srcRect.w, srcRect.h };
-	Flip pikaFlip{ false, false };
-	m_Graphics->DrawTexture(texture, srcRect, dstRect, 0, pikaFlip, Color::Black);*/
-
 	m_World->Render();
 
+	/*size_t id = Graphics().LoadTexture("./assets/pika.jpeg");
+	Graphics().DrawTexture(id, Color::White);*/
+
 	m_Graphics->Present();
+
 }
 
 void Engine::Shutdown(void)

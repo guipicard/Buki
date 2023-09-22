@@ -5,16 +5,10 @@ namespace buki {
 	class Square : public Entity {
 	public:
 		Square(std::string _name, float _x, float _y, float _h, float _w, const Color& _color);
-		void Start();
-		void Update(float dt);
+		virtual void Start() override;
+		virtual void Update(float dt)  override;
 		virtual void Render() override;
-		void Destroy();
-
-
-	//private:
-		//int m_y = 0;
-		//int m_h = 0;
-		//int m_w = 0;
+		virtual void Destroy()  override;
 	};
 
 }

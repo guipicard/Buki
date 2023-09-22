@@ -8,10 +8,11 @@ void InitGameplay(void) {
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT) {
-	buki::Engine& theEngine = buki::Engine::GetInstance();
-	if (theEngine.Init("TestGame", 800, 600)) {
+	buki::Engine* theEngine = buki::Engine::GetInstance();
+	if (theEngine->Init("TestGame", 800, 600)) {
 		InitGameplay();
-		theEngine.Start();
+		theEngine->Start();
 	}
+	delete theEngine;
 	return 0;
 }

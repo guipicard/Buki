@@ -24,7 +24,7 @@ void buki::Square::Update(float dt)
 void buki::Square::Render()
 {
 	RectF myRect{ m_X, m_Y, m_H, m_W };
-	buki::Engine::GetInstance().Graphics().DrawRect(myRect, m_Color);
+	buki::Engine::GetInstance()->Graphics().DrawRect(myRect, m_Color);
 }
 
 void buki::Square::Destroy()
