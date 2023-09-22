@@ -110,7 +110,32 @@ void Engine::Update(float dt)
 		SDL_PushEvent(&quitEvent);
 	}
 #endif
-	
+	m_World->Update(dt);
+
+	Point2D pos1 = m_Entity1->GetPos();
+	Point2D pos2 = m_Entity2->GetPos();
+	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::RIGHT)))
+	{
+		pos1.x += 10 * dt;
+		pos2.x -= 10 * dt;
+	}
+	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::LEFT)))
+	{
+		pos1.x -= 10 * dt;
+		pos2.x += 10 * dt;
+	}
+	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::UP)))
+	{
+		pos1.y -= 10 * dt;
+		pos2.y += 10 * dt;
+	}
+	if (buki::Engine::GetInstance().Input().IsKeyDown(static_cast<int>(EKey::DOWN)))
+	{
+		pos1.y += 10 * dt;
+		pos2.y -= 10 * dt;
+	}
+	m_Entity1->SetPos(pos1);
+	m_Entity2->SetPos(pos2);
 }
 
 void Engine::Render(void)
