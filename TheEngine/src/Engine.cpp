@@ -10,7 +10,8 @@
 #include "SDL_Graphics.h"
 #include "Color.cpp"
 #include "WorldService.h"
-#include <vld.h>
+#include "Square.h"
+//#include <vld.h>
 
 using namespace buki;
 
@@ -45,9 +46,9 @@ bool Engine::Init(const char* name, int w, int h)
 
 	m_World = new WorldService();
 
-	m_Entity1 = new Entity("first", 50, 50, 50, 50, Color::Red);
+	m_Entity1 = new Square("first", 50, 50, 50, 50, Color::Red);
 
-	m_Entity2 = new Entity("second", 100, 100, 100, 100, Color::Blue);
+	m_Entity2 = new Square("second", 100, 100, 100, 100, Color::Blue);
 
 	m_World->Add(m_Entity1);
 	m_World->Add(m_Entity2);
@@ -100,7 +101,7 @@ void Engine::ProcessInput(void)
 void Engine::Update(float dt)
 {
 #if _DEBUG
-	if (Input().IsKeyDown(static_cast<int>(EKey::EKEY_ESCAPE)))
+	if (Input().IsKeyDown(static_cast<int>(EKey::ESCAPE)))
 	{
 		SDL_Event quitEvent;
 		quitEvent.type = SDL_QUIT;
@@ -109,22 +110,7 @@ void Engine::Update(float dt)
 		SDL_PushEvent(&quitEvent);
 	}
 #endif
-	if (Input().IsKeyDown(static_cast<int>(EKey::EKEY_RIGHT)))
-	{
-
-	}
-	if (Input().IsKeyDown(static_cast<int>(EKey::EKEY_LEFT)))
-	{
-
-	}
-	if (Input().IsKeyDown(static_cast<int>(EKey::EKEY_UP)))
-	{
-
-	}
-	if (Input().IsKeyDown(static_cast<int>(EKey::EKEY_DOWN)))
-	{
-
-	}
+	
 }
 
 void Engine::Render(void)
@@ -167,6 +153,5 @@ void Engine::Shutdown(void)
 	{
 		m_World->Destroy();
 		delete m_World;
-		m_World = nullptr;
 	}
 }

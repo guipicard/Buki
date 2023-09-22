@@ -1,4 +1,17 @@
 #pragma once
+
+enum class EKey {
+	RIGHT = 79,
+	LEFT = 80,
+	DOWN = 81,
+	UP = 82,
+	RETURN = 40,
+	ESCAPE = 41,
+	BACKSPACE = 42,
+	TAB = 43,
+	SPACE = 44
+};
+
 namespace buki {
 	class IInput
 	{

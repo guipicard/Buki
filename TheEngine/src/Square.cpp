@@ -1,27 +1,25 @@
 #include "Square.h"
-#include <SDL.h>
+#include "SDL_Graphics.h"
+#include "Engine.h"
 
-buki::Square::Square(float _x, float _y, float _h, float _w, SDL_Renderer* _renderer)
-	: m_x(_x)
-	, m_y(_y)
-	, m_h(_h)
-	, m_w(_w)
-	, m_Renderer(_renderer)
+buki::Square::Square(std::string _name, float _x, float _y, float _h, float _w, const Color& _color)
 {
 }
 
-void buki::Square::Draw()
+void buki::Square::Start()
 {
-	SDL_Rect get_rect = { 0 };
-	get_rect.x = m_x;
-	get_rect.y = m_y;
-	get_rect.h = m_h;
-	get_rect.w = m_w;
-	SDL_RenderDrawRect(m_Renderer, &get_rect);
 }
 
-void buki::Square::SetPosition(float x, float y)
+void buki::Square::Update(float dt)
 {
-	m_x = x;
-	m_y = y;
+}
+
+void buki::Square::Render()
+{
+	RectF myRect{ m_X, m_Y, m_H, m_W };
+	buki::Engine::GetInstance().Graphics().DrawRect(myRect, m_Color);
+}
+
+void buki::Square::Destroy()
+{
 }
