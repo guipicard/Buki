@@ -1,16 +1,14 @@
 #pragma once
-
 #include "IScene.h"
 #include "Entity.h"
-
 namespace buki
 {
-	
-	class DemoScene : public IScene
+
+	class PremoScene : public IScene
 	{
 	public:
-		DemoScene();
-		~DemoScene();
+		PremoScene();
+		~PremoScene();
 		virtual void Load() override;
 	private:
 		Entity* m_Entity1;

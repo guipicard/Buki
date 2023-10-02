@@ -14,16 +14,11 @@ project.addProvider = function(proj, isRoot=false){
         if(!isRoot){
             proj.addDefine("USE_SDL")
             proj.addIncludeDir(path.resolve("./sdl/include"))
-            // proj.addIncludeDir(path.resolve("./TheEngine/sdl2_image/include"))
-            // proj.addIncludeDir(path.resolve("./TheEngine/SDL2_ttf/include"))
-            // proj.addIncludeDir('$(ProgramFiles)/Visual Leak Detector/include')
         }
         proj.addLib("./sdl/lib/SDL2")
         proj.addLib("./sdl/lib/SDL2main")
         proj.addLib("./sdl/lib/SDL2_image")
         proj.addLib("./sdl/lib/SDL2_ttf")
-        // proj.addLib('$(ProgramFiles)/Visual Leak Detector/lib/Win64/vld')
-        // proj.addLib('C:/Program Files/Visual Leak Detector/lib/Win64/vld_x64')
     }
 };
 project.kore = false;

@@ -34,6 +34,8 @@ namespace buki {
 		SDL_Window* m_Window;
 		SDL_Renderer* m_Gfx;
 		std::map<size_t, SDL_Texture*> &m_TextureCache = *new std::map<size_t, SDL_Texture*>;
+		std::map<size_t, TTF_Font*> &m_FontCache = *new std::map<size_t, TTF_Font*>;
+		SDL_Texture* g_TextureBuffer;
 	};
 
 }

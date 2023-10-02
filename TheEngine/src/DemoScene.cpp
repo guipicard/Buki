@@ -1,22 +1,25 @@
 #include "DemoScene.h"
-#include "Square.h"
 #include "Engine.h"
+#include "Square.h"
+#include "Controller.h"
+#include "Image.h"
+
+buki::DemoScene::DemoScene()
+{
+	m_Entity1 = buki::Engine::GetInstance()->World().Create("square 1", 50.0f, 50.0f, 50.0f, 50.0f);
+
+}
+
+buki::DemoScene::~DemoScene()
+{
+}
 
 void buki::DemoScene::Load()
 {
-	buki::Entity* m_Entity1 = new Square("first", 50, 50, 50, 50, Color::Red);
-	buki::Entity* m_Entity2 = new Square("second", 100, 100, 100, 100, Color::Blue);
+	m_Entity1 = buki::Engine::GetInstance()->World().Create("square 1", 50.0f, 50.0f, 50.0f, 50.0f);
 
+	m_Entity1->AddComponent<Square>();
+	m_Entity1->AddComponent<Controller>();
 
-	buki::Engine::GetInstance()->World().Add(m_Entity1);
-	buki::Engine::GetInstance()->World().Add(m_Entity2);
-}
-
-void buki::DemoScene::Load2()
-{
-	buki::Entity* m_Entity1 = new Square("first", 150, 150, 150, 150, Color::Green);
-	buki::Entity* m_Entity2 = new Square("second", 200, 200, 200, 200, Color::White);
-
-	buki::Engine::GetInstance()->World().Add(m_Entity1);
-	buki::Engine::GetInstance()->World().Add(m_Entity2);
+	m_Entity1->GetComponent<Square>()->SetColor(buki::Color::Blue);
 }

@@ -1,9 +1,11 @@
 #include "SDL_Graphics.h"
 #include "SDL.h"
+#include "Engine.h"
 
 buki::SDL_Graphics::SDL_Graphics()
 	: m_Gfx(nullptr)
 	, m_Window(nullptr)
+	, g_TextureBuffer(nullptr)
 {
 
 }
@@ -31,7 +33,9 @@ bool buki::SDL_Graphics::Initialize(const std::string& title, int w, int h)
 		return false;
 	}
 	//m_Console->LogSuccess("Renderer initialised");
-
+	TTF_Init();
+	//TTF_Font* Base_Font = TTF_OpenFont(filename.c_str(), fontSize);
+	//m_FontCache.emplace(, Base_Font)
 
 	return true;
 }
@@ -48,6 +52,17 @@ void buki::SDL_Graphics::Shutdown()
 	}
 	delete &m_TextureCache;
 
+	for (std::map<size_t, TTF_Font*>::iterator it = m_FontCache.begin(); it != m_FontCache.end(); ++it)
+	{
+		if (it->second != nullptr)
+		{
+			TTF_CloseFont(it->second);
+			it->second = nullptr;
+		}
+	}
+	TTF_Quit();
+	delete& m_FontCache;
+
 	if (m_Gfx != nullptr)
 	{
 		SDL_DestroyRenderer(m_Gfx);
@@ -59,6 +74,7 @@ void buki::SDL_Graphics::Shutdown()
 		SDL_DestroyWindow(m_Window);
 		m_Window = nullptr;
 	}
+	
 
 }
 
@@ -185,25 +201,27 @@ void buki::SDL_Graphics::DrawTexture(size_t id, const RectI& src, const RectF& d
 void buki::SDL_Graphics::DrawTexture(size_t id, const RectF& dst, const Color& color)
 {
 	SDL_Texture* _texture = m_TextureCache[id];
-	SDL_Rect _rect{ 0 };
-	_rect.x = static_cast<int>(dst.x);
-	_rect.y = static_cast<int>(dst.y);
-	_rect.h = static_cast<int>(dst.h);
-	_rect.w = static_cast<int>(dst.w);
-	GetTextureSize(id, &_rect.w, &_rect.h);
+	SDL_Rect dstrect{ 0 };
+	dstrect.x = static_cast<int>(dst.x);
+	dstrect.y = static_cast<int>(dst.y);
+	dstrect.h = static_cast<int>(dst.h);
+	dstrect.w = static_cast<int>(dst.w);
 
 	SetColor(color);
 
-	SDL_RenderCopyEx(m_Gfx, _texture, &_rect, nullptr, 0, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_Gfx, _texture, nullptr, &dstrect, 0, nullptr, SDL_FLIP_NONE);
 }
 
 void buki::SDL_Graphics::DrawTexture(size_t id, const Color& color)
 {
 	SDL_Texture* _texture = m_TextureCache[id];
-
+	SDL_Rect _rect{ 0 };
+	_rect.x = 0;
+	_rect.y = 0;
+	GetTextureSize(id, &_rect.w, &_rect.h);
 	SetColor(color);
 
-	SDL_RenderCopyEx(m_Gfx, _texture, nullptr, nullptr, 0, nullptr, SDL_FLIP_NONE);
+	SDL_RenderCopyEx(m_Gfx, _texture, nullptr, &_rect, 0, nullptr, SDL_FLIP_NONE);
 }
 
 void buki::SDL_Graphics::GetTextureSize(size_t id, int* w, int* h)
@@ -222,13 +240,48 @@ void buki::SDL_Graphics::GetTextureSize(size_t id, int* w, int* h)
 
 size_t buki::SDL_Graphics::LoadFont(const std::string& filename, int fontSize)
 {
-	return size_t();
+	const size_t id = std::hash<std::string>()(filename);
+	if (m_FontCache.count(id) > 0)
+	{
+		return id;
+	}
+	TTF_Font* _font = TTF_OpenFont(filename.c_str(), fontSize);
+	if (_font != nullptr)
+	{
+		m_FontCache[id] = _font;
+		return id;
+	}
+	return -1;
 }
 
 void buki::SDL_Graphics::DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color)
 {
+	SDL_Color _color = { color.r, color.g, color.b, color.a };
+	int w = 0;
+	int h = 0;
+	GetTextSize(text, fontId, &w, &h);
+	SDL_Rect _dst = { static_cast<int>(x), static_cast<int>(y), w, h };
+	if (m_FontCache.count(fontId) > 0)
+	{
+		TTF_Font* _font = m_FontCache[fontId];
+		SDL_Surface* _surface = TTF_RenderText_Solid(_font, text.c_str(), _color);
+		
+		g_TextureBuffer = SDL_CreateTextureFromSurface(m_Gfx, _surface);
+		SDL_RenderCopy(m_Gfx, g_TextureBuffer, nullptr, &_dst);
+		SDL_FreeSurface(_surface);
+	}
 }
 
 void buki::SDL_Graphics::GetTextSize(const std::string& text, size_t fontId, int* w, int* h)
 {
+	if (m_FontCache.count(fontId) > 0)
+	{
+		TTF_Font* _font = m_FontCache[fontId];
+		TTF_SizeText(_font, text.c_str(), w, h);
+	}
+	else
+	{
+		*w = 0;
+		*h = 0;
+	}
 }

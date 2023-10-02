@@ -11,12 +11,11 @@
 #include "Color.cpp"
 #include "WorldService.h"
 #include "Square.h"
-#include <vld.h>
 #include "DemoScene.h"
+#include "PremoScene.h"
+//#include <vld.h>
 
 using namespace buki;
-
-//static const Engine& theEngine;
 
 bool Engine::Init(const char* name, int w, int h)
 {
@@ -44,14 +43,14 @@ bool Engine::Init(const char* name, int w, int h)
 	m_Console->LogSuccess("Graphics initialised");
 
 	m_Input = new SdlInput();
-
 	m_World = new WorldService();
-	m_World->Register("Menu", new DemoScene());
-	m_World->Register("NotMenu", new DemoScene());
-	m_World->Load("Menu");
+
+	m_World->Register("Demo", new DemoScene());
+	m_World->Register("Premo", new PremoScene());
+	m_World->Load("Demo");
 
 	m_IsInit = true;
-	return true;
+	return m_IsInit;
 }
 
 void Engine::Start(void) {
@@ -61,6 +60,8 @@ void Engine::Start(void) {
 		}
 	}
 	m_Console->LogSuccess("Buki initialised");
+
+
 	const float MS_PER_FRAME = 16.0f; // 16 to get 60 fps
 	Input().m_IsRunning = true;
 	float _last = static_cast<float>(clock());
@@ -108,9 +109,11 @@ void Engine::Update(float dt)
 	}
 #endif
 	m_World->Update(dt);
+	//if (Input().IsButtonDown(1))
 	if (Input().IsKeyDown(static_cast<int>(EKey::SPACE)))
 	{
-		World().Load("NotMenu");
+		std::string scene = World().GetCurrentSceneName() == "Demo" ? "Premo" : "Demo";
+		World().Load(scene);
 	}
 	
 }
@@ -121,9 +124,6 @@ void Engine::Render(void)
 	m_Graphics->Clear();
 
 	m_World->Render();
-
-	/*size_t id = Graphics().LoadTexture("./assets/pika.jpeg");
-	Graphics().DrawTexture(id, Color::White);*/
 
 	m_Graphics->Present();
 

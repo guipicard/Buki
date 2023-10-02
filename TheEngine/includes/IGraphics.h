@@ -13,7 +13,6 @@ namespace buki {
 		int h;
 	};
 
-
 	struct RectF
 	{
 		float x;
@@ -21,7 +20,6 @@ namespace buki {
 		float w;
 		float h;
 	};
-
 
 	struct Flip
 	{

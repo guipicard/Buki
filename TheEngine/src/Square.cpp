@@ -2,31 +2,24 @@
 #include "SDL_Graphics.h"
 #include "Engine.h"
 
-buki::Square::Square(std::string _name, float _x, float _y, float _h, float _w, const Color& _color)
-{
-	m_Name = _name;
-	m_X = _x;
-	m_Y = _y;
-	m_H = _h;
-	m_W = _w;
-	m_Color = _color;
-}
-
 void buki::Square::Start()
 {
 }
 
-void buki::Square::Update(float dt)
+void buki::Square::Draw()
 {
-	
-}
-
-void buki::Square::Render()
-{
-	RectF myRect{ m_X, m_Y, m_H, m_W };
-	buki::Engine::GetInstance()->Graphics().DrawRect(myRect, m_Color);
+	RectF myRect{0};
+	Point2D pos = m_Entity->GetPos();
+	Point2D size = m_Entity->GetSize();
+	myRect.x = pos.x;
+	myRect.y = pos.y;
+	myRect.h = size.x;
+	myRect.w = size.y;
+	const buki::Color myColor = m_Color;
+	buki::Engine::GetInstance()->Graphics().DrawRect(myRect, myColor);
 }
 
 void buki::Square::Destroy()
 {
+	 m_Entity = nullptr;
 }
