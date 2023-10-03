@@ -80,6 +80,7 @@ void Engine::Start(void) {
 			Update(_dt);
 			_lag -= MS_PER_FRAME;
 		}*/
+		Input().ResetLateInputs();
 		float sleepTime = static_cast<float>(_new) + MS_PER_FRAME - static_cast<float>(clock());
 		if (sleepTime >= 0)
 		{
@@ -109,13 +110,11 @@ void Engine::Update(float dt)
 	}
 #endif
 	m_World->Update(dt);
-	//if (Input().IsButtonDown(1))
 	if (Input().IsKeyDown(static_cast<int>(EKey::SPACE)))
 	{
 		std::string scene = World().GetCurrentSceneName() == "Demo" ? "Premo" : "Demo";
 		World().Load(scene);
 	}
-	
 }
 
 void Engine::Render(void)

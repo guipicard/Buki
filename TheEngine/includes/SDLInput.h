@@ -8,16 +8,20 @@ namespace buki {
 	public:
 		virtual ~SdlInput() = default;
 		virtual void Update() override;
+		virtual bool IsKeyPressed(int keycode) override;
 		virtual bool IsKeyDown(int keycode) override;
 		virtual bool IsKeyUp(int keycode) override;
-		virtual bool IsKeyPressed(int keycode) override;
+		virtual bool IsButtonPressed(int button) override;
 		virtual bool IsButtonDown(int button) override;
+		virtual bool IsButtonUp(int button) override;
 		virtual void GetMousePosition(int* x, int* y) override;
+		virtual void ResetLateInputs() override;
 	private:
 		const unsigned char* m_KeyStates = nullptr;
+		bool m_MouseStates[3]{ false };
+		bool m_LateKeyStates[322]{ false };
+		bool m_LateMouseStates[3]{ false };
 		int m_MouseX = 0;
 		int m_MouseY = 0;
-		bool m_MouseStates[3]{ false, false, false };
-		bool m_MyKeyboard[322]{ false };
 	};
 }
