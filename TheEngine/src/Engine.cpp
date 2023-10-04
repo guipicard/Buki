@@ -13,6 +13,7 @@
 #include "Square.h"
 #include "DemoScene.h"
 #include "PremoScene.h"
+#include "SDL_Audio.h"
 //#include <vld.h>
 
 using namespace buki;
@@ -44,10 +45,14 @@ bool Engine::Init(const char* name, int w, int h)
 
 	m_Input = new SdlInput();
 	m_World = new WorldService();
+	m_Audio = new SDL_Audio();
 
 	m_World->Register("Demo", new DemoScene());
 	m_World->Register("Premo", new PremoScene());
 	m_World->Load("Demo");
+	
+	mumu = m_Audio->LoadMusic("./audio/mixkit-driving-ambition-32.mp3");
+	sam = m_Audio->LoadSound("./audio/mixkit-arcade-retro-game-over-213.wav");
 
 	m_IsInit = true;
 	return m_IsInit;
@@ -61,6 +66,8 @@ void Engine::Start(void) {
 	}
 	m_Console->LogSuccess("Buki initialised");
 
+
+	Audio().PlayMusic(mumu);
 
 	const float MS_PER_FRAME = 16.0f; // 16 to get 60 fps
 	Input().m_IsRunning = true;
@@ -114,6 +121,10 @@ void Engine::Update(float dt)
 	{
 		std::string scene = World().GetCurrentSceneName() == "Demo" ? "Premo" : "Demo";
 		World().Load(scene);
+	}
+	if (Input().IsKeyDown(static_cast<int>(EKey::RETURN)))
+	{
+		Audio().PlaySFX(sam);
 	}
 }
 

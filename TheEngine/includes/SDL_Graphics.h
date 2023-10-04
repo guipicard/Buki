@@ -1,13 +1,13 @@
 #pragma once
 #include "IGraphics.h"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_ttf.h>
 #include <map>
 
-#pragma once
-namespace buki {
+struct SDL_Window;
+struct SDL_Renderer;
+struct SDL_Texture;
+typedef struct _TTF_Font TTF_Font;
 
+namespace buki {
 	class SDL_Graphics : public IGraphics
 	{
 	public:

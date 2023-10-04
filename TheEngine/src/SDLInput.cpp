@@ -51,45 +51,11 @@ bool buki::SdlInput::IsKeyPressed(int keycode)
 bool SdlInput::IsKeyDown(int keycode)
 {
 	return m_KeyStates[keycode] == 1 && !m_LateKeyStates[keycode];
-	//if (m_KeyStates[static_cast<int>(keycode)] == 1)
-	//{
-	//	if (!m_LateKeyStates[static_cast<int>(keycode)])
-	//	{
-	//		m_LateKeyStates[static_cast<int>(keycode)] = true;
-	//		return true;
-	//	}
-	//	else
-	//	{
-	//		return false;
-	//	}
-	//}
-	//else
-	//{
-	//	//IsKeyUp(keycode);
-	//	return false;
-	//}
 }
 
 bool buki::SdlInput::IsKeyUp(int keycode)
 {
 	return m_KeyStates[keycode] != 1 && m_LateKeyStates[keycode];
-	//if (!m_KeyStates[static_cast<int>(keycode)] == 1)
-	//{
-	//	if (m_LateKeyStates[static_cast<int>(keycode)])
-	//	{
-	//		m_LateKeyStates[static_cast<int>(keycode)] = false;
-	//		return true;
-	//	}
-	//	else
-	//	{
-	//		return false;
-	//	}
-	//}
-	//else
-	//{
-	//	//IsKeyDown(keycode);
-	//	return false;
-	//}
 }
 
 

@@ -37,7 +37,7 @@ namespace buki
 	private:
 		std::vector<IDrawable*>& m_Drawable = *new std::vector<IDrawable*>();
 		std::vector<IUpdatable*>& m_Updatable = *new std::vector<IUpdatable*>();
-		std::map<std::string, Component*>& m_ComponentByType = *new std::map<std::string, Component*>();
+		std::map<const type_info*, Component*>& m_ComponentByType = *new std::map<const type_info*, Component*>();
 
 	private:
 		float m_Speed = 50.0f;
@@ -52,7 +52,7 @@ namespace buki
 	inline T* Entity::AddComponent()
 	{
 		T* cmp = new T(this);
-		m_ComponentByType[typeid(T).name()] = cmp;
+		m_ComponentByType[&typeid(T)] = cmp;
 
 		if constexpr (std::is_base_of_v<IDrawable, T>) 
 		{
@@ -69,7 +69,7 @@ namespace buki
 	template<typename T>
 	inline T* Entity::GetComponent()
 	{
-		const std::string type = typeid(T).name();
+		const type_info* type = &typeid(T);
 		auto it = m_ComponentByType.find(type);
 		if (it != m_ComponentByType.end()) 
 		{

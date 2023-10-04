@@ -22,5 +22,5 @@ void buki::PremoScene::Load()
 	m_Entity1->AddComponent<Image>();
 
 	m_Entity1->GetComponent<Square>()->SetColor(buki::Color::Blue);
-	m_Entity1->GetComponent<Image>()->SetPath("./assets/icon.png");
+	m_Entity1->GetComponent<Image>()->SetPath("./assets/pika.jpeg");
 }

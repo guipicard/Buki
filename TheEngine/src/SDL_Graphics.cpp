@@ -1,6 +1,8 @@
 #include "SDL_Graphics.h"
 #include "SDL.h"
 #include "Engine.h"
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 
 buki::SDL_Graphics::SDL_Graphics()
 	: m_Gfx(nullptr)

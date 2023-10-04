@@ -6,6 +6,7 @@
 #include "IGraphics.h"
 #include "Color.h"
 #include "IWorld.h"
+#include "IAudio.h"
 
 namespace buki {
 	class Engine final {
@@ -29,9 +30,10 @@ namespace buki {
 		void Start(void);
 	public:
 		IInput& Input() { return *m_Input; }
+		ILogger& Log() { return *m_Console; }
 		IGraphics& Graphics() { return *m_Graphics; }
 		IWorld& World() { return *m_World; }
-		ILogger& Log() { return *m_Console; }
+		IAudio& Audio() { return *m_Audio; }
 	private:
 		void ProcessInput(void);
 		void Update(float dt);
@@ -42,7 +44,12 @@ namespace buki {
 		ILogger* m_Console = nullptr;
 		IGraphics* m_Graphics = nullptr;
 		IWorld* m_World = nullptr;
+		IAudio* m_Audio = nullptr;
 	private:
 		bool m_IsInit = false;
+
+	private:
+		size_t mumu;
+		size_t sam;
 	};
 }

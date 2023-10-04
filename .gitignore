@@ -1,5 +1,9 @@
 build
 Deployment/**
 !Deployment/assets
+!Deployment/assets/**
 !Deployment/fonts
+!Deployment/fonts/**
+!Deployment/audio
+!Deployment/audio/**
 !Deployment/keepme
