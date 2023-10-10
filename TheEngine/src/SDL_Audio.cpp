@@ -9,8 +9,16 @@ buki::SDL_Audio::~SDL_Audio()
 {
 	for (auto music : m_MusicCache)
 	{
-		Mix_FreeMusic(music->second);
+		Mix_FreeMusic(music.second);
 	}
+	for (auto sfx : m_SfxCache)
+	{
+		Mix_FreeChunk(sfx.second);
+	}
+	m_MusicCache.clear();
+	m_SfxCache.clear();
+	delete& m_MusicCache;
+	delete& m_SfxCache;
 	Mix_CloseAudio();
 }
 
@@ -40,8 +48,7 @@ size_t buki::SDL_Audio::LoadSound(const std::string& filename)
 		return id;
 	}
 
-	Mix_Chunk* sample;
-	sample = Mix_LoadWAV(filename.c_str());
+	Mix_Chunk* sample = Mix_LoadWAV(filename.c_str());
 	if (sample != nullptr)
 	{
 		m_SfxCache[id] = sample;
@@ -112,4 +119,8 @@ void buki::SDL_Audio::SetVolume(size_t soundId, int volume)
 		music = m_MusicCache[soundId];
 		Mix_VolumeMusic(volume);
 	}
+}
+
+void buki::SDL_Audio::Destroy()
+{
 }

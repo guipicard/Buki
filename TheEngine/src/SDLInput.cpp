@@ -43,19 +43,19 @@ void SdlInput::Update()
 	m_KeyStates = SDL_GetKeyboardState(nullptr);
 }
 
-bool buki::SdlInput::IsKeyPressed(int keycode)
+bool buki::SdlInput::IsKeyPressed(EKey keycode)
 {
 	return m_KeyStates[static_cast<int>(keycode)] == 1;
 }
 
-bool SdlInput::IsKeyDown(int keycode)
+bool SdlInput::IsKeyDown(EKey keycode)
 {
-	return m_KeyStates[keycode] == 1 && !m_LateKeyStates[keycode];
+	return m_KeyStates[static_cast<int>(keycode)] == 1 && !m_LateKeyStates[static_cast<int>(keycode)];
 }
 
-bool buki::SdlInput::IsKeyUp(int keycode)
+bool buki::SdlInput::IsKeyUp(EKey keycode)
 {
-	return m_KeyStates[keycode] != 1 && m_LateKeyStates[keycode];
+	return m_KeyStates[static_cast<int>(keycode)] != 1 && m_LateKeyStates[static_cast<int>(keycode)];
 }
 
 

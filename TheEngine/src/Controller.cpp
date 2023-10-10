@@ -1,31 +1,33 @@
 #include "Controller.h"
 #include "Engine.h"
 
+buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
+
 void buki::Controller::Start()
 {
 }
 
 void buki::Controller::Update(float dt)
 {
-	if (buki::Engine::GetInstance()->Input().IsKeyPressed(static_cast<int>(EKey::UP)))
+	if (Input().IsKeyPressed(EKey::UP))
 	{
 		Point2D pos = m_Entity->GetPos();
 		pos.y -= m_Entity->GetSpeed() * dt;
 		m_Entity->SetPos(pos);
 	}
-	if (buki::Engine::GetInstance()->Input().IsKeyPressed(static_cast<int>(EKey::DOWN)))
+	if (Input().IsKeyPressed(EKey::DOWN))
 	{
 		Point2D pos = m_Entity->GetPos();
 		pos.y += m_Entity->GetSpeed() * dt;
 		m_Entity->SetPos(pos);
 	}
-	if (buki::Engine::GetInstance()->Input().IsKeyPressed(static_cast<int>(EKey::LEFT)))
+	if (Input().IsKeyPressed(EKey::LEFT))
 	{
 		Point2D pos = m_Entity->GetPos();
 		pos.x -= m_Entity->GetSpeed() * dt;
 		m_Entity->SetPos(pos);
 	}
-	if (buki::Engine::GetInstance()->Input().IsKeyPressed(static_cast<int>(EKey::RIGHT)))
+	if (Input().IsKeyPressed(EKey::RIGHT))
 	{
 		Point2D pos = m_Entity->GetPos();
 		pos.x += m_Entity->GetSpeed() * dt;
@@ -35,4 +37,9 @@ void buki::Controller::Update(float dt)
 
 void buki::Controller::Destroy()
 {
+}
+
+buki::IInput& buki::Component::Input() const
+{
+	return buki::Engine::GetInstance()->Input();
 }

@@ -14,5 +14,6 @@ namespace buki
 		virtual void Load() override;
 	private:
 		Entity* m_Entity1;
+		Entity* m_Player;
 	};
 }

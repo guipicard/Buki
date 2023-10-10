@@ -1,19 +1,19 @@
 #pragma once
-
-#include "IUpdatable.h"
-#include "IDrawable.h"
+#include "Entity.h"
+#include "IInput.h"
 
 namespace buki
 {
-	class Entity;
 	class Component
 	{
+	private:
+		Component() = default;
 	public:
 		virtual ~Component() {}
-		Component() : Component(nullptr) {}
 		Component(Entity* _entity) : m_Entity(_entity) {}
 		virtual void Start() {}
 		virtual void Destroy() {}
+		buki::IInput& Input() const;
 	protected:
 		Entity* m_Entity;
 	};

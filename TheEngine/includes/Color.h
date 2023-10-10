@@ -6,6 +6,7 @@ namespace buki {
 	class Color
 	{
 	public:
+		bool operator==(const Color& c);
 		static const Color& Red;
 		static const Color& Green;
 		static const Color& Blue;

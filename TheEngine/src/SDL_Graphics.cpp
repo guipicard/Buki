@@ -8,6 +8,8 @@ buki::SDL_Graphics::SDL_Graphics()
 	: m_Gfx(nullptr)
 	, m_Window(nullptr)
 	, g_TextureBuffer(nullptr)
+	, m_WindowWidth(0)
+	, m_WindowHeight(0)
 {
 
 }
@@ -18,6 +20,8 @@ bool buki::SDL_Graphics::Initialize(const std::string& title, int w, int h)
 	int _y = SDL_WINDOWPOS_CENTERED;
 	Uint32 _flag = SDL_WINDOW_RESIZABLE;
 	Uint32 _rendererFlag = SDL_RENDERER_ACCELERATED;
+	m_WindowWidth = w;
+	m_WindowHeight = h;
 
 	m_Window = SDL_CreateWindow(title.c_str(), _x, _y, w, h, _flag);
 
@@ -163,6 +167,7 @@ size_t buki::SDL_Graphics::LoadTexture(const std::string& filename)
 		m_TextureCache[id] = texture;
 		return id;
 	}
+	buki::Engine::GetInstance()->Log().LogError("did not load image");
 	return -1;
 }
 
@@ -286,4 +291,9 @@ void buki::SDL_Graphics::GetTextSize(const std::string& text, size_t fontId, int
 		*w = 0;
 		*h = 0;
 	}
+}
+
+void buki::SDL_Graphics::GetWindowSize(int* w, int* h)
+{
+	SDL_GetWindowSize(m_Window, w, h);
 }

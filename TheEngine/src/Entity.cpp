@@ -1,16 +1,18 @@
 #include "Entity.h"
+#include "Component.h"
+#include "IGraphics.h"
 
 buki::Entity::Entity()
 	: Entity("new Entity", 0.0f, 0.0f, 0.0f, 0.0f)
 {
 }
 
-buki::Entity::Entity(std::string _name, float _x, float _y, float _h, float _w)
+buki::Entity::Entity(std::string _name, float _x, float _y, float _w, float _h)
 	: m_Name(_name)
 	, m_X(_x)
 	, m_Y(_y)
-	, m_H(_h)
 	, m_W(_w)
+	, m_H(_h)
 {
 }
 
@@ -39,7 +41,7 @@ void buki::Entity::Update(float dt)
 
 void buki::Entity::Destroy()
 {
-	for (std::map<const type_info*, Component*>::iterator it = m_ComponentByType.begin(); it != m_ComponentByType.end(); ++it)
+	for (std::multimap<const type_info*, Component*>::iterator it = m_ComponentByType.begin(); it != m_ComponentByType.end(); ++it)
 	{
 		if (it->second != nullptr)
 		{

@@ -7,6 +7,7 @@ namespace buki
 	class IAudio
 	{
 	public:
+		virtual ~IAudio() = default;
 		virtual size_t LoadMusic(const std::string& filename) = 0;
 		virtual size_t LoadSound(const std::string& filename) = 0;
 		virtual void PlayMusic(size_t id) = 0;
@@ -17,6 +18,8 @@ namespace buki
 		virtual void StopMusic() = 0;
 		virtual void ResumeMusic() = 0;
 		virtual void SetVolume(int volume) = 0;
-		virtual void SetVolume(size_t soundId, int volume) = 0;	};
+		virtual void SetVolume(size_t soundId, int volume) = 0;
+		virtual void Destroy() = 0;
+	};
 }
 

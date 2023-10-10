@@ -30,12 +30,14 @@ namespace buki {
 		virtual size_t LoadFont(const std::string& filename, int fontSize) override;
 		virtual void DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color) override;
 		virtual void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) override;
+		virtual void GetWindowSize(int* w, int* h) override;
 	private:
 		SDL_Window* m_Window;
+		int m_WindowWidth;
+		int m_WindowHeight;
 		SDL_Renderer* m_Gfx;
 		std::map<size_t, SDL_Texture*> &m_TextureCache = *new std::map<size_t, SDL_Texture*>;
 		std::map<size_t, TTF_Font*> &m_FontCache = *new std::map<size_t, TTF_Font*>;
 		SDL_Texture* g_TextureBuffer;
 	};
-
 }

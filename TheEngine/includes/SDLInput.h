@@ -8,9 +8,9 @@ namespace buki {
 	public:
 		virtual ~SdlInput() = default;
 		virtual void Update() override;
-		virtual bool IsKeyPressed(int keycode) override;
-		virtual bool IsKeyDown(int keycode) override;
-		virtual bool IsKeyUp(int keycode) override;
+		virtual bool IsKeyPressed(EKey keycode) override;
+		virtual bool IsKeyDown(EKey keycode) override;
+		virtual bool IsKeyUp(EKey keycode) override;
 		virtual bool IsButtonPressed(int button) override;
 		virtual bool IsButtonDown(int button) override;
 		virtual bool IsButtonUp(int button) override;

@@ -1,12 +1,15 @@
 #pragma once
-#include "IGraphics.h"
-#include "Component.h"
+#include <cstdlib>
 #include <vector>
 #include <map>
+#include <string>
 #include <typeinfo>
+#include "IDrawable.h"
+#include "IUpdatable.h"
 
 namespace buki
 {
+	class Component;
 	struct Point2D
 	{
 		Point2D() : Point2D(0, 0) {}
@@ -20,31 +23,32 @@ namespace buki
 	{
 	public:
 		Entity();
-		Entity(std::string _name, float _x, float _y, float _h, float _w);
+		Entity(std::string _name, float _x, float _y, float _w, float _h);
 		~Entity();
 		template<typename T> inline T* AddComponent();
 		template<typename T> inline T* GetComponent();
+		template<typename T> inline std::vector<T*> GetAllComponents();
 		void Draw();
 		void Update(float dt);
 		void Destroy();
 		void SetPos(Point2D _pos) { m_X = _pos.x, m_Y = _pos.y; }
-		void SetSize(Point2D _size) { m_H = _size.x, m_W = _size.y; }
+		void SetSize(Point2D _size) { m_W = _size.x; m_H = _size.y; }
 		Point2D GetPos() { return Point2D(m_X, m_Y); }
-		Point2D GetSize() { return Point2D(m_H, m_W); }
+		Point2D GetSize() { return Point2D(m_W, m_H); }
 		std::string GetName() { return m_Name; }
 		float GetSpeed() { return m_Speed; }
 		void SetSpeed(float speed) { m_Speed = speed; }
 	private:
 		std::vector<IDrawable*>& m_Drawable = *new std::vector<IDrawable*>();
 		std::vector<IUpdatable*>& m_Updatable = *new std::vector<IUpdatable*>();
-		std::map<const type_info*, Component*>& m_ComponentByType = *new std::map<const type_info*, Component*>();
+		std::multimap<const type_info*, Component*>& m_ComponentByType = *new std::multimap<const type_info*, Component*>();
 
 	private:
 		float m_Speed = 50.0f;
 		float m_X = 0.0f;
 		float m_Y = 0.0f;
-		float m_H = 0.0f;
 		float m_W = 0.0f;
+		float m_H = 0.0f;
 		std::string m_Name;
 	};
 
@@ -52,9 +56,9 @@ namespace buki
 	inline T* Entity::AddComponent()
 	{
 		T* cmp = new T(this);
-		m_ComponentByType[&typeid(T)] = cmp;
+		m_ComponentByType.emplace(&typeid(T), cmp);
 
-		if constexpr (std::is_base_of_v<IDrawable, T>) 
+		if constexpr (std::is_base_of_v<IDrawable, T>)
 		{
 			m_Drawable.push_back(cmp);
 		}
@@ -71,10 +75,26 @@ namespace buki
 	{
 		const type_info* type = &typeid(T);
 		auto it = m_ComponentByType.find(type);
-		if (it != m_ComponentByType.end()) 
+		if (it != m_ComponentByType.end())
 		{
 			return dynamic_cast<T*>(it->second);
 		}
 		return nullptr;
 	}
+
+	template<typename T>
+	inline std::vector<T*> Entity::GetAllComponents()
+	{
+		std::vector<T*> results;
+		const type_info* type = &typeid(T);
+		for (auto it : m_ComponentByType)
+		{
+			if (it.first == type)
+			{
+				results.push_back(dynamic_cast<T*>(it.second));
+			}
+		}
+		return results;
+	}
+
 }

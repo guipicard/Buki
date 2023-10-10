@@ -1,0 +1,51 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "sans titre.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        "AOL.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 395,
+                "y": 241
+            }
+        },
+        "AOL.tmx#env": {
+            "scaleInDock": 1
+        },
+        "sans titre.tmx": {
+            "scale": 0.988,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 398.78542510121457,
+                "y": 302.63157894736844
+            }
+        },
+        "sans titre.tmx#env": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        }
+    },
+    "last.externalTilesetPath": "C:/Users/guill/Desktop/School/Session4/Engin/Buki/Deployment/assets",
+    "last.imagePath": "C:/Users/guill/Desktop/School/Session4/Engin/Buki/Deployment/assets",
+    "map.height": 19,
+    "map.lastUsedFormat": "tmx",
+    "map.width": 25,
+    "openFiles": [
+        "AOL.tmx",
+        "sans titre.tmx"
+    ],
+    "project": "AOLTileMap.tiled-project",
+    "recentFiles": [
+        "AOL.tmx",
+        "sans titre.tmx"
+    ],
+    "tileset.embedInMap": true,
+    "tileset.lastUsedFilter": "Tous les Fichiers (*)"
+}

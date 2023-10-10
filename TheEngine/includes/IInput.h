@@ -18,9 +18,9 @@ namespace buki
 	{
 	public:
 		virtual ~IInput() = default;
-		virtual bool IsKeyPressed(int key) = 0;
-		virtual bool IsKeyDown(int key) = 0;
-		virtual bool IsKeyUp(int key) = 0;
+		virtual bool IsKeyPressed(EKey key) = 0;
+		virtual bool IsKeyDown(EKey key) = 0;
+		virtual bool IsKeyUp(EKey key) = 0;
 		virtual bool IsButtonPressed(int button) = 0;
 		virtual bool IsButtonDown(int button) = 0;
 		virtual bool IsButtonUp(int button) = 0;

@@ -3,29 +3,40 @@
 #include <iostream>
 #include "Color.h"
 
+struct RectI
+{
+	RectI() : RectI(0, 0, 0, 0) {}
+	RectI(int _x, int _y, int _w, int _h) : x(_x), y(_y), w(_w), h(_h) {}
+	int x;
+	int y;
+	int w;
+	int h;
+};
+
+struct RectF
+{
+	RectF() : RectF(0.0f, 0.0f, 0.0f, 0.0f) {}
+	RectF(int _x, int _y, int _w, int _h)
+		: RectF(static_cast<float>(_x), static_cast<float>(_y), static_cast<float>(_w), static_cast<float>(_h))
+	{
+
+	}
+	RectF(float _x, float _y, float _w, float _h) : x(_x), y(_y), w(_w), h(_h) {}
+	float x;
+	float y;
+	float w;
+	float h;
+};
+
+struct Flip
+{
+	Flip() : Flip(false, false) {}
+	Flip(bool _v, bool _h) : v(_v), h(_h) {}
+	bool v;
+	bool h;
+};
 namespace buki {
 
-	struct RectI
-	{
-		int x;
-		int y;
-		int w;
-		int h;
-	};
-
-	struct RectF
-	{
-		float x;
-		float y;
-		float w;
-		float h;
-	};
-
-	struct Flip
-	{
-		bool h;
-		bool v;
-	};
 
 	class IGraphics
 	{
@@ -46,8 +57,9 @@ namespace buki {
 		virtual void DrawTexture(size_t id, const Color& color) = 0;
 		virtual void GetTextureSize(size_t id, int* w, int* h) = 0;
 		virtual size_t LoadFont(const std::string& filename, int fontSize) = 0;
-		virtual void DrawString(const std::string& text, size_t fontId, float x,float y, const Color& color) = 0;
+		virtual void DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color) = 0;
 		virtual void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) = 0;
+		virtual void GetWindowSize(int* w, int* h) = 0;
 	};
 
 }

@@ -12,7 +12,6 @@
 #include "WorldService.h"
 #include "Square.h"
 #include "DemoScene.h"
-#include "PremoScene.h"
 #include "SDL_Audio.h"
 //#include <vld.h>
 
@@ -48,7 +47,6 @@ bool Engine::Init(const char* name, int w, int h)
 	m_Audio = new SDL_Audio();
 
 	m_World->Register("Demo", new DemoScene());
-	m_World->Register("Premo", new PremoScene());
 	m_World->Load("Demo");
 	
 	mumu = m_Audio->LoadMusic("./audio/mixkit-driving-ambition-32.mp3");
@@ -65,7 +63,6 @@ void Engine::Start(void) {
 		}
 	}
 	m_Console->LogSuccess("Buki initialised");
-
 
 	Audio().PlayMusic(mumu);
 
@@ -98,7 +95,6 @@ void Engine::Start(void) {
 	Shutdown();
 }
 
-static unsigned const char* _keyStates = NULL;
 void Engine::ProcessInput(void)
 {
 	Input().Update();
@@ -107,7 +103,7 @@ void Engine::ProcessInput(void)
 void Engine::Update(float dt)
 {
 #if _DEBUG
-	if (Input().IsKeyDown(static_cast<int>(EKey::ESCAPE)))
+	if (Input().IsKeyDown(EKey::ESCAPE))
 	{
 		SDL_Event quitEvent;
 		quitEvent.type = SDL_QUIT;
@@ -117,12 +113,7 @@ void Engine::Update(float dt)
 	}
 #endif
 	m_World->Update(dt);
-	if (Input().IsKeyDown(static_cast<int>(EKey::SPACE)))
-	{
-		std::string scene = World().GetCurrentSceneName() == "Demo" ? "Premo" : "Demo";
-		World().Load(scene);
-	}
-	if (Input().IsKeyDown(static_cast<int>(EKey::RETURN)))
+	if (Input().IsKeyDown(EKey::RETURN))
 	{
 		Audio().PlaySFX(sam);
 	}
@@ -153,6 +144,11 @@ void Engine::Shutdown(void)
 	{
 		m_Graphics->Shutdown();
 		delete m_Graphics;
+	}
+	if (m_Audio != nullptr)
+	{
+		m_Audio->Destroy();
+		delete m_Audio;
 	}
 	if (m_World != nullptr)
 	{

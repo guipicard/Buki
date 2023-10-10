@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Component.h"
 
 namespace buki 
@@ -5,8 +7,7 @@ namespace buki
 	class Controller : public Component, public IUpdatable
 	{
 	public:
-		Controller() : Controller(nullptr) {};
-		Controller(Entity* _entity) { m_Entity = _entity; };
+		Controller(Entity* _entity);
 		virtual ~Controller() = default;
 
 		virtual void Start() override;

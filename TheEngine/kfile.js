@@ -25,7 +25,6 @@ project.addProvider = function(proj, isRoot=false){
 };
 project.kore = false;
 
-
 project.addDefine("KINC_STATIC_COMPILE");
 project.isStaticLib = true;
 
