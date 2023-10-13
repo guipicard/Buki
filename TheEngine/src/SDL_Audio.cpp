@@ -7,19 +7,6 @@ buki::SDL_Audio::SDL_Audio()
 
 buki::SDL_Audio::~SDL_Audio()
 {
-	for (auto music : m_MusicCache)
-	{
-		Mix_FreeMusic(music.second);
-	}
-	for (auto sfx : m_SfxCache)
-	{
-		Mix_FreeChunk(sfx.second);
-	}
-	m_MusicCache.clear();
-	m_SfxCache.clear();
-	delete& m_MusicCache;
-	delete& m_SfxCache;
-	Mix_CloseAudio();
 }
 
 size_t buki::SDL_Audio::LoadMusic(const std::string& filename)
@@ -123,4 +110,17 @@ void buki::SDL_Audio::SetVolume(size_t soundId, int volume)
 
 void buki::SDL_Audio::Destroy()
 {
+	for (auto music : m_MusicCache)
+	{
+		Mix_FreeMusic(music.second);
+	}
+	for (auto sfx : m_SfxCache)
+	{
+		Mix_FreeChunk(sfx.second);
+	}
+	m_MusicCache.clear();
+	m_SfxCache.clear();
+	delete& m_MusicCache;
+	delete& m_SfxCache;
+	Mix_CloseAudio();
 }

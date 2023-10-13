@@ -1,10 +1,8 @@
 #pragma once
-#include <string>
 #include "IInput.h"
 #include "IShape.h"
 #include "ILogger.h"
 #include "IGraphics.h"
-#include "Color.h"
 #include "IWorld.h"
 #include "IAudio.h"
 
@@ -49,7 +47,7 @@ namespace buki {
 		bool m_IsInit = false;
 
 	private:
-		size_t mumu;
-		size_t sam;
+		size_t mumu = size_t();
+		size_t sam = size_t();
 	};
 }

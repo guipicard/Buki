@@ -1,0 +1,23 @@
+2023:10:13:15h62m14s
+
+Success: SDL initialised
+Success: Graphics initialised
+Success: Buki initialised
+Button up : 1
+Button up : 1
+
+
+2023:10:13:15h62m30s
+
+Success: SDL initialised
+Success: Graphics initialised
+Success: Buki initialised
+
+
+2023:10:13:16h57m22s
+
+Success: SDL initialised
+Success: Graphics initialised
+Success: Buki initialised
+
+

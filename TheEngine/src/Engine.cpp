@@ -1,28 +1,22 @@
-#include <time.h>
 #include "Engine.h"
 #include <SDL.h>
-#include<windows.h>
 #include "SDLInput.h"
-#include "Square.h"
 #include "LogConsole.h"
 #include "LogFile.h"
-#include <SDL_image.h>
 #include "SDL_Graphics.h"
-#include "Color.cpp"
 #include "WorldService.h"
-#include "Square.h"
 #include "DemoScene.h"
 #include "SDL_Audio.h"
-//#include <vld.h>
+#include <vld.h>
 
 using namespace buki;
 
 bool Engine::Init(const char* name, int w, int h)
 {
 #if _DEBUG
-	m_Console = new LogConsole();
-#else
 	m_Console = new LogFile();
+#else
+	m_Console = new LogConsole();
 #endif
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		m_Console->LogError(SDL_GetError());
