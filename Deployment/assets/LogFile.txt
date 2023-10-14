@@ -21,3 +21,11 @@ Success: Graphics initialised
 Success: Buki initialised
 
 
+2023:10:13:28h75m53s
+
+Success: SDL initialised
+Success: Graphics initialised
+Success: Buki initialised
+Button up : 1
+
+

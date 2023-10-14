@@ -14,9 +14,9 @@ using namespace buki;
 bool Engine::Init(const char* name, int w, int h)
 {
 #if _DEBUG
-	m_Console = new LogFile();
-#else
 	m_Console = new LogConsole();
+#else
+	m_Console = new LogFile();
 #endif
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		m_Console->LogError(SDL_GetError());
