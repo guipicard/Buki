@@ -23,6 +23,11 @@ bool buki::SDL_Graphics::Initialize(const std::string& title, int w, int h)
 	m_WindowWidth = w;
 	m_WindowHeight = h;
 
+	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+		buki::Engine::GetInstance()->Log().LogError(SDL_GetError());
+		return false;
+	}
+
 	m_Window = SDL_CreateWindow(title.c_str(), _x, _y, w, h, _flag);
 
 	if (!m_Window)

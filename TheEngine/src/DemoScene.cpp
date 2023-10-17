@@ -1,7 +1,7 @@
 #include "DemoScene.h"
 #include "Engine.h"
 #include "Square.h"
-#include "Controller.h";
+#include "Controller.h"
 #include "Atlas.h"
 
 

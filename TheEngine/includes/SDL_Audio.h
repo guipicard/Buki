@@ -1,8 +1,10 @@
 #pragma once
 
 #include "IAudio.h"
-#include "SDL_mixer.h"
 #include <map>
+
+typedef struct _Mix_Music Mix_Music;
+struct Mix_Chunk;
 
 namespace buki
 {

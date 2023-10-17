@@ -1,4 +1,5 @@
 #include "SDL_Audio.h"
+#include "SDL_mixer.h"
 
 buki::SDL_Audio::SDL_Audio()
 {

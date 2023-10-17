@@ -12,35 +12,35 @@ void SdlInput::Update()
 		case SDL_QUIT:
 			m_IsRunning = false;
 			break;
-			/*case SDL_KEYUP:
-				m_MyKeyboard[_event.key.keysym.scancode] = false;
-				break;
-			case SDL_KEYDOWN:
-				m_MyKeyboard[_event.key.keysym.scancode] = true;
-				break;*/
 		case SDL_MOUSEBUTTONDOWN:
 			SDL_MouseButtonEvent _buttonDown = _event.button;
 			m_MouseStates[_buttonDown.button - 1] = true;
-			SDL_Log("Button down : %d)", _buttonDown.button);
-			SDL_Log("at (%d, %d)", _buttonDown.x, _buttonDown.y);
+			Engine::GetInstance()->Log().LogMessage("Button up : " + std::to_string(_buttonDown.button));
+			Engine::GetInstance()->Log().LogMessage("at (%d, %d)" + std::to_string(_buttonDown.x) + std::to_string(_buttonDown.y));
 			break;
 		case SDL_MOUSEBUTTONUP:
 			SDL_MouseButtonEvent _buttonUp = _event.button;
 			m_MouseStates[_buttonUp.button - 1] = false;
 			Engine::GetInstance()->Log().LogMessage("Button up : " + std::to_string(_buttonUp.button));
-			//SDL_Log("at (%d, %d)", _buttonUp.x, _buttonUp.y);
+			Engine::GetInstance()->Log().LogMessage("at (%d, %d)" + std::to_string(_buttonUp.x) + std::to_string(_buttonUp.y));
 			break;
 		case SDL_MOUSEMOTION:
 			SDL_MouseMotionEvent _motion = _event.motion;
 			m_MouseX = _motion.x;
 			m_MouseY = _motion.y;
-			//SDL_Log("%d, %d", _motion.x, _motion.y);
 			break;
 
 		}
 	}
-
 	m_KeyStates = SDL_GetKeyboardState(nullptr);
+#if _DEBUG
+	if (IsKeyDown(EKey::ESCAPE))
+	{
+		SDL_Event quitEvent;
+		quitEvent.type = SDL_QUIT;
+		SDL_PushEvent(&quitEvent);
+	}
+#endif
 }
 
 bool buki::SdlInput::IsKeyPressed(EKey keycode)

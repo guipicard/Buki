@@ -1,22 +1,33 @@
 #include "LogFile.h"
-#include <ctime>
+//#include <ctime>
+#include <time.h>
+#include <SDL_error.h>
+#include <SDL.h>
 
 
 buki::LogFile::LogFile()
 {
 	 MyFile.open("./assets/LogFile.txt", std::ios_base::app);
-	 time_t now = time(0);
+	 __time64_t longTime = time(NULL);
+	 struct tm newTime;
 
-	 std::cout << "Number of sec since January 1,1970 is:: " << now << std::endl;
 
-	 tm* ltm = localtime(&now);
+	 errno_t err = _localtime64_s(&newTime, &longTime);
 
-	 int year = 1900 + ltm->tm_year;
-	 int mounth = 1 + ltm->tm_mon;
-	 int day = ltm->tm_mday;
-	 int hour = 5 + ltm->tm_hour;
-	 int min = 30 + ltm->tm_min;
-	 int sec = ltm->tm_sec;
+	 if (err)
+	 {
+		 LogError("Invalid argument to _localtime64_s.");
+		 SDL_Event quitEvent;
+		 quitEvent.type = SDL_QUIT;
+		 SDL_PushEvent(&quitEvent);
+	 }
+
+	 int year = 1900 + newTime.tm_year;
+	 int mounth = 1 + newTime.tm_mon;
+	 int day = newTime.tm_mday;
+	 int hour = 5 + newTime.tm_hour;
+	 int min = 30 + newTime.tm_min;
+	 int sec = newTime.tm_sec;
 	 MyFile << year << ":" << mounth << ":" << day << ":" << hour << "h" << min << "m" << sec << "s" << "\n" << std::endl;
 }
 
@@ -29,6 +40,11 @@ buki::LogFile::~LogFile()
 void buki::LogFile::LogError(std::string _text)
 {
 	MyFile << "ERROR: " << _text << std::endl;
+}
+
+void buki::LogFile::LogSdlError()
+{
+	MyFile << SDL_GetError() << std::endl;
 }
 
 void buki::LogFile::LogWarning(std::string _text)

@@ -58,14 +58,16 @@ namespace buki
 		T* cmp = new T(this);
 		m_ComponentByType.emplace(&typeid(T), cmp);
 
-		if constexpr (std::is_base_of_v<IDrawable, T>)
+		IDrawable* drawable = dynamic_cast<IDrawable*>(cmp);
+		if (drawable != nullptr) 
 		{
-			m_Drawable.push_back(cmp);
+			m_Drawable.push_back(drawable);
 		}
 
-		if constexpr (std::is_base_of_v<IUpdatable, T>)
+		IUpdatable* updatable = dynamic_cast<IUpdatable*>(cmp);
+		if (updatable != nullptr)
 		{
-			m_Updatable.push_back(cmp);
+			m_Updatable.push_back(updatable);
 		}
 		return cmp;
 	}

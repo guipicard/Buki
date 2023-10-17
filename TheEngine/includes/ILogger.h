@@ -9,6 +9,7 @@ namespace buki {
 	public:
 		virtual ~ILogger() = default;
 		virtual void LogError(std::string _text) = 0;
+		virtual void LogSdlError() = 0;
 		virtual void LogWarning(std::string _text) = 0;
 		virtual void LogSuccess(std::string _text) = 0;
 		virtual void LogMessage(std::string _text) = 0;

@@ -1,5 +1,4 @@
 #include "Engine.h"
-#include <SDL.h>
 #include "SDLInput.h"
 #include "LogConsole.h"
 #include "LogFile.h"
@@ -18,16 +17,12 @@ bool Engine::Init(const char* name, int w, int h)
 #else
 	m_Console = new LogFile();
 #endif
-	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		m_Console->LogError(SDL_GetError());
-		return false;
-	}
 	m_Console->LogSuccess("SDL initialised");
 
 	m_Graphics = new SDL_Graphics();
 	if (!m_Graphics)
 	{
-		m_Console->LogError(SDL_GetError());
+		m_Console->LogSdlError();
 		return false;
 	}
 	if (!m_Graphics->Initialize(name, w, h))
@@ -96,16 +91,6 @@ void Engine::ProcessInput(void)
 
 void Engine::Update(float dt)
 {
-#if _DEBUG
-	if (Input().IsKeyDown(EKey::ESCAPE))
-	{
-		SDL_Event quitEvent;
-		quitEvent.type = SDL_QUIT;
-
-		// Push the SDL_QUIT event onto the event queue
-		SDL_PushEvent(&quitEvent);
-	}
-#endif
 	m_World->Update(dt);
 	if (Input().IsKeyDown(EKey::RETURN))
 	{

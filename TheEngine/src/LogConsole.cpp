@@ -1,6 +1,7 @@
 #include "LogConsole.h"
 #include <cstdlib>
 #include <iostream>
+#include <SDL_error.h>
 
 buki::LogConsole::LogConsole()
 {
@@ -20,6 +21,11 @@ void buki::LogConsole::LogError(std::string _text)
 	std::cout << "ERROR: " << _text << std::endl;
 	SetConsoleTextAttribute(hConsole, static_cast<int>(EColor::ECOLOR_WHITE));
 
+}
+
+void buki::LogConsole::LogSdlError()
+{
+	LogError(SDL_GetError());
 }
 
 void buki::LogConsole::LogWarning(std::string _text)
