@@ -4,7 +4,7 @@
 #include <map>
 #include <vector>
 #include "Entity.h"
-#include "IScene.h"
+#include "BaseScene.h"
 
 namespace buki
 {
@@ -16,6 +16,7 @@ namespace buki
 		virtual void Update(float dt) = 0;
 		virtual void Render() = 0;
 		virtual void Destroy() = 0;
+		virtual Entity* Create(const std::string& name) = 0;
 		virtual Entity* Create(const std::string& name, float _x, float _y, float _h, float _w) = 0;
 		virtual void Add(Entity* _entity) = 0;
 		virtual void Remove(Entity* _entity) = 0;

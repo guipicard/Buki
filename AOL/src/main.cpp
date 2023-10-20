@@ -2,13 +2,18 @@
 #define VC_EXTRALEAN
 #include<Windows.h>
 #include "Engine.h"
+#include "DemoScene.h"
+
+using namespace buki;
+
+buki::Engine* theEngine = buki::Engine::GetInstance();
 
 void InitGameplay(void) {
-
+	theEngine->World().Register("Demo", new DemoScene());
+	theEngine->World().Load("Demo");
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT) {
-	buki::Engine* theEngine = buki::Engine::GetInstance();
 	if (theEngine->Init("TestGame", 800, 608)) {
 		InitGameplay();
 		theEngine->Start();

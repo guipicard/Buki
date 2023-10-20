@@ -7,6 +7,7 @@ project.addFile("AOL/**")
 project.setDebugDir("Deployment")
 
 project.addIncludeDir("./TheEngine/includes");
+project.addIncludeDir("./AOL/includes");
 
 project.flatten()
 

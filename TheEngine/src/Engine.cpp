@@ -4,7 +4,7 @@
 #include "LogFile.h"
 #include "SDL_Graphics.h"
 #include "WorldService.h"
-#include "DemoScene.h"
+#include "BaseScene.h"
 #include "SDL_Audio.h"
 #include <vld.h>
 
@@ -35,12 +35,6 @@ bool Engine::Init(const char* name, int w, int h)
 	m_World = new WorldService();
 	m_Audio = new SDL_Audio();
 
-	m_World->Register("Demo", new DemoScene());
-	m_World->Load("Demo");
-	
-	mumu = m_Audio->LoadMusic("./audio/mixkit-driving-ambition-32.mp3");
-	sam = m_Audio->LoadSound("./audio/mixkit-arcade-retro-game-over-213.wav");
-
 	m_IsInit = true;
 	return m_IsInit;
 }
@@ -52,8 +46,6 @@ void Engine::Start(void) {
 		}
 	}
 	m_Console->LogSuccess("Buki initialised");
-
-	Audio().PlayMusic(mumu);
 
 	const float MS_PER_FRAME = 16.0f; // 16 to get 60 fps
 	Input().m_IsRunning = true;
@@ -92,10 +84,6 @@ void Engine::ProcessInput(void)
 void Engine::Update(float dt)
 {
 	m_World->Update(dt);
-	if (Input().IsKeyDown(EKey::RETURN))
-	{
-		Audio().PlaySFX(sam);
-	}
 }
 
 void Engine::Render(void)

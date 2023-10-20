@@ -20,6 +20,7 @@ namespace buki
 		virtual IScene* GetCurrentScene() override { return m_CurrentScene; }
 		virtual void SetCurrentSceneName(std::string _name) override { m_Name = _name; }
 		virtual std::string GetCurrentSceneName() override { return m_Name; }
+		Entity* Create(const std::string& name) override;
 		Entity* Create(const std::string& name, float _x, float _y, float _h, float _w) override;
 
 	private:

@@ -1,6 +1,5 @@
 #include "Entity.h"
-#include "Component.h"
-#include "IGraphics.h"
+#include "Atlas.h"
 
 buki::Entity::Entity()
 	: Entity("new Entity", 0.0f, 0.0f, 0.0f, 0.0f)

@@ -1,6 +1,5 @@
 #pragma once
 #include "IInput.h"
-#include "IShape.h"
 #include "ILogger.h"
 #include "IGraphics.h"
 #include "IWorld.h"
@@ -45,9 +44,6 @@ namespace buki {
 		IAudio* m_Audio = nullptr;
 	private:
 		bool m_IsInit = false;
-
-	private:
-		size_t mumu = size_t();
-		size_t sam = size_t();
+		
 	};
 }

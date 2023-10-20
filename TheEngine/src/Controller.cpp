@@ -39,7 +39,4 @@ void buki::Controller::Destroy()
 {
 }
 
-buki::IInput& buki::Component::Input() const
-{
-	return buki::Engine::GetInstance()->Input();
-}
+

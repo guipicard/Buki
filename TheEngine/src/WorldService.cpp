@@ -2,9 +2,6 @@
 
 buki::WorldService::~WorldService()
 {
-	Unload();
-	delete& m_EntityInWorld;
-	delete& m_EntityMap;
 }
 
 void buki::WorldService::Start()
@@ -32,7 +29,6 @@ void buki::WorldService::Render()
 void buki::WorldService::Destroy()
 {
 	Unload();
-
 	for (std::map<std::string, IScene*>::iterator it = m_Scenes.begin(); it != m_Scenes.end(); ++it)
 	{
 		if (it->second != nullptr)
@@ -41,6 +37,8 @@ void buki::WorldService::Destroy()
 			it->second = nullptr;
 		}
 	}
+	delete& m_EntityInWorld;
+	delete& m_EntityMap;
 	delete& m_Scenes;
 }
 
@@ -52,13 +50,6 @@ void buki::WorldService::Add(Entity* _entity)
 
 void buki::WorldService::Remove(Entity* _entity)
 {
-	/*for (auto it = m_EntityInWorld.begin(); it != m_EntityInWorld.end(); ++it)
-	{
-		if (*it == _entity)
-		{
-			break;
-		}
-	}*/
 	m_EntityMap.erase(_entity->GetName());
 }
 
@@ -101,6 +92,11 @@ void buki::WorldService::Register(const std::string& name, IScene* scene)
 	{
 		m_Scenes[name] = scene;
 	}
+}
+
+buki::Entity* buki::WorldService::Create(const std::string& name)
+{
+	return Create(name, 0, 0, 1, 1);
 }
 
 buki::Entity* buki::WorldService::Create(const std::string& name, float _x, float _y, float _h, float _w)
