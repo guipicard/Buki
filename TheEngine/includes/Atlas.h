@@ -15,7 +15,7 @@ namespace buki
 		void RenderFrame();
 		void DrawTiles(int tileW, int tileH);
 		void Draw();
-		TLayer CreateLayerFromCVS(std::vector<int> data);
+		TLayer CreateLayerFromCSV(std::vector<int> data);
 		void AddLayer(std::string _name, TLayer _layer);
 		void SetLayerLength(int _length) { m_LayerLenght = _length; }
 	private:

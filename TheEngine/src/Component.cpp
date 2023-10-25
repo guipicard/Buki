@@ -1,6 +1,11 @@
 #include "Component.h"
 #include "Engine.h"
 
+buki::Component::Component(Entity* _entity)
+	: m_Entity(_entity) 
+{
+}
+
 buki::IInput& buki::Component::Input() const
 {
 	return buki::Engine::GetInstance()->Input();

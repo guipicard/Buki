@@ -7,8 +7,8 @@ buki::Atlas::Atlas(Entity* _entity) : Sprite(_entity) {}
 void buki::Atlas::LoadTileset(const std::string& image, int tileW, int tileH, int col, int count)
 {
 	m_AssetPath = image;
-	m_Id = buki::Engine::GetInstance()->Graphics().LoadTexture(m_AssetPath);
-
+	m_Id = Graphics().LoadTexture(m_AssetPath);
+	if (!m_Id)
 	for (int i = 0; i < count; i++)
 	{
 		int _y = i / col;
@@ -58,7 +58,7 @@ void buki::Atlas::Draw()
 	DrawTiles(m_TileWidth, m_TileHeight);
 }
 
-TLayer buki::Atlas::CreateLayerFromCVS(std::vector<int> data)
+TLayer buki::Atlas::CreateLayerFromCSV(std::vector<int> data)
 {
 	TLayer newLayer = TLayer();
 	std::vector<int> newRow = std::vector<int>();
@@ -76,5 +76,8 @@ TLayer buki::Atlas::CreateLayerFromCVS(std::vector<int> data)
 
 void buki::Atlas::AddLayer(std::string _name, TLayer _layer)
 {
-	m_Tilemap.emplace(_name, _layer);
+	if (m_Tilemap.count(_name) == 0)
+	{
+		m_Tilemap.emplace(_name, _layer);
+	}
 }

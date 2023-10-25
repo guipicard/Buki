@@ -23,7 +23,7 @@ void buki::Square::Draw()
 	myRect.h = m_H;
 	myRect.w = m_W;
 	const buki::Color myColor = m_Color;
-	buki::Engine::GetInstance()->Graphics().DrawRect(myRect, myColor);
+	Graphics().DrawRect(myRect, myColor);
 }
 
 void buki::Square::Destroy()

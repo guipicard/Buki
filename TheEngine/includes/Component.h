@@ -13,7 +13,7 @@ namespace buki
 		Component() = default;
 	public:
 		virtual ~Component() {}
-		Component(Entity* _entity) : m_Entity(_entity) {}
+		Component(Entity* _entity);
 		virtual void Start() {}
 		virtual void Destroy() {}
 		virtual IInput& Input() const;
