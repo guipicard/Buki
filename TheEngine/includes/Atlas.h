@@ -1,8 +1,9 @@
 #pragma once
 #include "Sprite.h"
+#include <cstdlib>
 
 typedef std::vector<std::vector<int>> TLayer;
-typedef std::map<std::string, TLayer> TTilemap;
+typedef std::vector<std::pair<std::string, TLayer>> TTilemap;
 typedef std::vector<RectI> TTileset;
 
 namespace buki
@@ -12,13 +13,15 @@ namespace buki
 	public:
 		Atlas(Entity* _entity);
 		void LoadTileset(const std::string& image, int tileW, int tileH, int col, int count);
+		void AddMapFile(std::string _path);
 		void RenderFrame();
 		void DrawTiles(int tileW, int tileH);
 		void Draw();
-		TLayer CreateLayerFromCSV(std::vector<int> data);
+		TLayer CreateLayerFromCSV(std::string _file);
 		void AddLayer(std::string _name, TLayer _layer);
 		void SetLayerLength(int _length) { m_LayerLenght = _length; }
 	private:
+		std::string m_MapPath = "";
 		TTilemap m_Tilemap;
 		TTileset m_Tileset;
 		int m_LayerLenght = 0;
