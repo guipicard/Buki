@@ -6,7 +6,7 @@
 #include "WorldService.h"
 #include "BaseScene.h"
 #include "SDL_Audio.h"
-#include <vld.h>
+//#include <vld.h>
 
 using namespace buki;
 
