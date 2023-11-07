@@ -298,6 +298,27 @@ void buki::SDL_Graphics::GetTextSize(const std::string& text, size_t fontId, int
 	}
 }
 
+void buki::SDL_Graphics::DrawCircle(float x, float y, float r, const Color& color)
+{
+	float tx = x;
+	float ty = y;
+	double angle = 0.0;
+	while (angle < 6.3) {
+		tx = static_cast<float>(x + r * cos(angle));
+		ty = static_cast<float>(y + r * sin(angle));
+		DrawPoint(tx, ty, color);
+		angle += 0.01;
+	}
+}
+
+void buki::SDL_Graphics::DrawPoint(float x, float y, const Color& color)
+{
+	const int _x = static_cast<int>(x);
+	const int _y = static_cast<int>(y);
+	SDL_SetRenderDrawColor(m_Gfx, color.r, color.g, color.b, color.a);
+	SDL_RenderDrawPoint(m_Gfx, _x, _y);
+}
+
 void buki::SDL_Graphics::GetWindowSize(int* w, int* h)
 {
 	SDL_GetWindowSize(m_Window, w, h);

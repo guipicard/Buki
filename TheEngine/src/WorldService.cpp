@@ -96,7 +96,7 @@ void buki::WorldService::Register(const std::string& name, IScene* scene)
 
 buki::Entity* buki::WorldService::Create(const std::string& name)
 {
-	return Create(name, 0, 0, 1, 1);
+	return Create(name, 0.0f, 0.0f, 1.0f, 1.0f);
 }
 
 buki::Entity* buki::WorldService::Create(const std::string& name, float _x, float _y, float _h, float _w)

@@ -19,9 +19,7 @@ void DemoScene::Load()
 	m_Entity1 = Instantiate("map");
 	m_Entity1->AddComponent<Atlas>();
 	Atlas* _atlas = m_Entity1->GetComponent<Atlas>();
-	_atlas->SetPath("./assets/env.png");
 	_atlas->LoadTileset("./assets/env.png", 32, 32, 36, 540);
-	_atlas->SetLayerLength(25);
 	TLayer waterLayer = _atlas->CreateLayerFromCSV("./assets/AOL_Eau.csv");
 	TLayer groundLayer = _atlas->CreateLayerFromCSV("./assets/AOL_Ground.csv");
 	TLayer treesLayer = _atlas->CreateLayerFromCSV("./assets/AOL_Trees.csv");

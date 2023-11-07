@@ -30,6 +30,8 @@ namespace buki {
 		virtual size_t LoadFont(const std::string& filename, int fontSize) override;
 		virtual void DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color) override;
 		virtual void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) override;
+		virtual void DrawCircle(float x, float y, float r, const Color& color) override;
+		virtual void DrawPoint(float x, float y, const Color& color) override;
 		virtual void GetWindowSize(int* w, int* h) override;
 	private:
 		SDL_Window* m_Window;

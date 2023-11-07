@@ -39,8 +39,7 @@ void buki::Sprite::Destroy()
 
 void buki::Sprite::SetPath(std::string path)
 {
-	m_AssetPath = path;
-	m_Id = buki::Engine::GetInstance()->Graphics().LoadTexture(m_AssetPath);
+	m_Id = buki::Engine::GetInstance()->Graphics().LoadTexture(path);
 	buki::Engine::GetInstance()->Graphics().GetTextureSize(m_Id, &m_Src.w, &m_Src.h);
 }
 

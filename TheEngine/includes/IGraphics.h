@@ -55,6 +55,8 @@ namespace buki {
 		virtual size_t LoadFont(const std::string& filename, int fontSize) = 0;
 		virtual void DrawString(const std::string& text, size_t fontId, float x, float y, const Color& color) = 0;
 		virtual void GetTextSize(const std::string& text, size_t fontId, int* w, int* h) = 0;
+		virtual void DrawCircle(float x, float y, float r, const Color& color) = 0;
+		virtual void DrawPoint(float x, float y, const Color& color) = 0;
 		virtual void GetWindowSize(int* w, int* h) = 0;
 	};
 

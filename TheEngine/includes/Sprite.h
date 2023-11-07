@@ -18,7 +18,6 @@ namespace buki
 		void SetSrc(RectI _src);
 		void SetDst(RectF _dst);
 	protected:
-		std::string m_AssetPath = "";
 		size_t m_Id = 0;
 		RectI m_Src;
 		RectF m_Dst;

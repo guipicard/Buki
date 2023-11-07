@@ -6,7 +6,7 @@
 
 using namespace buki;
 
-buki::Engine* theEngine = buki::Engine::GetInstance();
+Engine* theEngine = Engine::GetInstance();
 
 void InitGameplay(void) {
 	theEngine->World().Register("Demo", new DemoScene());
