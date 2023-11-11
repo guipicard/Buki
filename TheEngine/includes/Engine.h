@@ -4,6 +4,7 @@
 #include "IGraphics.h"
 #include "IWorld.h"
 #include "IAudio.h"
+#include "ICollision.h"
 
 namespace buki {
 	class Engine final {
@@ -31,6 +32,7 @@ namespace buki {
 		IGraphics& Graphics() { return *m_Graphics; }
 		IWorld& World() { return *m_World; }
 		IAudio& Audio() { return *m_Audio; }
+		ICollision& Collision() { return *m_Collision; }
 	private:
 		void ProcessInput(void);
 		void Update(float dt);
@@ -42,6 +44,7 @@ namespace buki {
 		IGraphics* m_Graphics = nullptr;
 		IWorld* m_World = nullptr;
 		IAudio* m_Audio = nullptr;
+		ICollision* m_Collision = nullptr;
 	private:
 		bool m_IsInit = false;
 		

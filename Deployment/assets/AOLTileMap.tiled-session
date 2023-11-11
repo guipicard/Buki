@@ -12,8 +12,8 @@
             "scale": 1,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 395,
-                "y": 241
+                "x": 400,
+                "y": 303.5
             }
         },
         "AOL.tmx#env": {
@@ -23,8 +23,8 @@
             "scale": 0.988,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 398.78542510121457,
-                "y": 302.63157894736844
+                "x": 399.7975708502024,
+                "y": 303.13765182186233
             }
         },
         "sans titre.tmx#env": {
@@ -32,9 +32,11 @@
             "scaleInEditor": 1
         }
     },
+    "last.exportedFilePath": "C:/Users/guill/Desktop/School/Session4/Engin/Buki/Deployment/assets",
     "last.externalTilesetPath": "C:/Users/guill/Desktop/School/Session4/Engin/Buki/Deployment/assets",
     "last.imagePath": "C:/Users/guill/Desktop/School/Session4/Engin/Buki/Deployment/assets",
     "map.height": 19,
+    "map.lastUsedExportFilter": "Fichiers CSV (*.csv)",
     "map.lastUsedFormat": "tmx",
     "map.width": 25,
     "openFiles": [

@@ -6,6 +6,7 @@
 #include "WorldService.h"
 #include "BaseScene.h"
 #include "SDL_Audio.h"
+#include "CollisionService.h"
 #include <vld.h>
 
 using namespace buki;
@@ -34,6 +35,7 @@ bool Engine::Init(const char* name, int w, int h)
 	m_Input = new SdlInput();
 	m_World = new WorldService();
 	m_Audio = new SDL_Audio();
+	m_Collision = new CollisionService();
 
 	m_IsInit = true;
 	return m_IsInit;
@@ -84,6 +86,7 @@ void Engine::ProcessInput(void)
 void Engine::Update(float dt)
 {
 	m_World->Update(dt);
+	m_Collision->Update(dt);
 }
 
 void Engine::Render(void)
@@ -121,5 +124,10 @@ void Engine::Shutdown(void)
 	{
 		m_World->Destroy();
 		delete m_World;
+	}
+
+	if (m_Collision != nullptr)
+	{
+		delete m_Collision;
 	}
 }

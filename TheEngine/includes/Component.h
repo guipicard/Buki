@@ -4,6 +4,8 @@
 #include "ILogger.h"
 #include "IGraphics.h"
 #include "IAudio.h"
+#include "ICollision.h"
+#include "IWorld.h"
 
 namespace buki
 {
@@ -20,6 +22,8 @@ namespace buki
 		virtual ILogger& Log() const;
 		virtual IGraphics& Graphics() const;
 		virtual IAudio& Audio() const;
+		virtual ICollision& Collision() const;
+		virtual IWorld& World() const;
 
 	protected:
 		Entity* m_Entity;

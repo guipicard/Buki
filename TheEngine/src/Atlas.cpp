@@ -1,3 +1,4 @@
+
 #include "Atlas.h"
 #include "Engine.h"
 
@@ -7,8 +8,7 @@
 #include <vector>
 #include <sstream>
 
-
-buki::Atlas::Atlas(Entity* _entity) : Sprite(_entity) {}
+buki::Atlas::Atlas(Entity* _entity) : Component(_entity) {}
 
 void buki::Atlas::LoadTileset(const std::string& image, int tileW, int tileH, int col, int count)
 {
@@ -102,6 +102,26 @@ void buki::Atlas::AddLayer(std::string _name, TLayer _layer)
 	{
 		if ((it)->first == _name) return;
 	}
+
+	std::vector<RectI> layerColliders;
+	for (int y = 0; y < _layer.size(); y++)
+	{
+		for (int x = 0; x < _layer[y].size(); x++)
+		{
+			int _index = _layer[y][x] - 1;
+			if (_index >= 0)
+			{
+				RectI collider{
+				x * m_TileWidth,
+				y * m_TileHeight,
+				m_TileWidth,
+				m_TileHeight
+				};
+				layerColliders.push_back(collider);
+			}
+		}
+	}
+	Collision().AddLayer(_name, layerColliders);
 	m_Tilemap.push_back(std::pair<std::string, TLayer>(_name, _layer));
 
 }

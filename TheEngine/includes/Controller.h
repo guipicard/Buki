@@ -2,8 +2,10 @@
 
 #include "Component.h"
 
-namespace buki 
+
+namespace buki
 {
+	class Animation;
 	class Controller : public Component, public IUpdatable
 	{
 	public:
@@ -13,5 +15,16 @@ namespace buki
 		virtual void Start() override;
 		virtual void Update(float dt) override;
 		virtual void Destroy()  override;
+		void LockController() { m_Lock = true; }
+	public:
+		void SetAnimation(Animation* _anim) { m_Animation = _anim; }
+	private:
+		Animation* m_Animation = m_Entity->GetComponent<Animation>();
+		std::string m_Direction = "down";
+		std::string m_State = "idle";
+		std::string m_CurrentAnim = "";
+		bool m_LockX = false;
+		bool m_LockY = false;
+		bool m_Lock = false;
 	};
 }

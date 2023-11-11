@@ -1,4 +1,5 @@
 #include "WorldService.h"
+#include "Engine.h"
 
 buki::WorldService::~WorldService()
 {
@@ -14,6 +15,17 @@ void buki::WorldService::Update(float dt)
 	for (auto entity : m_EntityInWorld)
 	{
 		entity->Update(dt);
+	}
+	if (buki::Engine::GetInstance()->Input().IsKeyDown(EKey::RETURN))
+	{
+		if (m_CurrentScene == m_Scenes["Menu"])
+		{
+			Load("Game");
+		}
+		else
+		{
+			Load("Menu");
+		}
 	}
 
 }
@@ -46,11 +58,20 @@ void buki::WorldService::Add(Entity* _entity)
 {
 	m_EntityInWorld.push_back(_entity);
 	m_EntityMap.emplace(_entity->GetName(), _entity);
+
 }
 
 void buki::WorldService::Remove(Entity* _entity)
 {
+
 	m_EntityMap.erase(_entity->GetName());
+	m_EntityInWorld.erase(std::remove(m_EntityInWorld.begin(), m_EntityInWorld.end(), _entity), m_EntityInWorld.end());
+	if (_entity != nullptr)
+	{
+		_entity->Destroy();
+		delete _entity;
+		_entity = nullptr;
+	}
 }
 
 void buki::WorldService::Find()

@@ -13,13 +13,16 @@ buki::Entity::Entity(std::string _name, float _x, float _y, float _w, float _h)
 	, m_W(_w)
 	, m_H(_h)
 {
+	m_PlayerOldPos = GetPos();
 }
 
 buki::Entity::~Entity()
 {
+	Destroy();
 	delete& m_ComponentByType;
 	delete& m_Drawable;
 	delete& m_Updatable;
+
 }
 
 void buki::Entity::Draw()

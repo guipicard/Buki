@@ -1,3 +1,4 @@
+
 #include "Component.h"
 #include "Engine.h"
 
@@ -24,4 +25,14 @@ buki::IGraphics& buki::Component::Graphics() const
 buki::IAudio& buki::Component::Audio() const
 {
 	return buki::Engine::GetInstance()->Audio();
+}
+
+buki::ICollision& buki::Component::Collision() const
+{
+	return buki::Engine::GetInstance()->Collision();
+}
+
+buki::IWorld& buki::Component::World() const
+{
+	return buki::Engine::GetInstance()->World();
 }

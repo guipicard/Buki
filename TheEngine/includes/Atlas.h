@@ -8,7 +8,7 @@ typedef std::vector<RectI> TTileset;
 
 namespace buki
 {
-	class Atlas : public Sprite
+	class Atlas : public Component, public IDrawable
 	{
 	public:
 		Atlas(Entity* _entity);
@@ -19,6 +19,7 @@ namespace buki
 		TLayer CreateLayerFromCSV(std::string _file);
 		void AddLayer(std::string _name, TLayer _layer);
 	private:
+		size_t m_Id = 0;
 		TTilemap m_Tilemap;
 		TTileset m_Tileset;
 		int m_TileWidth = 0;

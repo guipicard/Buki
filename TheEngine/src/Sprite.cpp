@@ -1,6 +1,5 @@
 #include "Sprite.h"
 #include "Engine.h"
-#include "SDL_Graphics.h"
 
 buki::Sprite::Sprite(Entity* _entity)
 	: Component(_entity)
@@ -30,7 +29,7 @@ void buki::Sprite::Draw()
 	m_Dst.x = pos.x;
 	m_Dst.y = pos.y;
 	const Flip& flip = Flip();
-	buki::Engine::GetInstance()->Graphics().DrawTexture(m_Id, m_Src, m_Dst, 0.0, flip, Color::White);
+	Graphics().DrawTexture(m_Id, m_Src, m_Dst, 0.0, flip, Color::White);
 }
 
 void buki::Sprite::Destroy()

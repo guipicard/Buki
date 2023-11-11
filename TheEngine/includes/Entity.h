@@ -34,6 +34,8 @@ namespace buki
 		void SetSize(Point2D _size) { m_W = _size.x; m_H = _size.y; }
 		Point2D GetPos() { return Point2D(m_X, m_Y); }
 		Point2D GetSize() { return Point2D(m_W, m_H); }
+		void SetOldPos(Point2D _pos) { m_PlayerOldPos = _pos; }
+		Point2D GetOldPos() { return m_PlayerOldPos; }
 		std::string GetName() { return m_Name; }
 		float GetSpeed() { return m_Speed; }
 		void SetSpeed(float speed) { m_Speed = speed; }
@@ -49,6 +51,7 @@ namespace buki
 		float m_W = 0.0f;
 		float m_H = 0.0f;
 		std::string m_Name;
+		Point2D m_PlayerOldPos;
 	};
 
 	template<typename T>
