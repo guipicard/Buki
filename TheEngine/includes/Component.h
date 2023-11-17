@@ -11,13 +11,15 @@ namespace buki
 {
 	class Component
 	{
-	private:
-		Component() = default;
 	public:
-		virtual ~Component() {}
+		virtual ~Component() = default;
+		Component();
 		Component(Entity* _entity);
+
 		virtual void Start() {}
 		virtual void Destroy() {}
+
+	protected:
 		virtual IInput& Input() const;
 		virtual ILogger& Log() const;
 		virtual IGraphics& Graphics() const;
@@ -25,7 +27,6 @@ namespace buki
 		virtual ICollision& Collision() const;
 		virtual IWorld& World() const;
 
-	protected:
-		Entity* m_Entity;
+		Entity* m_Entity = nullptr;
 	};
 }

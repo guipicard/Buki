@@ -7,19 +7,16 @@
 
 using namespace buki;
 
-Engine* theEngine = Engine::GetInstance();
-
 void InitGameplay(void) {
-	theEngine->World().Register("Game", new GameScene());
-	theEngine->World().Register("Menu", new MenuScene());
-	theEngine->World().Load("Menu");
+	Engine::GetInstance()->World().Register("Game", new GameScene());
+	Engine::GetInstance()->World().Register("Menu", new MenuScene());
+	Engine::GetInstance()->World().Load("Menu");
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT) {
-	if (theEngine->Init("TestGame", 800, 608)) {
+	if (Engine::GetInstance()->Init("TestGame", 800, 608)) {
 		InitGameplay();
-		theEngine->Start();
+		Engine::GetInstance()->Start();
 	}
-	delete theEngine;
 	return 0;
 }

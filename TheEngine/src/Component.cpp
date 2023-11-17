@@ -2,6 +2,11 @@
 #include "Component.h"
 #include "Engine.h"
 
+buki::Component::Component()
+	: Component(nullptr)
+{
+}
+
 buki::Component::Component(Entity* _entity)
 	: m_Entity(_entity) 
 {

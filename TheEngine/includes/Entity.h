@@ -1,12 +1,13 @@
 #pragma once
-#include <string>
-#include <map>
-#include <vector>
-#include "Component.h"
 #include "IUpdatable.h"
 #include "IDrawable.h"
+#include "Component.h"
 #include "Point2D.h"
 #include "RectF.h"
+#include <cstdlib>
+#include <string>
+#include <vector>
+#include <map>
 
 namespace buki
 {
@@ -19,7 +20,6 @@ namespace buki
 		virtual void Start();
 		template<typename T> inline T* AddComponent();
 		template<typename T> inline T* GetComponent();
-		template<typename T> inline std::vector<T*> GetAllComponents();
 		void Draw();
 		void Update(float dt);
 		void Destroy();
@@ -50,7 +50,7 @@ namespace buki
 	private:
 		std::vector<IDrawable*>& m_Drawable = *new std::vector<IDrawable*>();
 		std::vector<IUpdatable*>& m_Updatable = *new std::vector<IUpdatable*>();
-		std::multimap<const type_info*, Component*>& m_ComponentByType = *new std::multimap<const type_info*, Component*>();
+		std::map<const type_info*, Component*>& m_ComponentByType = *new std::map<const type_info*, Component*>();
 
 	private:
 		std::string m_Name;
@@ -93,20 +93,4 @@ namespace buki
 		}
 		return nullptr;
 	}
-
-	template<typename T>
-	inline std::vector<T*> Entity::GetAllComponents()
-	{
-		std::vector<T*> results;
-		const type_info* type = &typeid(T);
-		for (auto it : m_ComponentByType)
-		{
-			if (it.first == type)
-			{
-				results.push_back(dynamic_cast<T*>(it.second));
-			}
-		}
-		return results;
-	}
-
 }
