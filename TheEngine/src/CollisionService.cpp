@@ -1,92 +1,106 @@
 #include "CollisionService.h"
-#include "Engine.h"
-#include "Entity.h"
-#include "Controller.h"
-#include "Animation.h"
+#include <math.h>
+#include <Entity.h>
 
-buki::CollisionService::CollisionService()
+bool buki::CollisionService::CheckPointCircle(float px, float py, float cx, float cy, float cr)
 {
+    float vecX = px - cx;
+    float vecY = py - cy;
+    float d = sqrtf((vecX * vecX) + (vecY * vecY));
+
+    return d <= cr;
 }
 
-buki::CollisionService::~CollisionService()
+bool buki::CollisionService::CheckCircles(float c1x, float c1y, float c1r, float c2x, float c2y, float c2r)
 {
-	if (m_Player != nullptr)
-	{
-		m_Player = nullptr;
-	}
+    float vecX = c1x - c2x;
+    float vecY = c1y - c2y;
+    float d = sqrtf((vecX * vecX) + (vecY * vecY));
+
+    return d <= (c1r + c2r);
 }
 
-bool buki::CollisionService::BoxColliding(std::string _name, int px, int py, int pw, int ph)
+bool buki::CollisionService::CheckPointRect(float px, float py, float rx, float ry, float rw,
+    float rh)
 {
-	auto it = m_TileMap.find(_name);
-	if (it != m_TileMap.end())
-	{
-		// Iterate through the vector of rectangles for the given _name
-		for (const RectI& rect : it->second)
-		{
-			// Check for collision with each rectangle
-			if ((px < rect.x + rect.w &&
-				px + pw > rect.x &&
-				py < rect.y + rect.h &&
-				py + ph > rect.y))
-			{
-				// Collision detected
-				return true;
-			}
-		}
-	}
-
-	// No collision detected
-	return false;
+    return px >= rx && py >= ry && px <= (rx + rw) && py <= (ry + rh);
 }
 
-void buki::CollisionService::AddLayer(std::string _name, std::vector<RectI> _layer)
+bool buki::CollisionService::CheckRects(float r1x, float r1y, float r1w, float r1h, float r2x,
+    float r2y, float r2w, float r2h)
 {
-	m_TileMap.emplace(_name, _layer);
+    return (r1x <= (r2x + r2w) && (r1x + r1w) >= r2x && r1y <= (r2y + r2h) && (r1y + r1h) >= r2y);
 }
 
-void buki::CollisionService::Update(float dt)
+bool buki::CollisionService::CheckRectCircle(float rx, float ry, float rw, float rh, float cx, float cy, float cr)
 {
-	if (m_Player != nullptr)
-	{
-		Point2D pos = m_Player->GetPos();
-		Point2D size = m_Player->GetSize();
-		if (m_PlayerDead)
-		{
-			if (m_Player->GetComponent<Animation>()->IsStopped())
-			{
-				buki::Engine::GetInstance()->World().Remove(m_Player);
-				m_Player = nullptr;
-			}
-		}
-		else
-		{
-			if (BoxColliding("Walls", pos.x, pos.y, size.x, size.y) || BoxColliding("trees", pos.x, pos.y, size.x, size.y))
-			{
-				m_Player->SetPos(m_Player->GetOldPos());
-				buki::Engine::GetInstance()->Log().LogMessage("Collision");
-			}
-			else if (BoxColliding("water", pos.x, pos.y, size.x, size.y))
-			{
-				m_Player->GetComponent<Controller>()->LockController();
-				m_Player->GetComponent<Animation>()->Play("death", false);
-				m_PlayerDead = true;
-				m_Player = nullptr;
-			}
-			else
-			{
-				m_Player->SetOldPos(pos);
-			}
-		}
-	}
+    if (CheckPointRect(cx, cy, rx, ry, rw, rh))
+    {
+        return true;
+    }
+
+    float tx = cx;
+    float ty = cy;
+
+    if (tx < rx) tx = rx;
+    if (tx > rx + rw) tx = rx + rw;
+    if (ty < ry) ty = ry;
+    if (ty > ry + rh) ty = ry + rh;
+
+    return CheckPointCircle(tx, ty, cx, cy, cr);
 }
 
-void buki::CollisionService::Draw()
+void buki::CollisionService::AddToLayer(const std::string& layerName, Entity* entity)
 {
+    if (m_Layers.count(layerName) == 0)
+    {
+        m_Layers.emplace(layerName, std::vector<Entity*>());
+    }
+
+    m_Layers[layerName].push_back(entity);
 }
 
-void buki::CollisionService::AddPlayer(Entity* _player)
+bool buki::CollisionService::CollideWithLayer(Entity* entity, const std::string& layerName, Entity** other)
 {
-	m_Player = _player;
-	m_PlayerDead = false;
+    *other = nullptr;
+
+    if (m_Layers.count(layerName) > 0)
+    {
+        Point2D r1pos, r1size;
+        Point2D r2pos, r2size;
+
+        entity->GetPosition(&r1pos);
+        entity->GetSize(&r1size);
+
+        for (Entity* e : m_Layers[layerName])
+        {
+            e->GetPosition(&r2pos);
+            e->GetSize(&r2size);
+
+            if (CheckRects(r1pos.x, r1pos.y, r1size.x, r1size.y, r2pos.x, r2pos.y, r2size.x, r2size.y))
+            {
+                *other = e;
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void buki::CollisionService::Remove(Entity* entity)
+{
+    for (auto layer : m_Layers)
+    {
+        std::vector<Entity*>::iterator it = layer.second.begin();
+        while (it != layer.second.end())
+        {
+            if (*it == entity)
+            {
+                layer.second.erase(it);
+                return;
+            }
+            it++;
+        }
+    }
 }

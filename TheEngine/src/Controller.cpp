@@ -1,5 +1,4 @@
 #include "Controller.h"
-#include "Engine.h"
 #include "Animation.h"
 
 buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
@@ -12,7 +11,7 @@ void buki::Controller::Update(float dt)
 {
 	if (m_Entity->GetComponent<Animation>()->IsStopped())
 	{
-		buki::Engine::GetInstance()->World().Remove(m_Entity);
+		World().Remove(m_Entity);
 	}
 	if (m_Lock) return;
 	Point2D direction(0, 0);
@@ -87,11 +86,11 @@ void buki::Controller::Update(float dt)
 			}
 			break;
 		}
-		Point2D pos = m_Entity->GetPos();
-		float speed = m_Entity->GetSpeed();
+		Point2D pos;
+		m_Entity->GetPosition(&pos);
 
-		pos.x += direction.x * speed * dt;
-		pos.y += direction.y * speed * dt;
+		pos.x += direction.x * m_Speed * dt;
+		pos.y += direction.y * m_Speed * dt;
 
 		m_Entity->SetPos(pos);
 	}

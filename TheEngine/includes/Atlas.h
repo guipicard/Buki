@@ -4,7 +4,7 @@
 
 typedef std::vector<std::vector<int>> TLayer;
 typedef std::vector<std::pair<std::string, TLayer>> TTilemap;
-typedef std::vector<RectI> TTileset;
+typedef std::vector<buki::RectI> TTileset;
 
 namespace buki
 {

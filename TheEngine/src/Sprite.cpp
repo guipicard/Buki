@@ -6,16 +6,13 @@ buki::Sprite::Sprite(Entity* _entity)
 {
 	m_Src = RectI();
 	m_Dst = RectF();
-	Point2D pos = m_Entity->GetPos();
-	Point2D size = m_Entity->GetSize();
 
 	m_Src.x = 0;
 	m_Src.y = 0;
 	m_Src.w = 0;
 	m_Src.h = 0;
 
-	m_Dst.w = size.x;
-	m_Dst.h = size.y;
+	m_Entity->GetRect(&m_Dst);
 }
 
 void buki::Sprite::Start()
@@ -24,10 +21,8 @@ void buki::Sprite::Start()
 
 void buki::Sprite::Draw()
 {
-	Point2D pos = m_Entity->GetPos();
-	Point2D size = m_Entity->GetSize();
-	m_Dst.x = pos.x;
-	m_Dst.y = pos.y;
+	Point2D pos, size;
+	m_Entity->GetRect(&m_Dst);
 	const Flip& flip = Flip();
 	Graphics().DrawTexture(m_Id, m_Src, m_Dst, 0.0, flip, Color::White);
 }

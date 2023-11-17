@@ -1,57 +1,65 @@
 #pragma once
-#include <vector>
-#include <map>
 #include <string>
-#include <typeinfo>
-#include "IDrawable.h"
+#include <map>
+#include <vector>
+#include "Component.h"
 #include "IUpdatable.h"
+#include "IDrawable.h"
+#include "Point2D.h"
+#include "RectF.h"
 
 namespace buki
 {
-	class Component;
-	struct Point2D
-	{
-		Point2D() : Point2D(0, 0) {}
-		Point2D(int _x, int _y) : Point2D(static_cast<float>(_x), static_cast<float>(_y)) {}
-		Point2D(float _x, float _y) : x(_x), y(_y) {}
-		float x;
-		float y;
-	};
-
 	class Entity final
 	{
 	public:
+		virtual ~Entity() = default;
 		Entity();
-		Entity(std::string _name, float _x, float _y, float _w, float _h);
-		~Entity();
+		Entity(std::string _name);
+		virtual void Start();
 		template<typename T> inline T* AddComponent();
 		template<typename T> inline T* GetComponent();
 		template<typename T> inline std::vector<T*> GetAllComponents();
 		void Draw();
 		void Update(float dt);
 		void Destroy();
+
+		std::string GetName() { return m_Name; }
 		void SetPos(Point2D _pos) { m_X = _pos.x, m_Y = _pos.y; }
 		void SetSize(Point2D _size) { m_W = _size.x; m_H = _size.y; }
-		Point2D GetPos() { return Point2D(m_X, m_Y); }
-		Point2D GetSize() { return Point2D(m_W, m_H); }
-		void SetOldPos(Point2D _pos) { m_PlayerOldPos = _pos; }
-		Point2D GetOldPos() { return m_PlayerOldPos; }
-		std::string GetName() { return m_Name; }
-		float GetSpeed() { return m_Speed; }
-		void SetSpeed(float speed) { m_Speed = speed; }
+		void Scale(float dw, float dh)
+		{
+			m_W *= dw;
+			m_H *= dh;
+		}
+		void Rotate(double angle)
+		{
+			m_Angle += angle;
+		}
+		float GetX() const { return m_X; }
+		float GetY() const { return m_Y; }
+		void SetRotation(double angle) { m_Angle = angle; }
+		double GetRotation() const { return m_Angle; }
+		void GetPosition(Point2D* point) { *point = Point2D(m_X, m_Y); }
+		void GetSize(Point2D* point) { *point = Point2D(m_W, m_H); }
+		void GetRect(RectF* rect) { *rect = { m_X, m_Y, m_W, m_H }; }
+		//void SetOldPos(Point2D _pos) { m_PlayerOldPos = _pos; }
+		//Point2D GetOldPos() { return m_PlayerOldPos; }
+		//float GetSpeed() { return m_Speed; }
+		//void SetSpeed(float speed) { m_Speed = speed; }
 	private:
 		std::vector<IDrawable*>& m_Drawable = *new std::vector<IDrawable*>();
 		std::vector<IUpdatable*>& m_Updatable = *new std::vector<IUpdatable*>();
 		std::multimap<const type_info*, Component*>& m_ComponentByType = *new std::multimap<const type_info*, Component*>();
 
 	private:
-		float m_Speed = 50.0f;
+		std::string m_Name;
 		float m_X = 0.0f;
 		float m_Y = 0.0f;
-		float m_W = 0.0f;
-		float m_H = 0.0f;
-		std::string m_Name;
-		Point2D m_PlayerOldPos;
+		double m_Angle = 0.0f;
+		float m_W = 1.0f;
+		float m_H = 1.0f;
+		//Point2D m_PlayerOldPos;
 	};
 
 	template<typename T>

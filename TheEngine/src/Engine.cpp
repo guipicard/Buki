@@ -86,7 +86,6 @@ void Engine::ProcessInput(void)
 void Engine::Update(float dt)
 {
 	m_World->Update(dt);
-	m_Collision->Update(dt);
 }
 
 void Engine::Render(void)

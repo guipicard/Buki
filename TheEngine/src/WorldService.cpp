@@ -120,9 +120,11 @@ buki::Entity* buki::WorldService::Create(const std::string& name)
 	return Create(name, 0.0f, 0.0f, 1.0f, 1.0f);
 }
 
-buki::Entity* buki::WorldService::Create(const std::string& name, float _x, float _y, float _h, float _w)
+buki::Entity* buki::WorldService::Create(const std::string& name, float _x, float _y, float _w, float _h)
 {
-	Entity* _e = new Entity(name, _x, _y, _h, _w);
+	Entity* _e = new Entity(name);
+	_e->SetPos(Point2D(_x, _y));
+	_e->SetPos(Point2D(_w, _h));
 	Add(_e);
 	return _e;
 }

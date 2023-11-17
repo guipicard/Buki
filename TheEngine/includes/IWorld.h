@@ -17,7 +17,7 @@ namespace buki
 		virtual void Render() = 0;
 		virtual void Destroy() = 0;
 		virtual Entity* Create(const std::string& name) = 0;
-		virtual Entity* Create(const std::string& name, float _x, float _y, float _h, float _w) = 0;
+		virtual Entity* Create(const std::string& name, float _x, float _y, float _w, float _h) = 0;
 		virtual void Add(Entity* _entity) = 0;
 		virtual void Remove(Entity* _entity) = 0;
 		virtual void Find() = 0;

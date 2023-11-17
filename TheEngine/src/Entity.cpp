@@ -2,27 +2,21 @@
 #include "Atlas.h"
 
 buki::Entity::Entity()
-	: Entity("new Entity", 0.0f, 0.0f, 0.0f, 0.0f)
+	: Entity("new Entity")
 {
 }
 
-buki::Entity::Entity(std::string _name, float _x, float _y, float _w, float _h)
+buki::Entity::Entity(std::string _name)
 	: m_Name(_name)
-	, m_X(_x)
-	, m_Y(_y)
-	, m_W(_w)
-	, m_H(_h)
 {
-	m_PlayerOldPos = GetPos();
 }
 
-buki::Entity::~Entity()
+void buki::Entity::Start()
 {
-	Destroy();
-	delete& m_ComponentByType;
-	delete& m_Drawable;
-	delete& m_Updatable;
-
+	for (auto it = m_ComponentByType.begin(); it != m_ComponentByType.end(); ++it)
+	{
+		it->second->Start();
+	}
 }
 
 void buki::Entity::Draw()
@@ -45,12 +39,10 @@ void buki::Entity::Destroy()
 {
 	for (std::multimap<const type_info*, Component*>::iterator it = m_ComponentByType.begin(); it != m_ComponentByType.end(); ++it)
 	{
-		if (it->second != nullptr)
-		{
-			it->second->Destroy();
-			delete it->second;
-			it->second = nullptr;
-		}
+
+		it->second->Destroy();
+		delete it->second;
+
 	}
 	m_ComponentByType.clear();
 	m_Drawable.clear();

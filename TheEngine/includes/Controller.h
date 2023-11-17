@@ -18,6 +18,7 @@ namespace buki
 		virtual void Update(float dt) override;
 		virtual void Destroy()  override;
 		void LockController() { m_Lock = true; }
+		void SetSpeed(float _speed) { m_Speed = _speed; }
 	public:
 		void SetAnimation(Animation* _anim) { m_Animation = _anim; }
 	private:
@@ -27,5 +28,6 @@ namespace buki
 		std::string m_CurrentAnim = "";
 		std::stack<int> m_MoveStack;
 		bool m_Lock = false;
+		float m_Speed = 0.0f;
 	};
 }

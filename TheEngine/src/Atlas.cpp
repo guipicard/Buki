@@ -121,7 +121,5 @@ void buki::Atlas::AddLayer(std::string _name, TLayer _layer)
 			}
 		}
 	}
-	Collision().AddLayer(_name, layerColliders);
 	m_Tilemap.push_back(std::pair<std::string, TLayer>(_name, _layer));
-
 }
