@@ -16,66 +16,85 @@ void buki::Controller::Update(float dt)
 	}
 	if (m_Lock) return;
 	Point2D direction(0, 0);
-	if (Input().IsKeyPressed(EKey::UP))
-	{
-		direction.y -= m_LockY ? 0 : 1;
-	}
-	if (Input().IsKeyPressed(EKey::DOWN))
-	{
-		direction.y += m_LockY ? 0 : 1;
-	}
-	if (Input().IsKeyPressed(EKey::LEFT))
-	{
-		direction.x -= m_LockX ? 0 : 1;
-	}
-	if (Input().IsKeyPressed(EKey::RIGHT))
-	{
-		direction.x += m_LockX ? 0 : 1;
-	}
 
 	if (Input().IsKeyDown(EKey::UP))
 	{
-		m_Direction = "up";
-		m_LockX = true;
-		m_LockY = false;
+		m_MoveStack.push(static_cast<int>(EKey::UP));
 	}
 	if (Input().IsKeyDown(EKey::DOWN))
 	{
-		m_Direction = "down";
-		m_LockX = true;
-		m_LockY = false;
+		m_MoveStack.push(static_cast<int>(EKey::DOWN));
 	}
 	if (Input().IsKeyDown(EKey::LEFT))
 	{
-		m_Direction = "left";
-		m_LockY = true;
-		m_LockX = false;
+		m_MoveStack.push(static_cast<int>(EKey::LEFT));
 	}
 	if (Input().IsKeyDown(EKey::RIGHT))
 	{
-		m_Direction = "right";
-		m_LockY = true;
-		m_LockX = false;
+		m_MoveStack.push(static_cast<int>(EKey::RIGHT));
 	}
 
-
-
-	if (direction.x == 0 && direction.y == 0)
+	if (m_MoveStack.empty())
 	{
 		m_State = "idle";
 	}
 	else
 	{
 		m_State = "move";
+		switch (m_MoveStack.top()) {
+		case static_cast<int>(EKey::UP):
+			if (Input().IsKeyPressed(EKey::UP))
+			{
+				direction.y -= 1;
+				m_Direction = "up";
+			}
+			else
+			{
+				m_MoveStack.pop();
+			}
+			break;
+		case static_cast<int>(EKey::DOWN):
+			if (Input().IsKeyPressed(EKey::DOWN))
+			{
+				direction.y += 1;
+				m_Direction = "down";
+			}
+			else
+			{
+				m_MoveStack.pop();
+			}
+			break;
+		case static_cast<int>(EKey::LEFT):
+			if (Input().IsKeyPressed(EKey::LEFT))
+			{
+				direction.x -= 1;
+				m_Direction = "left";
+			}
+			else
+			{
+				m_MoveStack.pop();
+			}
+			break;
+		case static_cast<int>(EKey::RIGHT):
+			if (Input().IsKeyPressed(EKey::RIGHT))
+			{
+				direction.x += 1;
+				m_Direction = "right";
+			}
+			else
+			{
+				m_MoveStack.pop();
+			}
+			break;
+		}
+		Point2D pos = m_Entity->GetPos();
+		float speed = m_Entity->GetSpeed();
+
+		pos.x += direction.x * speed * dt;
+		pos.y += direction.y * speed * dt;
+
+		m_Entity->SetPos(pos);
 	}
-
-	Point2D pos = m_Entity->GetPos();
-	float speed = m_Entity->GetSpeed();
-
-	pos.x += direction.x * speed * dt;
-	pos.y += direction.y * speed * dt;
-
-	m_Entity->SetPos(pos);
 
 	if (m_Animation != nullptr)
 	{

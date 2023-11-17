@@ -281,6 +281,7 @@ void buki::SDL_Graphics::DrawString(const std::string& text, size_t fontId, floa
 		g_TextureBuffer = SDL_CreateTextureFromSurface(m_Gfx, _surface);
 		SDL_RenderCopy(m_Gfx, g_TextureBuffer, nullptr, &_dst);
 		SDL_FreeSurface(_surface);
+		SDL_DestroyTexture(g_TextureBuffer);
 	}
 }
 

@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Component.h"
+#include <stack>
 
+enum class Ekey;
 
 namespace buki
 {
@@ -23,8 +25,7 @@ namespace buki
 		std::string m_Direction = "down";
 		std::string m_State = "idle";
 		std::string m_CurrentAnim = "";
-		bool m_LockX = false;
-		bool m_LockY = false;
+		std::stack<int> m_MoveStack;
 		bool m_Lock = false;
 	};
 }
