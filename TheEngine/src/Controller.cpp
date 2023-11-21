@@ -1,5 +1,7 @@
 #include "Controller.h"
 #include "Animation.h"
+#include "Ekey.h"
+#include "IInput.h"
 
 buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
 

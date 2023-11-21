@@ -1,5 +1,6 @@
 #pragma once
 #include "Component.h"
+#include "IDrawable.h"
 #include "Color.h"
 
 struct SDL_Renderer;
@@ -18,7 +19,7 @@ namespace buki
 		Square* SetOffset(float _x, float _y) { m_X = _x; m_Y = _y; return this; }
 		Square* SetSize(float _w, float _h) { m_W = _w; m_H = _h; return this; }
 	private:
-		Color m_Color = Color::White;
+		Color m_Color = Color::WHITE;
 		float m_X = 0.0f;
 		float m_Y = 0.0f;
 		float m_W = 0.0f;

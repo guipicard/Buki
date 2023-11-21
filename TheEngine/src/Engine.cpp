@@ -90,7 +90,7 @@ void Engine::Update(float dt)
 
 void Engine::Render(void)
 {
-	m_Graphics->SetColor(Color::Black);
+	m_Graphics->SetColor(Color::BLACK);
 	m_Graphics->Clear();
 
 	m_World->Render();

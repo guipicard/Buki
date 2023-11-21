@@ -14,5 +14,6 @@ namespace buki
 		void SetText(std::string _text) { m_Text = _text; }
 	private:
 		std::string m_Text = "";
+		size_t m_Id = 0;
 	};
 }

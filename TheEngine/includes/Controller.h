@@ -1,13 +1,15 @@
 #pragma once
 
 #include "Component.h"
+#include "Entity.h"
 #include <stack>
 
-enum class Ekey;
 
 namespace buki
 {
+	enum class Ekey;
 	class Animation;
+
 	class Controller : public Component, public IUpdatable
 	{
 	public:
