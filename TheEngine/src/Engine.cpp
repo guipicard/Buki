@@ -11,7 +11,7 @@
 
 using namespace buki;
 
-bool Engine::Init(const char* name, int w, int h)
+bool Engine::Init(const std::string& name, int w, int h)
 {
 #if _DEBUG
 	m_Console = new LogConsole();

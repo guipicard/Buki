@@ -15,5 +15,5 @@ buki::BaseScene::~BaseScene()
 
 buki::Entity* buki::BaseScene::Instantiate(const std::string _name)
 {
-	return buki::Engine::GetInstance()->World().Create(_name);
+	return buki::Engine::GetInstance().World().Create(_name);
 }

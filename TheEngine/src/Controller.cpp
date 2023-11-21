@@ -9,28 +9,24 @@ void buki::Controller::Start()
 
 void buki::Controller::Update(float dt)
 {
-	if (m_Entity->GetComponent<Animation>()->IsStopped())
-	{
-		World().Remove(m_Entity);
-	}
 	if (m_Lock) return;
 	Point2D direction(0, 0);
 
-	if (Input().IsKeyDown(EKey::UP))
+	if (Input().IsKeyDown(EKey::EKEY_UP))
 	{
-		m_MoveStack.push(static_cast<int>(EKey::UP));
+		m_MoveStack.push(static_cast<int>(EKey::EKEY_UP));
 	}
-	if (Input().IsKeyDown(EKey::DOWN))
+	if (Input().IsKeyDown(EKey::EKEY_DOWN))
 	{
-		m_MoveStack.push(static_cast<int>(EKey::DOWN));
+		m_MoveStack.push(static_cast<int>(EKey::EKEY_DOWN));
 	}
-	if (Input().IsKeyDown(EKey::LEFT))
+	if (Input().IsKeyDown(EKey::EKEY_LEFT))
 	{
-		m_MoveStack.push(static_cast<int>(EKey::LEFT));
+		m_MoveStack.push(static_cast<int>(EKey::EKEY_LEFT));
 	}
-	if (Input().IsKeyDown(EKey::RIGHT))
+	if (Input().IsKeyDown(EKey::EKEY_RIGHT))
 	{
-		m_MoveStack.push(static_cast<int>(EKey::RIGHT));
+		m_MoveStack.push(static_cast<int>(EKey::EKEY_RIGHT));
 	}
 
 	if (m_MoveStack.empty())
@@ -41,8 +37,8 @@ void buki::Controller::Update(float dt)
 	{
 		m_State = "move";
 		switch (m_MoveStack.top()) {
-		case static_cast<int>(EKey::UP):
-			if (Input().IsKeyPressed(EKey::UP))
+		case static_cast<int>(EKey::EKEY_UP):
+			if (Input().IsKeyPressed(EKey::EKEY_UP))
 			{
 				direction.y -= 1;
 				m_Direction = "up";
@@ -52,8 +48,8 @@ void buki::Controller::Update(float dt)
 				m_MoveStack.pop();
 			}
 			break;
-		case static_cast<int>(EKey::DOWN):
-			if (Input().IsKeyPressed(EKey::DOWN))
+		case static_cast<int>(EKey::EKEY_DOWN):
+			if (Input().IsKeyPressed(EKey::EKEY_DOWN))
 			{
 				direction.y += 1;
 				m_Direction = "down";
@@ -63,8 +59,8 @@ void buki::Controller::Update(float dt)
 				m_MoveStack.pop();
 			}
 			break;
-		case static_cast<int>(EKey::LEFT):
-			if (Input().IsKeyPressed(EKey::LEFT))
+		case static_cast<int>(EKey::EKEY_LEFT):
+			if (Input().IsKeyPressed(EKey::EKEY_LEFT))
 			{
 				direction.x -= 1;
 				m_Direction = "left";
@@ -74,8 +70,8 @@ void buki::Controller::Update(float dt)
 				m_MoveStack.pop();
 			}
 			break;
-		case static_cast<int>(EKey::RIGHT):
-			if (Input().IsKeyPressed(EKey::RIGHT))
+		case static_cast<int>(EKey::EKEY_RIGHT):
+			if (Input().IsKeyPressed(EKey::EKEY_RIGHT))
 			{
 				direction.x += 1;
 				m_Direction = "right";

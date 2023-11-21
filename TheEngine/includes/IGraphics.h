@@ -1,11 +1,9 @@
 #pragma once
-#include <cstdlib>
-#include <iostream>
-#include "Color.h"
-#include "Flip.h"
-#include "RectI.h"
-#include "RectF.h"
-#include "Point2D.h"
+#include <string>
+#include <RectI.h>
+#include <RectF.h>
+#include <Color.h>
+#include <Flip.h>
 
 namespace buki {
 	class IGraphics

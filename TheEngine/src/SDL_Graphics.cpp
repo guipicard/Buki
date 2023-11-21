@@ -24,7 +24,7 @@ bool buki::SDL_Graphics::Initialize(const std::string& title, int w, int h)
 	m_WindowHeight = h;
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-		buki::Engine::GetInstance()->Log().LogError(SDL_GetError());
+		buki::Engine::GetInstance().Log().LogError(SDL_GetError());
 		return false;
 	}
 
@@ -172,7 +172,7 @@ size_t buki::SDL_Graphics::LoadTexture(const std::string& filename)
 		m_TextureCache[id] = texture;
 		return id;
 	}
-	buki::Engine::GetInstance()->Log().LogError("did not load image");
+	buki::Engine::GetInstance().Log().LogError("did not load image");
 	return -1;
 }
 

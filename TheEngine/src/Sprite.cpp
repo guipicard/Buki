@@ -1,48 +1,35 @@
 #include "Sprite.h"
 #include "Engine.h"
+#include "Entity.h"
 
 buki::Sprite::Sprite(Entity* _entity)
 	: Component(_entity)
-{
-	m_Src = RectI();
-	m_Dst = RectF();
-
-	m_Src.x = 0;
-	m_Src.y = 0;
-	m_Src.w = 0;
-	m_Src.h = 0;
-
-	m_Entity->GetRect(&m_Dst);
-}
-
-void buki::Sprite::Start()
 {
 }
 
 void buki::Sprite::Draw()
 {
+	double _rot = m_Entity->GetRotation();
 	Point2D pos, size;
-	m_Entity->GetRect(&m_Dst);
-	const Flip& flip = Flip();
-	Graphics().DrawTexture(m_Id, m_Src, m_Dst, 0.0, flip, Color::White);
+	RectF _dst;
+	m_Entity->GetRect(&_dst);
+
+	Graphics().DrawTexture(m_Id, m_Src, _dst, _rot, m_Flip, Color::WHITE);
 }
 
-void buki::Sprite::Destroy()
+void buki::Sprite::Load(const std::string& path)
 {
+	m_Id = Graphics().LoadTexture(path);
+	Graphics().GetTextureSize(m_Id, &m_Src.w, &m_Src.h);
 }
 
-void buki::Sprite::SetPath(std::string path)
+void buki::Sprite::SetColor(const Color& color)
 {
-	m_Id = buki::Engine::GetInstance()->Graphics().LoadTexture(path);
-	buki::Engine::GetInstance()->Graphics().GetTextureSize(m_Id, &m_Src.w, &m_Src.h);
+	m_Color.Set(color);
 }
 
-void buki::Sprite::SetSrc(RectI _src)
+void buki::Sprite::SetFlip(bool h, bool v)
 {
-	m_Src = _src;
-}
-
-void buki::Sprite::SetDst(RectF _dst)
-{
-	m_Dst = _dst;
+	m_Flip.h = h;
+	m_Flip.v = v;
 }

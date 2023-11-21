@@ -9,44 +9,39 @@
 namespace buki {
 	class Engine final {
 	public:
-		static Engine* GetInstance()
+		static Engine& GetInstance()
 		{
-			static Engine* instance;
-			if (instance == nullptr)
-			{
-				instance = new Engine();
-			}
+			static Engine instance;
 			return instance;
 		}
-	private:
-		Engine() {}
 
-	public:
-		Engine(Engine const&) = delete;
-	public:
-		bool Init(const char* name, int w, int h);
+		bool Init(const std::string& title, int w, int h);
 		void Start(void);
-	public:
-		IInput& Input() { return *m_Input; }
-		ILogger& Log() { return *m_Console; }
-		IGraphics& Graphics() { return *m_Graphics; }
-		IWorld& World() { return *m_World; }
-		IAudio& Audio() { return *m_Audio; }
-		ICollision& Collision() { return *m_Collision; }
+
 	private:
+		Engine() = default;
+
 		void ProcessInput(void);
 		void Update(float dt);
 		void Render(void);
 		void Shutdown(void);
+		
+	public:
+		IInput& Input() const { return *m_Input; }
+		ILogger& Log() const { return *m_Console; }
+		IGraphics& Graphics() const { return *m_Graphics; }
+		IAudio& Audio() const { return *m_Audio; }
+		IWorld& World() const { return *m_World; }
+		ICollision& Collision() const { return *m_Collision; }
+		
 	private:
+		bool m_IsInit = false;
+
 		IInput* m_Input = nullptr;
 		ILogger* m_Console = nullptr;
 		IGraphics* m_Graphics = nullptr;
 		IWorld* m_World = nullptr;
 		IAudio* m_Audio = nullptr;
 		ICollision* m_Collision = nullptr;
-	private:
-		bool m_IsInit = false;
-		
 	};
 }

@@ -16,7 +16,7 @@ void buki::WorldService::Update(float dt)
 	{
 		entity->Update(dt);
 	}
-	if (buki::Engine::GetInstance()->Input().IsKeyDown(EKey::RETURN))
+	if (buki::Engine::GetInstance().Input().IsKeyDown(EKey::EKEY_RETURN))
 	{
 		if (m_CurrentScene == m_Scenes["Menu"])
 		{

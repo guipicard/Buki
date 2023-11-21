@@ -1,43 +1,40 @@
-
 #include "Component.h"
 #include "Engine.h"
 
-buki::Component::Component()
-	: Component(nullptr)
+buki::Component::Component() : Component(nullptr)
 {
 }
 
-buki::Component::Component(Entity* _entity)
-	: m_Entity(_entity) 
+buki::Component::Component(Entity* _entity) : m_Entity(_entity) 
 {
 }
 
 buki::IInput& buki::Component::Input() const
 {
-	return buki::Engine::GetInstance()->Input();
+	return Engine::GetInstance().Input();
 }
 
 buki::ILogger& buki::Component::Log() const
 {
-	return buki::Engine::GetInstance()->Log();
+	return Engine::GetInstance().Log();
 }
 
 buki::IGraphics& buki::Component::Graphics() const
 {
-	return buki::Engine::GetInstance()->Graphics();
+	return Engine::GetInstance().Graphics();
 }
 
 buki::IAudio& buki::Component::Audio() const
 {
-	return buki::Engine::GetInstance()->Audio();
+	return Engine::GetInstance().Audio();
 }
 
-buki::ICollision& buki::Component::Collision() const
-{
-	return buki::Engine::GetInstance()->Collision();
-}
+//buki::ICollision& buki::Component::Collision() const
+//{
+//	return buki::Engine::GetInstance().Collision();
+//}
 
 buki::IWorld& buki::Component::World() const
 {
-	return buki::Engine::GetInstance()->World();
+	return Engine::GetInstance().World();
 }

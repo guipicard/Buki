@@ -1,14 +1,14 @@
 #pragma once
-#include "Entity.h"
-#include "IInput.h"
-#include "ILogger.h"
-#include "IGraphics.h"
-#include "IAudio.h"
-#include "ICollision.h"
-#include "IWorld.h"
 
 namespace buki
 {
+	class Entity;
+	class IInput;
+	class ILogger;
+	class IGraphics;
+	class IAudio;
+	class IWorld;
+
 	class Component
 	{
 	public:
@@ -20,12 +20,12 @@ namespace buki
 		virtual void Destroy() {}
 
 	protected:
-		virtual IInput& Input() const;
-		virtual ILogger& Log() const;
-		virtual IGraphics& Graphics() const;
-		virtual IAudio& Audio() const;
-		virtual ICollision& Collision() const;
-		virtual IWorld& World() const;
+		IInput& Input() const;
+		ILogger& Log() const;
+		IGraphics& Graphics() const;
+		IAudio& Audio() const;
+		//ICollision& Collision() const;
+		IWorld& World() const;
 
 		Entity* m_Entity = nullptr;
 	};

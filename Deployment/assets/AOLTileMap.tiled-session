@@ -3,17 +3,17 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "sans titre.tmx",
+    "activeFile": "AOL.tmx",
     "expandedProjectPaths": [
         "."
     ],
     "fileStates": {
         "AOL.tmx": {
             "scale": 1,
-            "selectedLayer": 0,
+            "selectedLayer": 2,
             "viewCenter": {
-                "x": 400,
-                "y": 303.5
+                "x": 393,
+                "y": 239
             }
         },
         "AOL.tmx#env": {
@@ -45,8 +45,8 @@
     ],
     "project": "AOLTileMap.tiled-project",
     "recentFiles": [
-        "AOL.tmx",
-        "sans titre.tmx"
+        "sans titre.tmx",
+        "AOL.tmx"
     ],
     "tileset.embedInMap": true,
     "tileset.lastUsedFilter": "Tous les Fichiers (*)"

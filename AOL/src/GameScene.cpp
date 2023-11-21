@@ -8,13 +8,13 @@
 
 GameScene::GameScene()
 {
-	mumu = buki::Engine::GetInstance()->Audio().LoadMusic("./audio/mixkit-driving-ambition-32.mp3");
-	sam = buki::Engine::GetInstance()->Audio().LoadSound("./audio/mixkit-arcade-retro-game-over-213.wav");
+	mumu = buki::Engine::GetInstance().Audio().LoadMusic("./audio/mixkit-driving-ambition-32.mp3");
+	sam = buki::Engine::GetInstance().Audio().LoadSound("./audio/mixkit-arcade-retro-game-over-213.wav");
 }
 
 void GameScene::Load()
 {
-	buki::Engine::GetInstance()->Audio().PlayMusic(mumu);
+	buki::Engine::GetInstance().Audio().PlayMusic(mumu);
 	buki::Entity* m_Map = Instantiate("map");
 	m_Map->AddComponent<Atlas>();
 	Atlas* _atlas = m_Map->GetComponent<Atlas>();
