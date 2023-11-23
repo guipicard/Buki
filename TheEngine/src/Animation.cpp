@@ -13,11 +13,12 @@ void buki::Animation::Update(float dt)
 		if (m_Elapsed >= m_Delay)
 		{
 			m_Elapsed = 0.0f;
-			m_CurrentFrame++;
 
-			if (m_CurrentFrame > m_LastFrame)
+			m_CurrentFrame += m_AnimDir;
+			AnimationClip _playingClip = m_Clips[m_CurrentClip];
+			if (m_CurrentFrame == _playingClip.start || m_CurrentFrame == m_LastFrame)
 			{
-				m_CurrentFrame = m_FirstFrame;
+				m_AnimDir *= -1;
 				if (!m_Loop)
 				{
 					m_Playing = false;
@@ -43,7 +44,7 @@ void buki::Animation::Init(int frameInRows, int frameWidth, int frameHeight)
 	m_CurrentClip.clear();
 }
 
-void buki::Animation::AddClip(const std::string& name, int start, int count, int row, float delay)
+void buki::Animation::AddClip(const std::string& name, int start, int count, float delay)
 {
 	m_Clips.emplace(name, AnimationClip{ start, count, delay });
 }
@@ -73,6 +74,7 @@ void buki::Animation::Play(const std::string& name, bool loop)
 		UpdateFrame();
 		m_Playing = true;
 		m_CurrentClip = name;
+		m_AnimDir = 1;
 	}
 }
 

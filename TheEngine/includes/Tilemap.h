@@ -25,6 +25,8 @@ namespace buki
         void AddLayer(const std::string& layer, TLayer tiles);
         TLayer GetLayer(const std::string& name);
         bool IsColliding(const std::string& layer, float x, float y, float w, float h, int* tileIndex);
+        TLayer CreateLayerFromCSV(std::string _file);
+
 
     private:
         TTilemap m_Tilemap;

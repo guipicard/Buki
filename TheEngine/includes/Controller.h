@@ -30,6 +30,6 @@ namespace buki
 		std::string m_CurrentAnim = "";
 		std::stack<int> m_MoveStack;
 		bool m_Lock = false;
-		float m_Speed = 0.0f;
+		float m_Speed = 50.0f;
 	};
 }
