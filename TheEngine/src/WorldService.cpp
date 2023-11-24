@@ -16,6 +16,7 @@ void buki::WorldService::Update(float dt)
 	{
 		entity->Update(dt);
 	}
+	m_CurrentScene->Update(dt);
 	if (buki::Engine::GetInstance().Input().IsKeyDown(EKey::EKEY_RETURN))
 	{
 		if (m_CurrentScene == m_Scenes["Menu"])
@@ -58,7 +59,6 @@ void buki::WorldService::Add(Entity* _entity)
 {
 	m_EntityInWorld.push_back(_entity);
 	m_EntityMap.emplace(_entity->GetName(), _entity);
-
 }
 
 void buki::WorldService::Remove(Entity* _entity)

@@ -26,7 +26,7 @@ namespace buki
 		void AddClip(const std::string& name, int start, int count, float delay);
 		void Stop();
 		void Play(const std::string& name, bool loop);
-		bool IsStopped() { return !m_Play; }
+		bool IsStopped() { return !m_Playing; }
 	private:
 		void UpdateFrame();
 
@@ -45,7 +45,5 @@ namespace buki
 		std::string m_CurrentClip;
 
 		int m_AnimDir = 1;
-
-		bool m_Play = false;
 	};
 }

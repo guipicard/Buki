@@ -7,7 +7,7 @@
 #include "BaseScene.h"
 #include "SDL_Audio.h"
 #include "CollisionService.h"
-//#include <vld.h>
+#include <vld.h>
 
 using namespace buki;
 

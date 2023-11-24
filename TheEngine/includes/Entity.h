@@ -23,6 +23,7 @@ namespace buki
 
 		std::string GetName() { return m_Name; }
 		void SetPos(Point2D _pos) { m_X = _pos.x, m_Y = _pos.y; }
+		void SetOldPos(Point2D _pos) { m_OldPos = _pos; }
 		void SetSize(Point2D _size) { m_W = _size.x; m_H = _size.y; }
 		void Scale(float dw, float dh)
 		{
@@ -38,6 +39,7 @@ namespace buki
 		void SetRotation(double angle) { m_Angle = angle; }
 		double GetRotation() const { return m_Angle; }
 		void GetPosition(Point2D* point) { *point = Point2D(m_X, m_Y); }
+		void GetOldPos(Point2D* point) { *point = m_OldPos; }
 		void GetSize(Point2D* point) { *point = Point2D(m_W, m_H); }
 		void GetRect(RectF* rect) { *rect = { m_X, m_Y, m_W, m_H }; }
 
@@ -81,6 +83,7 @@ namespace buki
 
 		float m_X = 0.0f;
 		float m_Y = 0.0f;
+		Point2D m_OldPos = Point2D();
 		double m_Angle = 0.0f;
 		float m_W = 1.0f;
 		float m_H = 1.0f;

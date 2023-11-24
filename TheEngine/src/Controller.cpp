@@ -2,6 +2,7 @@
 #include "Animation.h"
 #include "Ekey.h"
 #include "IInput.h"
+//#include "ICollision.h"
 
 buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
 

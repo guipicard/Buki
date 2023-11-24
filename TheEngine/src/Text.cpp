@@ -19,6 +19,6 @@ void buki::Text::Draw()
 
 void buki::Text::Load(const std::string& path)
 {
-	m_Id = Graphics().LoadFont(path, 32);
+	m_Id = Graphics().LoadFont(path, 36);
 	//buki::Engine::GetInstance()->Graphics().GetTextureSize(m_Id, &m_Src.w, &m_Src.h);
 }

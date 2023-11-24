@@ -1,21 +1,29 @@
 #pragma once
 #include "BaseScene.h"
-#include "Entity.h"
+
 using namespace buki;
 
-
-class Entity;
-class GameScene : public BaseScene
+namespace buki
 {
-public:
-	GameScene();
-	virtual void Load() override;
-	virtual void Update(float dt) override;
-private:
-	size_t mumu = size_t();
-	size_t sam = size_t();
+	class Entity;
+	class Tilemap;
+	class Animation;
+	class Controller;
+	class GameScene : public BaseScene
+	{
+	public:
+		GameScene();
+		virtual void Load() override;
+		virtual void Update(float dt) override;
+	private:
+		size_t mumu = size_t();
+		size_t sam = size_t();
 
-	buki::Entity* m_Map;
+		Entity* m_Map = nullptr;
+		Tilemap* m_Tilemap = nullptr;
 
-	buki::Entity* m_Player;
-};
+		Entity* m_Player = nullptr;
+		Animation* m_Anim = nullptr;
+		Controller* m_Controller = nullptr;
+	};
+}

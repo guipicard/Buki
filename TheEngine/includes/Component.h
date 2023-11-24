@@ -7,6 +7,7 @@ namespace buki
 	class ILogger;
 	class IGraphics;
 	class IAudio;
+	class ICollision;
 	class IWorld;
 
 	class Component
@@ -24,7 +25,7 @@ namespace buki
 		ILogger& Log() const;
 		IGraphics& Graphics() const;
 		IAudio& Audio() const;
-		//ICollision& Collision() const;
+		ICollision& Collision() const;
 		IWorld& World() const;
 
 		Entity* m_Entity = nullptr;
