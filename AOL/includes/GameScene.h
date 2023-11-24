@@ -9,6 +9,7 @@ namespace buki
 	class Tilemap;
 	class Animation;
 	class Controller;
+	class Spawner;
 	class GameScene : public BaseScene
 	{
 	public:
@@ -19,11 +20,8 @@ namespace buki
 		size_t mumu = size_t();
 		size_t sam = size_t();
 
+
 		Entity* m_Map = nullptr;
 		Tilemap* m_Tilemap = nullptr;
-
-		Entity* m_Player = nullptr;
-		Animation* m_Anim = nullptr;
-		Controller* m_Controller = nullptr;
 	};
 }

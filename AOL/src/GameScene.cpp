@@ -6,6 +6,8 @@
 #include "Animation.h"
 #include "Controller.h"
 #include "Tilemap.h"
+#include "Spawner.h"
+#include "Lolo.h"
 
 using namespace buki;
 
@@ -31,35 +33,16 @@ void GameScene::Load()
 	m_Tilemap->AddLayer("walls", wallsLayer);
 	m_Tilemap->AddLayer("trees", treesLayer);
 
+	Spawner CSpawner;
 	// PLAYER
-
-	m_Player = Instantiate("player");
-	m_Player->SetPos(Point2D(80, 80));
-	m_Player->SetSize(Point2D(32, 32));
-	m_Anim = m_Player->AddComponent<Animation>();
-	m_Anim->Load("./assets/lolo.png");
-	// move anims
-	m_Anim->Init(7, 32, 32);
-	m_Anim->AddClip("move_down", 0, 5, 0.2f);
-	m_Anim->AddClip("move_left", 7, 5, 0.2f);
-	m_Anim->AddClip("move_up", 14, 5, 0.2f);
-	m_Anim->AddClip("move_right", 21, 5, 0.2f);
-	// idle anims
-	m_Anim->AddClip("idle_down", 5, 2, 0.2f);
-	m_Anim->AddClip("idle_left", 12, 2, 0.2f);
-	m_Anim->AddClip("idle_up", 19, 2, 0.2f);
-	m_Anim->AddClip("idle_right", 26, 2, 0.2f);
-	//death clip
-	m_Anim->AddClip("death", 28, 4, 0.4f);
-
-	m_Anim->Play("idle_down", true);
-	m_Controller = m_Player->AddComponent<Controller>();
-	m_Controller->SetSpeed(50.0f);
+	Lolo* loloProto = new Lolo(50, 64, 64);
+	CSpawner.AddPrototype("Lolo", loloProto);
+	CSpawner.Spawn("Lolo");
 }
 
 void GameScene::Update(float dt)
 {
-	if (m_Player == nullptr) return;
+	/*if (m_Player == nullptr) return;
 	int _collider;
 	Point2D playerPos;
 	Point2D playerSize;
@@ -86,5 +69,5 @@ void GameScene::Update(float dt)
 		Point2D _oldPos = Point2D();
 		m_Player->GetOldPos(&_oldPos);
 		m_Player->SetPos(_oldPos);
-	}
+	}*/
 }
