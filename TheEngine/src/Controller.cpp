@@ -4,6 +4,7 @@
 #include "IInput.h"
 //#include "ICollision.h"
 #include <math.h>
+#include <Tilemap.h>
 
 buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
 
@@ -40,7 +41,7 @@ void buki::Controller::Update(float dt)
 	{
 		m_Moving = true;
 		m_State = "move";
-		m_Entity->GetPosition(&m_Start);
+		m_Entity->GetPosition(m_Start);
 		m_End = m_Start;
 		switch (m_MoveStack.front()) {
 		case static_cast<int>(EKey::EKEY_UP):
@@ -68,7 +69,7 @@ void buki::Controller::Update(float dt)
 	else
 	{
 		Point2D pos;
-		m_Entity->GetPosition(&pos);
+		m_Entity->GetPosition(pos);
 
 		pos.x += m_Velocity.x * m_Speed * dt;
 		pos.y += m_Velocity.y * m_Speed * dt;
@@ -95,16 +96,14 @@ void buki::Controller::Destroy()
 {
 }
 
-void buki::Controller::OnNotify(const std::string& value, Entity* other)
-{
-	StopMoving();
-}
-
 void buki::Controller::StopMoving()
 {
 	m_Moving = false;
 	m_Velocity = Point2D();
 	if (m_MoveStack.size() > 0) m_MoveStack.pop();
+	Point2D pos;
+	m_Entity->GetOldPos(pos);
+	m_Entity->SetPos(pos);
 }
 
 void buki::Controller::StopMoving(int key)

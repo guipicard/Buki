@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Component.h"
 #include "Entity.h"
 #include <queue>
@@ -10,7 +9,7 @@ namespace buki
 	enum class Ekey;
 	class Animation;
 
-	class Controller : public Component, public IUpdatable, public Observer<std::string, Entity*>
+	class Controller : public Component, public IUpdatable
 	{
 	public:
 		Controller(Entity* _entity);
@@ -21,10 +20,9 @@ namespace buki
 		virtual void Destroy()  override;
 		void LockController() { m_Lock = true; }
 		void SetSpeed(float _speed) { m_Speed = _speed; }
-		virtual void OnNotify(const std::string& value, Entity* other) override;
 		void SetAnimation(Animation* _anim) { m_Animation = _anim; }
-	private:
 		void StopMoving();
+	private:
 		void StopMoving(int key);
 		Animation* m_Animation = m_Entity->GetComponent<Animation>();
 		std::string m_Direction = "down";

@@ -15,5 +15,6 @@ namespace buki
 		Subject<std::string, Entity*> OnKeyPickup;
 	private:
 		int m_HeartToCollect = 0;
+		bool m_DoorOpened = false;
 	};
 }

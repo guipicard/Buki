@@ -34,6 +34,6 @@ namespace buki
 		std::vector<std::string> m_IncludeLayers;
 		Point2D m_Offset;
 		Point2D m_Size;
-		const bool canDraw = true;
+		const bool canDraw = false;
 	};
 }

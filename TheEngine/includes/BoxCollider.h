@@ -11,6 +11,5 @@ namespace buki
 		virtual void Draw() override;
 		virtual void CheckTileCollision() override;
 		virtual void CheckCollision() override;
-		void SetOldPos();
 	};
 }

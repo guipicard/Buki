@@ -39,10 +39,10 @@ namespace buki
 		float GetY() const { return m_Y; }
 		void SetRotation(double angle) { m_Angle = angle; }
 		double GetRotation() const { return m_Angle; }
-		void GetPosition(Point2D* point) { *point = Point2D(m_X, m_Y); }
-		void GetOldPos(Point2D* point) { *point = m_OldPos; }
-		void GetSize(Point2D* point) { *point = Point2D(m_W, m_H); }
-		void GetRect(RectF* rect) { *rect = { m_X, m_Y, m_W, m_H }; }
+		void GetPosition(Point2D& point) { point = Point2D(m_X, m_Y); }
+		void GetOldPos(Point2D& point) { point = m_OldPos; }
+		void GetSize(Point2D& point) { point = Point2D(m_W, m_H); }
+		void GetRect(RectF& rect) { rect = { m_X, m_Y, m_W, m_H }; }
 
 		Subject<std::string, Entity*> OnCollisionEnter;
 

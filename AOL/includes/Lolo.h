@@ -43,7 +43,6 @@ public:
 		boxCollier->AddIncludeLayer("heart");
 		boxCollier->AddIncludeLayer("door");
 		PlayerBehaviour* playerBehaviour = entity->AddComponent<PlayerBehaviour>();
-		entity->OnCollisionEnter.AddListener(controller);
 		entity->OnCollisionEnter.AddListener(playerBehaviour);
 		//Engine::GetInstance().Collision().AddToLayer("player", entity);
 		return entity;

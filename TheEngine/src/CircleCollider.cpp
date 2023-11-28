@@ -24,8 +24,8 @@ void buki::CircleCollider::Draw()
 	{
 		Point2D pos;
 		Point2D size;
-		m_Entity->GetPosition(&pos);
-		m_Entity->GetSize(&size);
+		m_Entity->GetPosition(pos);
+		m_Entity->GetSize(size);
 		float x = pos.x + (size.x / 2);
 		float y = pos.y + (size.y / 2);
 		float r = size.x / 2;
@@ -38,8 +38,8 @@ void buki::CircleCollider::CheckCollision()
 	int tileNum;
 	Point2D pos;
 	Point2D size;
-	m_Entity->GetPosition(&pos);
-	m_Entity->GetSize(&size);
+	m_Entity->GetPosition(pos);
+	m_Entity->GetSize(size);
 	for (auto layer : m_TileIncludeLayers)
 	{
 		/*if (m_Tilemap->IsColliding(layer, pos.x, pos.y, size.x, size.y, &tileNum))
@@ -53,6 +53,6 @@ void buki::CircleCollider::CheckCollision()
 void buki::CircleCollider::SetOldPos()
 {
 	Point2D _oldPos = Point2D();
-	m_Entity->GetOldPos(&_oldPos);
+	m_Entity->GetOldPos(_oldPos);
 	m_Entity->SetPos(_oldPos);
 }

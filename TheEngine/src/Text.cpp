@@ -13,7 +13,7 @@ buki::Text::~Text()
 void buki::Text::Draw()
 {
 	Point2D pos;
-	m_Entity->GetPosition(&pos);
+	m_Entity->GetPosition(pos);
 	Graphics().DrawString(m_Text, m_Id, pos.x, pos.y, Color::WHITE);
 }
 

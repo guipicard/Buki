@@ -15,6 +15,7 @@
 #include "Atlas.h"
 #include "Door.h"
 #include "DoorBehaviour.h"
+#include "Snakey.h"
 
 using namespace buki;
 
@@ -32,9 +33,9 @@ void GameScene::Load()
 	Entity* m_Map = Instantiate("map");
 	Tilemap* m_Tilemap = m_Map->AddComponent<Tilemap>();
 	m_Tilemap->Load("./assets/env.png", 13, 14, 32, 32);
-	TLayer groundLayer = m_Tilemap->CreateLayerFromCSV("./levels/floor1/1/floor1-1_ground.csv");
-	TLayer wallsLayer = m_Tilemap->CreateLayerFromCSV("./levels/floor1/1/floor1-1_walls.csv");
-	TLayer treesLayer = m_Tilemap->CreateLayerFromCSV("./levels/floor1/1/floor1-1_trees.csv");
+	TLayer groundLayer = m_Tilemap->CreateLayerFromCSV("./levels/1/floor1-1._ground.csv");
+	TLayer wallsLayer = m_Tilemap->CreateLayerFromCSV("./levels/1/floor1-1._walls.csv");
+	TLayer treesLayer = m_Tilemap->CreateLayerFromCSV("./levels/1/floor1-1._trees.csv");
 	m_Tilemap->AddLayer("ground", groundLayer, false);
 	m_Tilemap->AddLayer("walls", wallsLayer, true);
 	m_Tilemap->AddLayer("trees", treesLayer, true);
@@ -62,6 +63,11 @@ void GameScene::Load()
 	int y = static_cast<int>(m_SpawnPoint.y);
 	Entity* player = CSpawner.Spawn("Lolo", x, y);
 	player->GetComponent<BoxCollider>()->SetTilemap(m_Tilemap);
+
+	Snakey* snakeyProto = new Snakey(0);
+	CSpawner.AddPrototype("snakey", snakeyProto);
+	Entity* snakey = CSpawner.Spawn("snakey", 7, 7);
+	snakey->GetComponent<SnakeyBehaviour>()->SetPlayer(player);
 
 	player->GetComponent<PlayerBehaviour>()->OnHeartPickup.AddListener(chest->GetComponent<ChestBehaviour>());
 	player->GetComponent<PlayerBehaviour>()->OnKeyPickup.AddListener(door->GetComponent<DoorBehaviour>());
