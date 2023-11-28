@@ -7,22 +7,10 @@
 namespace buki {
 	class Spawner
 	{
-		typedef std::map<std::string, Character*> TProtoMap;
 	public:
-		~Spawner() = default;
-		void AddPrototype(const std::string& name, Character* proto)
-		{
-			m_Prototypes[name] = proto;
-		}
-		Character* Spawn(const std::string& name)
-		{
-			if (m_Prototypes.count(name) > 0)
-			{
-				return m_Prototypes[name]->Clone();
-			}
-			return nullptr;
-		}
-	private:
-		TProtoMap m_Prototypes;
+		virtual ~Spawner() = default;
+		//template<typename T>
+		//virtual T* AddPrototype(const std::string& name, T* spawner) = 0;
+		virtual Entity* Spawn(const std::string& name, int x, int y) = 0;
 	};
 }

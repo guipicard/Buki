@@ -3,6 +3,7 @@
 #include "Ekey.h"
 #include "IInput.h"
 //#include "ICollision.h"
+#include <math.h>
 
 buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
 
@@ -13,7 +14,6 @@ void buki::Controller::Start()
 void buki::Controller::Update(float dt)
 {
 	if (m_Lock) return;
-	Point2D direction(0, 0);
 
 	if (Input().IsKeyDown(EKey::EKEY_UP))
 	{
@@ -36,61 +36,47 @@ void buki::Controller::Update(float dt)
 	{
 		m_State = "idle";
 	}
-	else
+	else if (!m_Moving)
 	{
+		m_Moving = true;
 		m_State = "move";
-		switch (m_MoveStack.top()) {
+		m_Entity->GetPosition(&m_Start);
+		m_End = m_Start;
+		switch (m_MoveStack.front()) {
 		case static_cast<int>(EKey::EKEY_UP):
-			if (Input().IsKeyPressed(EKey::EKEY_UP))
-			{
-				direction.y -= 1;
-				m_Direction = "up";
-			}
-			else
-			{
-				m_MoveStack.pop();
-			}
+			m_Velocity.y -= 1;
+			m_Direction = "up";
+			m_End.y -= m_Distance;
 			break;
 		case static_cast<int>(EKey::EKEY_DOWN):
-			if (Input().IsKeyPressed(EKey::EKEY_DOWN))
-			{
-				direction.y += 1;
-				m_Direction = "down";
-			}
-			else
-			{
-				m_MoveStack.pop();
-			}
+			m_Velocity.y += 1;
+			m_Direction = "down";
+			m_End.y += m_Distance;
 			break;
 		case static_cast<int>(EKey::EKEY_LEFT):
-			if (Input().IsKeyPressed(EKey::EKEY_LEFT))
-			{
-				direction.x -= 1;
-				m_Direction = "left";
-			}
-			else
-			{
-				m_MoveStack.pop();
-			}
+			m_Velocity.x -= 1;
+			m_Direction = "left";
+			m_End.x -= m_Distance;
 			break;
 		case static_cast<int>(EKey::EKEY_RIGHT):
-			if (Input().IsKeyPressed(EKey::EKEY_RIGHT))
-			{
-				direction.x += 1;
-				m_Direction = "right";
-			}
-			else
-			{
-				m_MoveStack.pop();
-			}
+			m_Velocity.x += 1;
+			m_Direction = "right";
+			m_End.x += m_Distance;
 			break;
 		}
+	}
+	else
+	{
 		Point2D pos;
 		m_Entity->GetPosition(&pos);
 
-		pos.x += direction.x * m_Speed * dt;
-		pos.y += direction.y * m_Speed * dt;
-
+		pos.x += m_Velocity.x * m_Speed * dt;
+		pos.y += m_Velocity.y * m_Speed * dt;
+		if (m_Start.Distance(pos) > m_Distance)
+		{
+			pos = m_End;
+			StopMoving(m_MoveStack.front());
+		}
 		m_Entity->SetPos(pos);
 	}
 
@@ -109,4 +95,24 @@ void buki::Controller::Destroy()
 {
 }
 
+void buki::Controller::OnNotify(const std::string& value, Entity* other)
+{
+	StopMoving();
+}
 
+void buki::Controller::StopMoving()
+{
+	m_Moving = false;
+	m_Velocity = Point2D();
+	if (m_MoveStack.size() > 0) m_MoveStack.pop();
+}
+
+void buki::Controller::StopMoving(int key)
+{
+	if (!Input().IsKeyPressed(static_cast<EKey>(key)))
+	{
+		if (m_MoveStack.size() > 0) m_MoveStack.pop();
+	}
+	m_Moving = false;
+	m_Velocity = Point2D();
+}

@@ -3,13 +3,13 @@
 
 namespace buki
 {
-	class Character
+	class InteractObj
 	{
 	public:
-		Character(int speed) : m_Speed(speed){}
-		virtual ~Character() = default;
+		InteractObj() {}
+		virtual ~InteractObj() = default;
 		virtual Entity* Clone(int x, int y) = 0;
 	protected:
-		int m_Speed;
+		
 	};
 }

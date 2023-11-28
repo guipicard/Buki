@@ -2,7 +2,7 @@
 
 #include "Component.h"
 #include "Entity.h"
-#include <stack>
+#include <queue>
 
 
 namespace buki
@@ -10,7 +10,7 @@ namespace buki
 	enum class Ekey;
 	class Animation;
 
-	class Controller : public Component, public IUpdatable
+	class Controller : public Component, public IUpdatable, public Observer<std::string, Entity*>
 	{
 	public:
 		Controller(Entity* _entity);
@@ -21,15 +21,22 @@ namespace buki
 		virtual void Destroy()  override;
 		void LockController() { m_Lock = true; }
 		void SetSpeed(float _speed) { m_Speed = _speed; }
-	public:
+		virtual void OnNotify(const std::string& value, Entity* other) override;
 		void SetAnimation(Animation* _anim) { m_Animation = _anim; }
 	private:
+		void StopMoving();
+		void StopMoving(int key);
 		Animation* m_Animation = m_Entity->GetComponent<Animation>();
 		std::string m_Direction = "down";
 		std::string m_State = "idle";
 		std::string m_CurrentAnim = "";
-		std::stack<int> m_MoveStack;
+		std::queue<int> m_MoveStack;
 		bool m_Lock = false;
+		bool m_Moving = false;
 		float m_Speed = 0.0f;
+		Point2D m_Start;
+		Point2D m_End;
+		Point2D m_Velocity;
+		float m_Distance = 16.0f;
 	};
 }

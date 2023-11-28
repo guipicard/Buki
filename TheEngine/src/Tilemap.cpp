@@ -42,6 +42,21 @@ void buki::Tilemap::Draw()
 	}
 }
 
+bool buki::Tilemap::CheckPointRect(float px, float py, float rx, float ry, float rw,
+	float rh)
+{
+	return px >= rx && py >= ry && px <= (rx + rw) && py <= (ry + rh);
+}
+
+bool buki::Tilemap::CheckPointCircle(float px, float py, float cx, float cy, float cr)
+{
+	float vecX = px - cx;
+	float vecY = py - cy;
+	float d = sqrtf((vecX * vecX) + (vecY * vecY));
+
+	return d <= cr;
+}
+
 void buki::Tilemap::Load(const std::string& filename, int mapW, int mapH, int tileW, int tileH)
 {
 	auto& graphics = Engine::GetInstance().Graphics();
@@ -74,11 +89,12 @@ void buki::Tilemap::Load(const std::string& filename, int mapW, int mapH, int ti
 	}
 }
 
-void buki::Tilemap::AddLayer(const std::string& layer, TLayer tiles)
+void buki::Tilemap::AddLayer(const std::string& layer, TLayer tiles, bool isColliding)
 {
 	if (m_Tilemap.count(layer) == 0)
 	{
 		m_Tilemap.emplace(layer, tiles);
+		if (isColliding) m_ColliderLayers.push_back(layer);
 	}
 }
 
@@ -106,7 +122,7 @@ int Clamp(int value, const int min, const int max)
 	return value;
 }
 
-bool buki::Tilemap::IsColliding(const std::string& layer, float x, float y, float w, float h, int* tileIndex)
+bool buki::Tilemap::IsBoxColliding(const std::string& layer, float x, float y, float w, float h, int* tileIndex)
 {
 	const int tLeftTile = Clamp(static_cast<int>(x / m_TileWidth), 0, m_Width);
 	const int tRightTile = Clamp(static_cast<int>((x + w) / m_TileWidth), 0, m_Width);
@@ -131,6 +147,33 @@ bool buki::Tilemap::IsColliding(const std::string& layer, float x, float y, floa
 	*tileIndex = -1;
 	return false;
 }
+
+//bool buki::Tilemap::IsCircleColliding(const std::string& layer, float x, float y, float r, int* tileIndex)
+//{
+//	const int tLeftTile = Clamp(static_cast<int>(x / m_TileWidth), 0, m_Width);
+//	const int tRightTile = Clamp(static_cast<int>((x + w) / m_TileWidth), 0, m_Width);
+//	const int tTopTile = Clamp(static_cast<int>(y / m_TileHeight), 0, m_Height);
+//	const int tBottomTile = Clamp(static_cast<int>((y + h) / m_TileHeight), 0, m_Height);
+//
+//	for (int i = tLeftTile; i <= tRightTile; i++)
+//	{
+//		for (int j = tTopTile; j <= tBottomTile; j++)
+//		{
+//
+//			if (i < m_Width && j < m_Height)
+//			{
+//				if (m_Tilemap[layer][j][i] != 0)
+//				{
+//					*tileIndex = m_Tilemap[layer][j][i];
+//					return true;
+//				}
+//			}
+//		}
+//	}
+//
+//	*tileIndex = -1;
+//	return false;
+//}
 
 buki::TLayer buki::Tilemap::CreateLayerFromCSV(std::string _file)
 {
