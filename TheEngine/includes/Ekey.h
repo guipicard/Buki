@@ -98,5 +98,6 @@ namespace buki
         EKEY_KP_9 = 97,
         EKEY_KP_0 = 98,
         EKEY_KP_PERIOD = 99,
+        EKEY_LEFTSHIFT = 225,
     };
 }

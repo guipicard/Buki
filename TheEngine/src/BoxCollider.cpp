@@ -4,7 +4,6 @@
 #include "Engine.h"
 #include "Tilemap.h"
 #include "RectF.h"
-#include "Controller.h"
 
 buki::BoxCollider::BoxCollider(Entity* entity) : Component(entity)
 {
@@ -34,7 +33,7 @@ void buki::BoxCollider::Draw()
 	}
 }
 
-void buki::BoxCollider::CheckTileCollision()
+bool buki::BoxCollider::CheckTileCollision()
 {
 	int tileNum;
 	Point2D pos;
@@ -42,12 +41,13 @@ void buki::BoxCollider::CheckTileCollision()
 	m_Entity->GetPosition(pos);
 	for (auto layer : m_TileIncludeLayers)
 	{
-		if (m_Tilemap->IsBoxColliding(layer, pos.x, pos.y, m_Size.x, m_Size.y, &tileNum))
+		if (m_Tilemap->IsBoxColliding(layer, pos.x, pos.y, m_Size.x - 1, m_Size.y - 1, &tileNum))
 		{
 			m_Entity->OnCollisionEnter.Invoke(layer, nullptr);
-			break;
+			return true;
 		}
 	}
+	return false;
 }
 
 void buki::BoxCollider::CheckCollision()

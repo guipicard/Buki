@@ -5,6 +5,7 @@
 //#include "ICollision.h"
 #include <math.h>
 #include <Tilemap.h>
+#include <PlayerBehaviour.h>
 
 buki::Controller::Controller(Entity* _entity) : Component(_entity) {}
 
@@ -13,6 +14,24 @@ void buki::Controller::Start()
 }
 
 void buki::Controller::Update(float dt)
+{
+	if (Input().IsKeyDown(EKey::EKEY_X))
+	{
+		m_Entity->GetComponent<PlayerBehaviour>()->Shoot(m_Direction);
+	}
+	if (Input().IsKeyDown(EKey::EKEY_LEFTSHIFT))
+	{
+		Die();
+	}
+	Move(dt);
+	Animate();
+}
+
+void buki::Controller::Destroy()
+{
+}
+
+void buki::Controller::Move(float dt)
 {
 	if (m_Lock) return;
 
@@ -80,7 +99,10 @@ void buki::Controller::Update(float dt)
 		}
 		m_Entity->SetPos(pos);
 	}
+}
 
+void buki::Controller::Animate()
+{
 	if (m_Animation != nullptr)
 	{
 		std::string animName = m_State + "_" + m_Direction;
@@ -92,8 +114,10 @@ void buki::Controller::Update(float dt)
 	}
 }
 
-void buki::Controller::Destroy()
+void buki::Controller::Die()
 {
+	LockController();
+	m_Entity->GetComponent<Animation>()->Play("death", false);
 }
 
 void buki::Controller::StopMoving()

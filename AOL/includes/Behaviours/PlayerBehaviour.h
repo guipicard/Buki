@@ -13,7 +13,9 @@ namespace buki
 		void SetHeart(int value) { m_HeartToCollect = value; }
 		Subject<std::string, Entity*> OnHeartPickup;
 		Subject<std::string, Entity*> OnKeyPickup;
+		void Shoot(std::string direction);
 	private:
+		int m_Charges = 0;
 		int m_HeartToCollect = 0;
 		bool m_DoorOpened = false;
 	};

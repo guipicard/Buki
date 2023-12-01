@@ -6,8 +6,6 @@
 #include "Animation.h"
 #include "Controller.h"
 #include "Tilemap.h"
-#include "CharacterSpawner.h"
-#include "InteractObjSpawner.h"
 #include "Spawner.h"
 #include "Lolo.h"
 #include "Chest.h"
@@ -15,6 +13,7 @@
 #include "Atlas.h"
 #include "Door.h"
 #include "DoorBehaviour.h"
+#include "Prototypes.h"
 #include "Snakey.h"
 
 using namespace buki;
@@ -28,7 +27,7 @@ GameScene::GameScene()
 
 void GameScene::Load()
 {
-	Engine::GetInstance().Audio().PlayMusic(mumu);
+	//Engine::GetInstance().Audio().PlayMusic(mumu);
 	// MAP
 	Entity* m_Map = Instantiate("map");
 	Tilemap* m_Tilemap = m_Map->AddComponent<Tilemap>();
@@ -41,33 +40,33 @@ void GameScene::Load()
 	m_Tilemap->AddLayer("trees", treesLayer, true);
 	
 
-	InteractObjSpawner ISpawner;
+	Spawner* spawner = m_Map->AddComponent<Spawner>();
 	Chest* chestProto = new Chest();
-	ISpawner.AddPrototype("chest", chestProto);
-	Entity* chest = ISpawner.Spawn("chest", 5, 11);
+	spawner->AddPrototype("chest", chestProto);
+	Entity* chest = spawner->Spawn("chest", 5, 11);
 
 	Heart* heartProto = new Heart();
-	ISpawner.AddPrototype("heart", heartProto);
-	ISpawner.Spawn("heart", 5, 3);
-	ISpawner.Spawn("heart", 11, 6);
+	spawner->AddPrototype("heart", heartProto);
+	spawner->Spawn("heart", 5, 3);
+	spawner->Spawn("heart", 11, 6);
 
 	Door* doorProto = new Door();
-	ISpawner.AddPrototype("door", doorProto);
-	Entity* door = ISpawner.Spawn("door", 7, 1);
+	spawner->AddPrototype("door", doorProto);
+	Entity* door = spawner->Spawn("door", 7, 1);
 
-	CharacterSpawner CSpawner;
 	// PLAYER
 	Lolo* loloProto = new Lolo(100);
-	CSpawner.AddPrototype("Lolo", loloProto);
+	spawner->AddPrototype("Lolo", loloProto);
 	int x = static_cast<int>(m_SpawnPoint.x);
 	int y = static_cast<int>(m_SpawnPoint.y);
-	Entity* player = CSpawner.Spawn("Lolo", x, y);
+	Entity* player = spawner->Spawn("Lolo", x, y);
 	player->GetComponent<BoxCollider>()->SetTilemap(m_Tilemap);
 
 	Snakey* snakeyProto = new Snakey(0);
-	CSpawner.AddPrototype("snakey", snakeyProto);
-	Entity* snakey = CSpawner.Spawn("snakey", 7, 7);
+	spawner->AddPrototype("snakey", snakeyProto);
+	Entity* snakey = spawner->Spawn("snakey", 7, 7);
 	snakey->GetComponent<SnakeyBehaviour>()->SetPlayer(player);
+	snakey->GetComponent<BoxCollider>()->SetTilemap(m_Tilemap);
 
 	player->GetComponent<PlayerBehaviour>()->OnHeartPickup.AddListener(chest->GetComponent<ChestBehaviour>());
 	player->GetComponent<PlayerBehaviour>()->OnKeyPickup.AddListener(door->GetComponent<DoorBehaviour>());

@@ -29,6 +29,5 @@ namespace buki
 			Engine::GetInstance().Collision().AddToLayer("chest", entity);
 			return entity;
 		}
-	
 	};
 }

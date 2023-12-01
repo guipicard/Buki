@@ -1,14 +1,14 @@
 #pragma once
 #include "Entity.h"
+#include "Prototypes.h"
 
 namespace buki
 {
-	class Character
+	class Character : public Prototypes
 	{
 	public:
 		Character(int speed) : m_Speed(speed){}
 		virtual ~Character() = default;
-		virtual Entity* Clone(int x, int y) = 0;
 	protected:
 		int m_Speed;
 	};

@@ -11,7 +11,8 @@ namespace buki
 	class Entity;
 	struct AnimationClip
 	{
-		int start;
+		int startX;
+		int startY;
 		int count;
 		float delay;
 	};
@@ -22,8 +23,8 @@ namespace buki
 		virtual ~Animation() = default;
 		Animation(Entity* _entity);
 		virtual void Update(float dt) override;
-		void Init(int frameInRows, int frameWidth, int frameHeight);
-		void AddClip(const std::string& name, int start, int count, float delay);
+		void Init(int start, int frameWidth, int frameHeight);
+		void AddClip(const std::string& name, int startX, int startY, int count, float delay);
 		void Stop();
 		void Play(const std::string& name, bool loop);
 		bool IsStopped() { return !m_Playing; }
@@ -32,7 +33,6 @@ namespace buki
 
 		std::map<std::string, AnimationClip> m_Clips;
 
-		int m_FrameInRowCount = 0;
 		int m_FrameWidth = 0;
 		int m_FrameHeight = 0;
 		int m_FirstFrame = 0;

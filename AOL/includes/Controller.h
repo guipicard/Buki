@@ -18,10 +18,14 @@ namespace buki
 		virtual void Start() override;
 		virtual void Update(float dt) override;
 		virtual void Destroy()  override;
+		void Move(float dt);
+		void Animate();
+		void Die();
 		void LockController() { m_Lock = true; }
 		void SetSpeed(float _speed) { m_Speed = _speed; }
 		void SetAnimation(Animation* _anim) { m_Animation = _anim; }
 		void StopMoving();
+		Point2D GetVelocity() { return m_Velocity; }
 	private:
 		void StopMoving(int key);
 		Animation* m_Animation = m_Entity->GetComponent<Animation>();

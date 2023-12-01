@@ -1,10 +1,14 @@
 #include "PlayerBehaviour.h"
 #include "Point2D.h"
 #include "Entity.h"
+#include "Engine.h"
 #include "Atlas.h"
 #include "IWorld.h"
 #include "Controller.h"
 #include "SnakeyBehaviour.h"
+#include "Animation.h"
+#include "Spawner.h"
+#include "BulletsBehaviour.h"
 
 buki::PlayerBehaviour::PlayerBehaviour(Entity* entity) : Component(entity)
 {
@@ -12,18 +16,22 @@ buki::PlayerBehaviour::PlayerBehaviour(Entity* entity) : Component(entity)
 
 void buki::PlayerBehaviour::Update(float dt)
 {
-
+	if (m_Entity->GetComponent<Animation>()->IsStopped())
+	{
+		World().SetLoadScene(World().GetCurrentSceneName());
+	}
 }
 
 void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 {
+	
 	if (value == "chest")
 	{
-		//other->GetComponent<Atlas>()->SetFrame("opened");
+		if (m_HeartToCollect > 0) return;
 		Point2D pos, otherPos;
 		m_Entity->GetPosition(pos);
 		other->GetPosition(otherPos);
-		if (pos.Distance(otherPos) > 1.0f || m_HeartToCollect > 0) return;
+		if (pos.Distance(otherPos) > 1.0f) return;
 		other->GetComponent<Atlas>()->SetFrame("empty");
 		OnKeyPickup.Invoke("", nullptr);
 		m_DoorOpened = true;
@@ -40,17 +48,7 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 		{
 			OnHeartPickup.Invoke("", nullptr);
 		}
-	}
-	else if (value == "snakey")
-	{
-		if (other->GetComponent<SnakeyBehaviour>()->GetIsEgg())
-		{
-			// bouger l'oeuf
-		}
-		else
-		{
-			m_Entity->GetComponent<Controller>()->StopMoving();
-		}
+		m_Charges += 2;
 	}
 	else if (value == "Door")
 	{
@@ -67,4 +65,14 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 	{
 		m_Entity->GetComponent<Controller>()->StopMoving();
 	}
+}
+
+void buki::PlayerBehaviour::Shoot(std::string direction)
+{
+	if (m_Charges <= 0) return;
+	Point2D pos;
+	m_Entity->GetPosition(pos);
+	Entity* bullet = m_Entity->GetComponent<Spawner>()->Spawn("playerBullet", pos.x, pos.y);
+	bullet->GetComponent<BulletsBehaviour>()->SetDirection(direction);
+	m_Charges--;
 }

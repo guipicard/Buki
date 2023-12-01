@@ -3,6 +3,7 @@
 
 buki::WorldService::~WorldService()
 {
+	m_SceneToLoad = "";
 }
 
 void buki::WorldService::Start()
@@ -20,14 +21,18 @@ void buki::WorldService::Update(float dt)
 	{
 		if (m_CurrentScene == m_Scenes["Menu"])
 		{
-			Load("Game");
+			SetLoadScene("Game");
 		}
 		else
 		{
-			Load("Menu");
+			SetLoadScene("Menu");
 		}
 	}
-
+	CleanEntities();
+	if (m_SceneToLoad != "")
+	{
+		Load(m_SceneToLoad);
+	}
 }
 
 void buki::WorldService::Render()
@@ -62,15 +67,7 @@ void buki::WorldService::Add(Entity* _entity)
 
 void buki::WorldService::Remove(Entity* _entity)
 {
-
-	m_EntityMap.erase(_entity->GetName());
-	m_EntityInWorld.erase(std::remove(m_EntityInWorld.begin(), m_EntityInWorld.end(), _entity), m_EntityInWorld.end());
-	if (_entity != nullptr)
-	{
-		_entity->Destroy();
-		delete _entity;
-		_entity = nullptr;
-	}
+	m_EntityToRemove.emplace_back(_entity);
 }
 
 void buki::WorldService::Find()
@@ -85,7 +82,13 @@ void buki::WorldService::Load(const std::string& scene) {
 		m_CurrentScene = m_Scenes[scene];
 		SetCurrentSceneName(scene);
 		m_CurrentScene->Load();
+		m_SceneToLoad = "";
 	}
+}
+
+void buki::WorldService::SetLoadScene(const std::string& scene)
+{
+	m_SceneToLoad = scene;
 }
 
 void buki::WorldService::Unload()
@@ -97,6 +100,7 @@ void buki::WorldService::Unload()
 		{
 			if (entity != nullptr)
 			{
+				Engine::GetInstance().Collision().Remove(entity);
 				entity->Destroy();
 				delete entity;
 				entity = nullptr;
@@ -104,6 +108,7 @@ void buki::WorldService::Unload()
 		}
 		m_EntityInWorld.clear();
 	}
+	CleanEntities();
 }
 
 void buki::WorldService::Register(const std::string& name, IScene* scene)
@@ -126,4 +131,42 @@ buki::Entity* buki::WorldService::Create(const std::string& name, float _x, floa
 	_e->SetPos(Point2D(_w, _h));
 	Add(_e);
 	return _e;
+}
+
+void buki::WorldService::CleanEntities()
+{
+	if (m_EntityToRemove.size() > 0)
+	{
+		Engine::GetInstance().Log().LogMessage("remove not empty");
+		std::vector<Entity*> _trash = m_EntityToRemove;
+
+		for (auto entity : _trash)
+		{
+			std::map<std::string, Entity*>::iterator it = m_EntityMap.begin();
+			while (it != m_EntityMap.end())
+			{
+				if (it->second == entity)
+				{
+					m_EntityMap.erase(it);
+					break;
+				}
+				it++;
+			}
+
+			for (auto it = m_EntityInWorld.begin(); it != m_EntityInWorld.end(); it++)
+			{
+				if (entity == *it)
+				{
+					m_EntityInWorld.erase(it);
+					break;
+				}
+			}
+
+			Engine::GetInstance().Collision().Remove(entity);
+			entity->Destroy();
+			delete entity;
+		}
+		_trash.clear();
+		m_EntityToRemove.clear();
+	}
 }

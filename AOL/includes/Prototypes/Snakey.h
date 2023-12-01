@@ -1,12 +1,11 @@
 #pragma once
 #include "Character.h"
 #include "Engine.h"
-#pragma once
 #include "ICollision.h"
 #include "Atlas.h"
-#include "Character.h"
 #include "SnakeyBehaviour.h"
 #include "Entity.h"
+#include "BoxCollider.h"
 
 namespace buki
 {
@@ -19,7 +18,7 @@ namespace buki
 		}
 		virtual Entity* Clone(int x, int y) override
 		{
-			Entity* entity = Engine::GetInstance().World().Create("Snakey");
+			Entity* entity = Engine::GetInstance().World().Create("snakey");
 			entity->SetPos(Point2D(x * 32, y * 32));
 			entity->SetSize(Point2D(32, 32));
 
@@ -32,11 +31,21 @@ namespace buki
 			atlas->AddFrame("right-center", 4 * 32 + 5, 0, 32, 32);
 			atlas->AddFrame("right", 5 * 32 + 6, 0, 32, 32);
 			atlas->AddFrame("egg", 1, 9 * 32 + 10, 32, 32);
+			atlas->AddFrame("cracked", 34, 9 * 32 + 10, 32, 32);
 			atlas->SetFrame("left");
 
-			entity->AddComponent<SnakeyBehaviour>();
+			Animation* anim = entity->AddComponent<Animation>();
+			anim->Load("./assets/monsters.png");
+			anim->Init(2, 33, 33);
+			anim->AddClip("respawn", 2, 9, 3, 0.4f);
 
-			Engine::GetInstance().Collision().AddToLayer("Snakey", entity);
+			SnakeyBehaviour* snakeyBehaviour = entity->AddComponent<SnakeyBehaviour>();
+			BoxCollider* collider = entity->AddComponent<BoxCollider>();
+			collider->AddIncludeLayer("playerBullets");
+			collider->AddIncludeLayer("player");
+
+			entity->OnCollisionEnter.AddListener(snakeyBehaviour);
+			Engine::GetInstance().Collision().AddToLayer("snakey", entity);
 			return entity;
 		}
 	};

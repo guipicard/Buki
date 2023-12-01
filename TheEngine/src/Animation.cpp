@@ -16,12 +16,15 @@ void buki::Animation::Update(float dt)
 
 			m_CurrentFrame += m_AnimDir;
 			AnimationClip _playingClip = m_Clips[m_CurrentClip];
-			if (m_CurrentFrame == _playingClip.start || m_CurrentFrame == m_LastFrame)
+			if (m_CurrentFrame == _playingClip.startX || m_CurrentFrame == m_LastFrame)
 			{
-				m_AnimDir *= -1;
 				if (!m_Loop)
 				{
-					m_Playing = false;
+					if (m_CurrentFrame == m_LastFrame) Stop();
+				}
+				else
+				{
+					m_AnimDir *= -1;
 				}
 			}
 
@@ -30,13 +33,14 @@ void buki::Animation::Update(float dt)
 	}
 }
 
-void buki::Animation::Init(int frameInRows, int frameWidth, int frameHeight)
+void buki::Animation::Init(int start, int frameWidth, int frameHeight)
 {
-	m_FrameInRowCount = frameInRows;
 	m_FrameWidth = frameWidth;
 	m_FrameHeight = frameHeight;
 
-	m_Src.x = 0;
+	m_CurrentFrame = start;
+
+	m_Src.x = start * m_FrameHeight;
 	m_Src.y = 0;
 	m_Src.w = m_FrameWidth;
 	m_Src.h = m_FrameHeight;
@@ -44,9 +48,10 @@ void buki::Animation::Init(int frameInRows, int frameWidth, int frameHeight)
 	m_CurrentClip.clear();
 }
 
-void buki::Animation::AddClip(const std::string& name, int start, int count, float delay)
+void buki::Animation::AddClip(const std::string& name, int startX, int startY, int count, float delay)
 {
-	m_Clips.emplace(name, AnimationClip{ start, count, delay });
+	m_Clips.emplace(name, AnimationClip{ startX, startY, count, delay });
+	m_Src.y = startY * m_FrameHeight;
 }
 
 void buki::Animation::Stop()
@@ -65,9 +70,9 @@ void buki::Animation::Play(const std::string& name, bool loop)
 	if (name != m_CurrentClip)
 	{
 		const AnimationClip _clip = m_Clips[name];
-		m_CurrentFrame = _clip.start;
-		m_FirstFrame = _clip.start;
-		m_LastFrame = _clip.start + _clip.count - 1;
+		m_CurrentFrame = _clip.startX;
+		m_FirstFrame = _clip.startX;
+		m_LastFrame = _clip.startX + _clip.count - 1;
 		m_Delay = _clip.delay;
 		m_Loop = loop;
 
@@ -80,8 +85,8 @@ void buki::Animation::Play(const std::string& name, bool loop)
 
 void buki::Animation::UpdateFrame()
 {
-	const int _row = m_CurrentFrame / m_FrameInRowCount;
-	const int _col = m_CurrentFrame - m_FrameInRowCount * _row;
+	const int _row = m_Clips[m_CurrentClip].startY;
+	const int _col = m_CurrentFrame;
 	const int _x = m_FrameWidth * _col;
 	const int _y = m_FrameHeight * _row;
 

@@ -9,7 +9,7 @@ namespace buki
 		BoxCollider(Entity* entity);
 		virtual void Update(float dt) override;
 		virtual void Draw() override;
-		virtual void CheckTileCollision() override;
+		virtual bool CheckTileCollision() override;
 		virtual void CheckCollision() override;
 	};
 }

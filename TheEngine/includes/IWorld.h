@@ -22,6 +22,7 @@ namespace buki
 		virtual void Remove(Entity* _entity) = 0;
 		virtual void Find() = 0;
 		virtual void Load(const std::string& scene) = 0;
+		virtual void SetLoadScene(const std::string& scene) = 0;
 		virtual void Unload() = 0;
 		virtual void Register(const std::string& name, IScene* scene) = 0;
 		virtual void SetCurrentSceneName(std::string _name) = 0;

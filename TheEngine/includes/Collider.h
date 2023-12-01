@@ -14,7 +14,7 @@ namespace buki
 	{
 	public:
 		virtual ~Collider() = default;
-		virtual void CheckTileCollision() = 0;
+		virtual bool CheckTileCollision() = 0;
 		virtual void CheckCollision() = 0;
 		void SetTilemap(Tilemap* tilemap) { 
 			m_Tilemap = tilemap;

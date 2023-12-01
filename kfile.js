@@ -8,6 +8,10 @@ project.setDebugDir("Deployment")
 
 project.addIncludeDir("./TheEngine/includes");
 project.addIncludeDir("./AOL/includes");
+project.addIncludeDir("./AOL/includes/Behaviours");
+project.addIncludeDir("./AOL/includes/Prototypes");
+project.addIncludeDir("./AOL/includes/Scenes");
+project.addIncludeDir("./AOL/includes/snakey");
 
 project.flatten()
 

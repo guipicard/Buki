@@ -39,7 +39,7 @@ void buki::Entity::Update(float dt)
 
 void buki::Entity::Destroy()
 {
-	for (std::multimap<const type_info*, Component*>::iterator it = m_ComponentByType.begin(); it != m_ComponentByType.end(); ++it)
+	for (std::map<const type_info*, Component*>::iterator it = m_ComponentByType.begin(); it != m_ComponentByType.end(); ++it)
 	{
 		it->second->Destroy();
 		delete it->second;

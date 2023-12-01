@@ -10,7 +10,7 @@ using namespace buki;
 void InitGameplay(void) {
 	Engine::GetInstance().World().Register("Game", new GameScene());
 	Engine::GetInstance().World().Register("Menu", new MenuScene());
-	Engine::GetInstance().World().Load("Menu");
+	Engine::GetInstance().World().SetLoadScene("Menu");
 }
 
 INT WINAPI WinMain(_In_ HINSTANCE, _In_opt_ HINSTANCE, _In_ PSTR, _In_ INT) {
