@@ -20,5 +20,6 @@ namespace buki
 		float m_Elapsed;
 		float m_Speed;
 		Point2D m_Velocity;
+		
 	};
 }

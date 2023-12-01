@@ -142,6 +142,7 @@ void buki::WorldService::CleanEntities()
 
 		for (auto entity : _trash)
 		{
+			Engine::GetInstance().Collision().Remove(entity);
 			std::map<std::string, Entity*>::iterator it = m_EntityMap.begin();
 			while (it != m_EntityMap.end())
 			{
@@ -162,7 +163,6 @@ void buki::WorldService::CleanEntities()
 				}
 			}
 
-			Engine::GetInstance().Collision().Remove(entity);
 			entity->Destroy();
 			delete entity;
 		}

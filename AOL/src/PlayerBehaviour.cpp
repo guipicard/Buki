@@ -9,8 +9,10 @@
 #include "Animation.h"
 #include "Spawner.h"
 #include "BulletsBehaviour.h"
+#include "HeartBehaviour.h"
 
-buki::PlayerBehaviour::PlayerBehaviour(Entity* entity) : Component(entity)
+buki::PlayerBehaviour::PlayerBehaviour(Entity* entity) 
+	: MonoBehaviour(entity)
 {
 }
 
@@ -48,7 +50,7 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 		{
 			OnHeartPickup.Invoke("", nullptr);
 		}
-		m_Charges += 2;
+		m_Charges += other->GetComponent<HeartBehaviour>()->GetCharges();
 	}
 	else if (value == "Door")
 	{
@@ -60,6 +62,10 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 		{
 			m_Entity->GetComponent<Controller>()->StopMoving();
 		}
+	}
+	else if (value == "snakey")
+	{
+		other->OnCollisionEnter.Invoke("player", m_Entity);
 	}
 	else if (other == nullptr)
 	{

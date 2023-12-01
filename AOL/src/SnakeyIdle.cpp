@@ -12,7 +12,6 @@ buki::SnakeyIdle::SnakeyIdle()
 
 void buki::SnakeyIdle::Start(SnakeyBehaviour* snakey)
 {
-	snakey->GetEntity()->GetComponent<Animation>()->Play("respawn", false);
 }
 
 void buki::SnakeyIdle::Update(float dt, SnakeyBehaviour* snakey)
@@ -37,6 +36,7 @@ void buki::SnakeyIdle::Exit(SnakeyBehaviour* snakey)
 
 void buki::SnakeyIdle::OnCollisionEnter(std::string value, Entity* other, SnakeyBehaviour* snakey)
 {
+	if (other == nullptr) return;
 	if (value == "player")
 	{
 		other->GetComponent<Controller>()->StopMoving();

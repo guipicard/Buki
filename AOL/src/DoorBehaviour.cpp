@@ -2,7 +2,7 @@
 #include "Atlas.h"
 
 buki::DoorBehaviour::DoorBehaviour(Entity* entity)
-	: Component(entity)
+	: MonoBehaviour(entity)
 {
 }
 

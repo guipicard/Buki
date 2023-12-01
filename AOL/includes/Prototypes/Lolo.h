@@ -44,6 +44,7 @@ public:
 		boxCollier->AddIncludeLayer("chest");
 		boxCollier->AddIncludeLayer("heart");
 		boxCollier->AddIncludeLayer("door");
+		boxCollier->AddIncludeLayer("snakey");
 
 		Spawner* spawner = entity->AddComponent<Spawner>();
 		PlayerBullet* bulletProto = new PlayerBullet(500, 512.0f);

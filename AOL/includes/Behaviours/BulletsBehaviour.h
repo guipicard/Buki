@@ -3,7 +3,7 @@
 
 namespace buki
 {
-	class BulletsBehaviour : public MonoBehaviour, public Component
+	class BulletsBehaviour : public MonoBehaviour
 	{
 	public:
 		BulletsBehaviour(Entity* entity);

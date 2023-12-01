@@ -3,7 +3,7 @@
 
 namespace buki
 {
-	class ChestBehaviour : public MonoBehaviour, public Component
+	class ChestBehaviour : public MonoBehaviour
 	{
 	public:
 		ChestBehaviour(Entity* entity);

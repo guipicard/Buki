@@ -3,7 +3,7 @@
 #include "Atlas.h"
 
 buki::ChestBehaviour::ChestBehaviour(Entity* entity)
-	: Component(entity)
+	: MonoBehaviour(entity)
 {
 
 }

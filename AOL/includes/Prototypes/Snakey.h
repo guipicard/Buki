@@ -34,15 +34,9 @@ namespace buki
 			atlas->AddFrame("cracked", 34, 9 * 32 + 10, 32, 32);
 			atlas->SetFrame("left");
 
-			Animation* anim = entity->AddComponent<Animation>();
-			anim->Load("./assets/monsters.png");
-			anim->Init(2, 33, 33);
-			anim->AddClip("respawn", 2, 9, 3, 0.4f);
-
 			SnakeyBehaviour* snakeyBehaviour = entity->AddComponent<SnakeyBehaviour>();
 			BoxCollider* collider = entity->AddComponent<BoxCollider>();
 			collider->AddIncludeLayer("playerBullets");
-			collider->AddIncludeLayer("player");
 
 			entity->OnCollisionEnter.AddListener(snakeyBehaviour);
 			Engine::GetInstance().Collision().AddToLayer("snakey", entity);

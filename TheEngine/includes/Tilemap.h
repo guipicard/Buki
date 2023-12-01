@@ -5,6 +5,7 @@
 #include <RectI.h>
 #include <Component.h>
 #include <IDrawable.h>
+#include <Point2D.h>
 
 namespace buki
 {
@@ -25,10 +26,11 @@ namespace buki
         void Load(const std::string& filename, int mapW, int mapH, int tileW, int tileH);
         void AddLayer(const std::string& layer, TLayer tiles, bool isColliding);
         TLayer GetLayer(const std::string& name);
-        bool IsBoxColliding(const std::string& layer, float x, float y, float w, float h, int* tileIndex);
+        bool IsBoxColliding(const std::string& layer, float x, float y, float w, float h, Point2D* tileIndex);
         //bool IsCircleColliding(const std::string& layer, float x, float y, float r, int* tileIndex);
         TLayer CreateLayerFromCSV(std::string _file);
         std::vector<std::string> GetColliderLayerNames() { return m_ColliderLayers; }
+        Point2D GetTileSize() { return Point2D(m_TileWidth, m_TileHeight); }
 
     private:
         TTilemap m_Tilemap;

@@ -4,7 +4,7 @@
 
 namespace buki
 {
-	class SnakeyBehaviour : public MonoBehaviour, public Component
+	class SnakeyBehaviour : public MonoBehaviour
 	{
 	public:
 		SnakeyBehaviour(Entity* entity);

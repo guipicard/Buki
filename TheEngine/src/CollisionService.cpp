@@ -78,7 +78,6 @@ bool buki::CollisionService::CollideWithLayer(Entity* entity, const std::string&
 			e->GetPosition(r2pos);
 			e->GetSize(r2size);
 			r2size -= Point2D(1.0f, 1.0f);
-
 			if (CheckRects(r1pos.x, r1pos.y, r1size.x, r1size.y, r2pos.x, r2pos.y, r2size.x, r2size.y))
 			{
 				*other = e;

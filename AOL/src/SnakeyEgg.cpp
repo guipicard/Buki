@@ -8,6 +8,7 @@
 #include "Atlas.h"
 #include "Animation.h"
 #include "BulletsBehaviour.h"
+#include "ICollision.h"
 
 buki::SnakeyEgg::SnakeyEgg()
 {
@@ -34,7 +35,6 @@ void buki::SnakeyEgg::Update(float dt, SnakeyBehaviour* snakey)
 		snakey->GetEntity()->GetComponent<Atlas>()->SetFrame("cracked");
 		if (m_Elapsed > m_Timer + 2.0f)
 		{
-			snakey->GetEntity()->GetComponent<Animation>()->Play("respawn", false);
 			snakey->SetState("idle");
 		}
 	}
@@ -58,13 +58,25 @@ void buki::SnakeyEgg::OnCollisionEnter(std::string value, Entity* other, SnakeyB
 
 void buki::SnakeyEgg::Move(Entity* other, SnakeyBehaviour* snakey)
 {
-	Point2D pos, playerPos, playerOldPos, playerVelocity, diffrence, newPos;
-	snakey->GetEntity()->GetPosition(pos);
+	Point2D snakeyPos, playerPos, snakeySize, playerSize, playerDirection;
+	playerDirection = snakey->GetPlayer()->GetComponent<Controller>()->GetDirection();
+	snakey->GetEntity()->GetPosition(snakeyPos);
+	snakey->GetEntity()->GetSize(snakeySize);
 	snakey->GetPlayer()->GetPosition(playerPos);
-	playerVelocity = snakey->GetPlayer()->GetComponent<Controller>()->GetVelocity();
-	snakey->GetPlayer()->GetOldPos(playerOldPos);
-	diffrence = playerOldPos - playerPos;
-	newPos = pos - diffrence;
+	snakey->GetPlayer()->GetSize(playerSize);
+	if (playerDirection == Point2D(0.0f, 0.0f))
+	{
+		playerDirection = m_Velocity;
+	}
+
+
+	Point2D newPos, diffrence;
+	diffrence = playerDirection * playerSize; // bonne distance bonne direction
+	newPos = playerPos * playerDirection.Abs(); // player pos a ne pas changer est = 0
+	newPos = newPos + diffrence; // player pos a changer + difference
+	if (newPos.x == 0.0f) newPos.x = snakeyPos.x;
+	if (newPos.y == 0.0f) newPos.y = snakeyPos.y;
+
 	snakey->GetEntity()->SetPos(newPos);
 	if (snakey->GetEntity()->GetComponent<BoxCollider>()->CheckTileCollision())
 	{
@@ -74,4 +86,6 @@ void buki::SnakeyEgg::Move(Entity* other, SnakeyBehaviour* snakey)
 		snakey->GetPlayer()->GetComponent<Controller>()->StopMoving();
 		snakey->GetEntity()->SetPos(oldPos);
 	}
+
+	m_Velocity = playerDirection;
 }

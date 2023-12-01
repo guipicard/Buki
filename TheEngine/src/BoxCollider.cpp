@@ -7,7 +7,7 @@
 
 buki::BoxCollider::BoxCollider(Entity* entity) : Component(entity)
 {
-	m_Offset = Point2D(1.0f, 1.0f);
+	m_Offset = Point2D(0.0f, 0.0f);
 	m_Entity->GetSize(m_Size);
 	m_Size = m_Size - m_Offset;
 }
@@ -35,13 +35,12 @@ void buki::BoxCollider::Draw()
 
 bool buki::BoxCollider::CheckTileCollision()
 {
-	int tileNum;
-	Point2D pos;
+	Point2D pos, tileNum;
 
 	m_Entity->GetPosition(pos);
 	for (auto layer : m_TileIncludeLayers)
 	{
-		if (m_Tilemap->IsBoxColliding(layer, pos.x, pos.y, m_Size.x - 1, m_Size.y - 1, &tileNum))
+		if (m_Tilemap->IsBoxColliding(layer, pos.x, pos.y, m_Size.x, m_Size.y, &tileNum))
 		{
 			m_Entity->OnCollisionEnter.Invoke(layer, nullptr);
 			return true;

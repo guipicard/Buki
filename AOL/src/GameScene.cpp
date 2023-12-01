@@ -48,7 +48,8 @@ void GameScene::Load()
 	Heart* heartProto = new Heart();
 	spawner->AddPrototype("heart", heartProto);
 	spawner->Spawn("heart", 5, 3);
-	spawner->Spawn("heart", 11, 6);
+	Entity* heart = spawner->Spawn("heart", 11, 6);
+	heart->GetComponent<HeartBehaviour>()->Charged();
 
 	Door* doorProto = new Door();
 	spawner->AddPrototype("door", doorProto);

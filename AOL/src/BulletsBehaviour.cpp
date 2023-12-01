@@ -4,7 +4,7 @@
 #include "SnakeyBehaviour.h"
 
 buki::BulletsBehaviour::BulletsBehaviour(Entity* entity)
-	: Component(entity)
+	: MonoBehaviour(entity)
 {
 }
 

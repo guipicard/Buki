@@ -8,7 +8,7 @@
 #include "Animation.h"
 
 buki::SnakeyBehaviour::SnakeyBehaviour(Entity* entity)
-	: Component(entity)
+	: MonoBehaviour(entity)
 {
 	m_Entity->GetPosition(m_StartPos);
 	m_States.emplace("idle", new SnakeyIdle());

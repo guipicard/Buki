@@ -5,6 +5,7 @@
 #include "Entity.h"
 #include "BoxCollider.h"
 #include "ChestBehaviour.h"
+#include "HeartBehaviour.h"
 
 namespace buki
 {
@@ -22,6 +23,8 @@ namespace buki
 			m_Atlas->Load("./assets/env.png");
 			m_Atlas->AddFrame("active", 32, 96, 32, 32);
 			m_Atlas->SetFrame("active");
+
+			entity->AddComponent<HeartBehaviour>();
 
 			Engine::GetInstance().Collision().AddToLayer("heart", entity);
 			return entity;
