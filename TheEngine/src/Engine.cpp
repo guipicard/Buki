@@ -7,7 +7,7 @@
 #include "BaseScene.h"
 #include "SDL_Audio.h"
 #include "CollisionService.h"
-//#include <vld.h>
+#include <vld.h>
 
 using namespace buki;
 
@@ -78,7 +78,7 @@ void Engine::Start(void) {
 	Shutdown();
 }
 
-void Engine::ProcessInput(void)
+void Engine::ProcessInput(void) const
 {
 	Input().Update();
 }

@@ -11,7 +11,7 @@
 #include "BulletsBehaviour.h"
 #include "HeartBehaviour.h"
 
-buki::PlayerBehaviour::PlayerBehaviour(Entity* entity) 
+buki::PlayerBehaviour::PlayerBehaviour(Entity* entity)
 	: MonoBehaviour(entity)
 {
 }
@@ -26,9 +26,10 @@ void buki::PlayerBehaviour::Update(float dt)
 
 void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 {
-	
+
 	if (value == "chest")
 	{
+		if (other == nullptr) return;
 		if (m_HeartToCollect > 0) return;
 		Point2D pos, otherPos;
 		m_Entity->GetPosition(pos);
@@ -40,6 +41,7 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 	}
 	else if (value == "heart")
 	{
+		if (other == nullptr) return;
 		Point2D pos, otherPos;
 		m_Entity->GetPosition(pos);
 		other->GetPosition(otherPos);
@@ -50,13 +52,27 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 		{
 			OnHeartPickup.Invoke("", nullptr);
 		}
-		m_Charges += other->GetComponent<HeartBehaviour>()->GetCharges();
+		HeartBehaviour* hb = other->GetComponent<HeartBehaviour>();
+		if (hb != nullptr)
+		{
+			int charges = hb->GetCharges();
+			m_Charges += charges;
+		}
 	}
-	else if (value == "Door")
+	else if (value == "door")
 	{
+		if (other == nullptr) return;
 		if (m_DoorOpened)
 		{
-			// fin
+			m_Entity->GetComponent<Controller>()->LockController(true);
+			Point2D pos, otherPos;
+			m_Entity->GetPosition(pos);
+			other->GetPosition(otherPos);
+			float distance = pos.Distance(otherPos);
+			if (distance < 6.0f)
+			{
+				World().LoadNextScene();
+			}
 		}
 		else
 		{
@@ -65,6 +81,7 @@ void buki::PlayerBehaviour::OnNotify(const std::string& value, Entity* other)
 	}
 	else if (value == "snakey")
 	{
+		if (other == nullptr) return;
 		other->OnCollisionEnter.Invoke("player", m_Entity);
 	}
 	else if (other == nullptr)
@@ -78,7 +95,7 @@ void buki::PlayerBehaviour::Shoot(std::string direction)
 	if (m_Charges <= 0) return;
 	Point2D pos;
 	m_Entity->GetPosition(pos);
-	Entity* bullet = m_Entity->GetComponent<Spawner>()->Spawn("playerBullet", pos.x, pos.y);
+	Entity* bullet = m_Entity->GetComponent<Spawner>()->Spawn("playerBullet", static_cast<int>(pos.x), static_cast<int>(pos.y));
 	bullet->GetComponent<BulletsBehaviour>()->SetDirection(direction);
 	m_Charges--;
 }

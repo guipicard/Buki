@@ -39,7 +39,7 @@ public:
 		anim->AddClip("death", 0, 4, 4, 0.4f);
 		anim->Play("idle_down", true);
 		Controller* controller = entity->AddComponent<Controller>();
-		controller->SetSpeed(m_Speed);
+		controller->SetSpeed(static_cast<float>(m_Speed));
 		BoxCollider* boxCollier = entity->AddComponent<BoxCollider>();
 		boxCollier->AddIncludeLayer("chest");
 		boxCollier->AddIncludeLayer("heart");

@@ -16,3 +16,8 @@ void buki::HeartBehaviour::Update(float dt)
 void buki::HeartBehaviour::OnNotify(const std::string& value, Entity* other)
 {
 }
+
+int buki::HeartBehaviour::GetCharges() const
+{
+	return m_Charges;
+}

@@ -10,6 +10,5 @@ class MenuScene : public BaseScene
 public:
 	MenuScene();
 	virtual void Load() override;
-	virtual void Update(float dt);
 private:
 };

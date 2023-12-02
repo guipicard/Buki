@@ -17,8 +17,14 @@ void buki::Text::Draw()
 	Graphics().DrawString(m_Text, m_Id, pos.x, pos.y, Color::WHITE);
 }
 
-void buki::Text::Load(const std::string& path)
+void buki::Text::SetText(std::string _text)
 {
-	m_Id = Graphics().LoadFont(path, 36);
-	//buki::Engine::GetInstance()->Graphics().GetTextureSize(m_Id, &m_Src.w, &m_Src.h);
+	m_Text = _text;
+	Graphics().GetTextSize(m_Text, m_Id, &m_W, &m_H);
+	m_Entity->SetSize(Point2D(m_W, m_H));
+}
+
+void buki::Text::LoadText(const std::string& path, int size)
+{
+	m_Id = Graphics().LoadFont(path, size);
 }

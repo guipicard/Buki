@@ -27,7 +27,7 @@ GameScene::GameScene()
 
 void GameScene::Load()
 {
-	//Engine::GetInstance().Audio().PlayMusic(mumu);
+	Engine::GetInstance().Audio().PlayMusic(mumu);
 	// MAP
 	Entity* m_Map = Instantiate("map");
 	Tilemap* m_Tilemap = m_Map->AddComponent<Tilemap>();

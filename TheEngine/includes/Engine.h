@@ -21,7 +21,7 @@ namespace buki {
 	private:
 		Engine() = default;
 
-		void ProcessInput(void);
+		void ProcessInput(void) const;
 		void Update(float dt);
 		void Render(void);
 		void Shutdown(void);

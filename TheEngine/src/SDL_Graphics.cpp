@@ -61,7 +61,7 @@ void buki::SDL_Graphics::Shutdown()
 			it->second = nullptr;
 		}
 	}
-	delete &m_TextureCache;
+	delete& m_TextureCache;
 
 	for (std::map<size_t, TTF_Font*>::iterator it = m_FontCache.begin(); it != m_FontCache.end(); ++it)
 	{
@@ -85,7 +85,7 @@ void buki::SDL_Graphics::Shutdown()
 		SDL_DestroyWindow(m_Window);
 		m_Window = nullptr;
 	}
-	
+
 
 }
 
@@ -277,7 +277,7 @@ void buki::SDL_Graphics::DrawString(const std::string& text, size_t fontId, floa
 	{
 		TTF_Font* _font = m_FontCache[fontId];
 		SDL_Surface* _surface = TTF_RenderText_Solid(_font, text.c_str(), _color);
-		
+
 		g_TextureBuffer = SDL_CreateTextureFromSurface(m_Gfx, _surface);
 		SDL_RenderCopy(m_Gfx, g_TextureBuffer, nullptr, &_dst);
 		SDL_FreeSurface(_surface);
@@ -287,15 +287,12 @@ void buki::SDL_Graphics::DrawString(const std::string& text, size_t fontId, floa
 
 void buki::SDL_Graphics::GetTextSize(const std::string& text, size_t fontId, int* w, int* h)
 {
+	*w = 0;
+	*h = 0;
 	if (m_FontCache.count(fontId) > 0)
 	{
 		TTF_Font* _font = m_FontCache[fontId];
 		TTF_SizeText(_font, text.c_str(), w, h);
-	}
-	else
-	{
-		*w = 0;
-		*h = 0;
 	}
 }
 

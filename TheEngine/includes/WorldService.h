@@ -23,7 +23,7 @@ namespace buki
 		virtual std::string GetCurrentSceneName() override { return m_Name; }
 		Entity* Create(const std::string& name) override;
 		Entity* Create(const std::string& name, float _x, float _y, float _w, float _h) override;
-
+		virtual void LoadNextScene() override;
 	private:
 		void CleanEntities();
 
@@ -33,6 +33,7 @@ namespace buki
 		std::vector<Entity*> &m_EntityInWorld = *new std::vector<Entity*>();
 		std::vector<Entity*> m_EntityToRemove;
 		std::map<std::string, IScene*> &m_Scenes = *new std::map<std::string, IScene*>();
+		std::vector<std::string> &m_ScenesByName = *new std::vector<std::string>();
 		IScene* m_CurrentScene = nullptr;
 	};
 }

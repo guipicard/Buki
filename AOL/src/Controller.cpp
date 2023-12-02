@@ -16,6 +16,9 @@ void buki::Controller::Start()
 
 void buki::Controller::Update(float dt)
 {
+	Move(dt);
+	Animate();
+	if (m_Lock) return;
 	if (Input().IsKeyDown(EKey::EKEY_X))
 	{
 		m_Entity->GetComponent<PlayerBehaviour>()->Shoot(m_AnimDirection);
@@ -24,8 +27,6 @@ void buki::Controller::Update(float dt)
 	{
 		Die();
 	}
-	Move(dt);
-	Animate();
 }
 
 void buki::Controller::Destroy()
@@ -34,8 +35,22 @@ void buki::Controller::Destroy()
 
 void buki::Controller::Move(float dt)
 {
-	if (m_Lock) return;
+	if (m_Lock) 
+	{
+		if (m_GameWon)
+		{
+			m_Direction = Point2D(0, -1);
+			Point2D pos;
+			m_Entity->GetPosition(pos);
 
+			m_Velocity.x = m_Direction.x * m_Speed * dt;
+			m_Velocity.y = m_Direction.y * m_Speed * dt;
+			pos += m_Velocity;
+			m_Entity->SetPos(pos);
+			Animate();
+		}
+		return;
+	}
 	if (Input().IsKeyDown(EKey::EKEY_UP))
 	{
 		m_MoveStack.push(static_cast<int>(EKey::EKEY_UP));
@@ -118,7 +133,7 @@ void buki::Controller::Animate()
 
 void buki::Controller::Die()
 {
-	LockController();
+	LockController(false);
 	m_Entity->GetComponent<Animation>()->Play("death", false);
 }
 

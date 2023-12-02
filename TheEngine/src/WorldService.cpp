@@ -17,17 +17,6 @@ void buki::WorldService::Update(float dt)
 	{
 		entity->Update(dt);
 	}
-	if (buki::Engine::GetInstance().Input().IsKeyDown(EKey::EKEY_RETURN))
-	{
-		if (m_CurrentScene == m_Scenes["Menu"])
-		{
-			SetLoadScene("Game");
-		}
-		else
-		{
-			SetLoadScene("Menu");
-		}
-	}
 	CleanEntities();
 	if (m_SceneToLoad != "")
 	{
@@ -54,6 +43,8 @@ void buki::WorldService::Destroy()
 			it->second = nullptr;
 		}
 	}
+	m_ScenesByName.clear();
+	delete& m_ScenesByName;
 	delete& m_EntityInWorld;
 	delete& m_EntityMap;
 	delete& m_Scenes;
@@ -82,8 +73,15 @@ void buki::WorldService::Load(const std::string& scene) {
 		m_CurrentScene = m_Scenes[scene];
 		SetCurrentSceneName(scene);
 		m_CurrentScene->Load();
-		m_SceneToLoad = "";
 	}
+	else
+	{
+		Unload();
+		m_CurrentScene = m_Scenes["Menu"];
+		SetCurrentSceneName("Menu");
+		m_CurrentScene->Load();
+	}
+	m_SceneToLoad = "";
 }
 
 void buki::WorldService::SetLoadScene(const std::string& scene)
@@ -115,6 +113,7 @@ void buki::WorldService::Register(const std::string& name, IScene* scene)
 {
 	if (m_Scenes.count(name) == 0)
 	{
+		m_ScenesByName.push_back(name);
 		m_Scenes[name] = scene;
 	}
 }
@@ -131,6 +130,24 @@ buki::Entity* buki::WorldService::Create(const std::string& name, float _x, floa
 	_e->SetPos(Point2D(_w, _h));
 	Add(_e);
 	return _e;
+}
+
+void buki::WorldService::LoadNextScene()
+{
+	int index = -1;
+	for (int i = 0; i < m_ScenesByName.size(); i++)
+	{
+		if (m_ScenesByName[i] == m_Name)
+		{
+			index = i + 1;
+
+		}
+	}
+	if (index > m_ScenesByName.size() -1) 
+	{
+		SetLoadScene("Menu");
+	}
+	if (index != -1) SetLoadScene(m_ScenesByName[index]);
 }
 
 void buki::WorldService::CleanEntities()

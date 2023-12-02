@@ -38,6 +38,14 @@ void buki::SnakeyEgg::Update(float dt, SnakeyBehaviour* snakey)
 			snakey->SetState("idle");
 		}
 	}
+	Point2D pos;
+	snakey->GetEntity()->GetOldPos(pos);
+	if (pos.x / 2.0f != 0.0f || pos.y / 2.0f != 0.0f)
+	{
+		pos.x = round(pos.x / 2.0f) * 2.0f;
+		pos.y = round(pos.y / 2.0f) * 2.0f;
+		snakey->GetEntity()->SetPos(pos);
+	}
 }
 
 void buki::SnakeyEgg::Exit(SnakeyBehaviour* snakey)
@@ -80,11 +88,12 @@ void buki::SnakeyEgg::Move(Entity* other, SnakeyBehaviour* snakey)
 	snakey->GetEntity()->SetPos(newPos);
 	if (snakey->GetEntity()->GetComponent<BoxCollider>()->CheckTileCollision())
 	{
-		Engine::GetInstance().Log().LogMessage("move");
-		Point2D oldPos;
-		snakey->GetEntity()->GetOldPos(oldPos);
+		Point2D pos;
+		snakey->GetEntity()->GetOldPos(pos);
+		pos.x = round(pos.x / 16.0f) * 16.0f;
+		pos.y = round(pos.y / 16.0f) * 16.0f;
+		snakey->GetEntity()->SetPos(pos);
 		snakey->GetPlayer()->GetComponent<Controller>()->StopMoving();
-		snakey->GetEntity()->SetPos(oldPos);
 	}
 
 	m_Velocity = playerDirection;
