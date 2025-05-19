@@ -1,22 +1,21 @@
-let project = new Project("Adventure of Lolo")
+let project = new Project("BukiEngine")
 
 project.kore = false
 
-project.addFile("AOL/**")
+project.addFile("Game/**")
 
 project.setDebugDir("Deployment")
 
-project.addIncludeDir("./TheEngine/includes");
-project.addIncludeDir("./AOL/includes");
-project.addIncludeDir("./AOL/includes/Behaviours");
-project.addIncludeDir("./AOL/includes/Prototypes");
-project.addIncludeDir("./AOL/includes/Scenes");
-project.addIncludeDir("./AOL/includes/snakey");
+project.addIncludeDir("./vendor/Box2D/include/box2d");
+project.addIncludeDir("./Engine/includes");
+project.addIncludeDir("./Game/includes");
 
 project.flatten()
 
-const otherproj = await project.addProject("TheEngine")
+const engineproj = await project.addProject("Engine")
+engineproj.addProvider(project, true)
 
-otherproj.addProvider(project, true)
+const boxproj = await project.addProject("Box2D")
+engineproj.addProvider(boxproj, true)
 
 resolve(project)

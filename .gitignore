@@ -9,4 +9,6 @@ Deployment/**
 !Deployment/audio/**
 !Deployment/levels
 !Deployment/levels/**
+!Deployment/Box2D
+!Deployment/Box2D/**
 !Deployment/keepme
